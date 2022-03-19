@@ -5,7 +5,7 @@ from django.db import models
 class DB_user(models.Model):
     user_id = models.IntegerField(unique=True)
     email = models.EmailField()
-    password = models.CharField(max=32)
+    password = models.CharField(max_length=32)
     ROLE_CHOICE = [
         ('C', 'Customer'),
         ('R', 'Retailer'),
@@ -23,15 +23,15 @@ class DB_user(models.Model):
     objects = models.Manager()
 
 class DB_Product(models.Model):
-    prod_type = models.CharField()
+    prod_type = models.CharField(max_length=256)
     prod_img = models.ImageField(upload_to="images")
 
     objects = models.Manager()
 
 class Manufacturer(models.Model):
     manu_id = models.IntegerField(unique=True)
-    manu_name = models.CharField()
-    manu_address = models.CharField()
+    manu_name = models.CharField(max_length=256)
+    manu_address = models.CharField(max_length=256)
 
     objects = models.Manager()
 

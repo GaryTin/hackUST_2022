@@ -1,0 +1,22 @@
+{% extends 'SharpBargain/base/base.html' %}
+{% load static %}
+
+
+{% block main %}
+
+        <p id='userWallet'>Null</p>
+        <button class="Read_Name" id="readNameButton" onclick="read_name()"  >Read Name Now!</button>
+        <p id='name'>Null</p>
+        <button name="button" onclick="run_function(1, 2)">Run</button>
+
+
+
+{% endblock %}
+
+
+
+{% block script %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'SharpBargain/scripts/test.js' %}"></script>
+
+{% endblock %}
