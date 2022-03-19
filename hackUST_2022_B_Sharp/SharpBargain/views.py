@@ -10,7 +10,14 @@ def home(request):
     return render(request,'SharpBargain/home.html')
 
 def Test(request):
-    return render(request,'SharpBargain/test.html')
+    if request.method =="POST" and 'run' in request.POST:
+        print("start")
+        print(request.POST["v1"])
+        print(request.POST["v2"])
+        print(request.POST["userAddress"])
+        return render(request, 'SharpBargain/test.html')
+    else:
+        return render(request,'SharpBargain/test.html')
 
 def MetaMaskTestPage(request):
 
@@ -18,22 +25,13 @@ def MetaMaskTestPage(request):
 
 def some_func(request):
     if request.method == 'POST':
-        param1 = request.POST.get('param_first')
-        param2 = request.POST.get('param_second')
+        param1 = request.POST.get('v1')
+        param2 = request.POST.get('v2')
         print(param1, param2)
 
         response_data = 'successful!'
 
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-
-    else:
-        return HttpResponse(
-            json.dumps({"nothing to see": "this isn't happening"}),
-            content_type="application/json"
-        )
+    return render(request, 'SharpBargain/test.html')
 
 def read_name(request):
     if request.method == 'GET':

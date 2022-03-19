@@ -7,8 +7,15 @@
         <p id='userWallet'>Null</p>
         <button class="Read_Name" id="readNameButton" onclick="read_name()"  >Read Name Now!</button>
         <p id='name'>Null</p>
+        <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" placeholder="value 1" name="v1" id="v1"/>
+                <input type="text" placeholder="value 2" name="v2" id="v2"/>
+                <input type="hidden" id="userAddress" name="userAddress" value="">
+                <button name="run" onclick="run_function(1,2)">Run</button>
+        </form>
 
-        <button name="button" onclick="run_function(1, 2)">Run</button>
+
         <br>
         <label for="change_name">Change name:</label>
         <input type="text" id="change_name" name="change_name">

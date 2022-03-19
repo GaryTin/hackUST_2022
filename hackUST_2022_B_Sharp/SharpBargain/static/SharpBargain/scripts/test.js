@@ -7,6 +7,7 @@ async function getAccount() {
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     const account = accounts[0];
     userWallet.innerText = account;
+    document.getElementById("userAddress").value = account;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -15,14 +16,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 function run_function(param1, param2){
-    window.CSRF_TOKEN = "{{ csrf_token }}";
     console.log("running");
     $.ajax({
-        url : "random_url/", // the endpoint
+        url : "", // the endpoint
         type : "POST", // http method
         data : { param_first : param1,
-                param_second : param2 ,
-                csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                param_second : param2,
                 },
                 // data sent with the get request
 
