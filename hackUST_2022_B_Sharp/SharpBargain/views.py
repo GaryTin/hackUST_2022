@@ -1,6 +1,8 @@
 from django.shortcuts import render,HttpResponse
 import json
 from web3 import Web3
+from django.middleware.csrf import get_token
+from django.template import RequestContext, Template
 
 
 # Create your views here.
@@ -15,9 +17,9 @@ def MetaMaskTestPage(request):
         return render(request, 'SharpBargain/MetaMaskTestPage.html',)
 
 def some_func(request):
-    if request.method == 'GET':
-        param1 = request.GET.get('param_first')
-        param2 = request.GET.get('param_second')
+    if request.method == 'POST':
+        param1 = request.POST.get('param_first')
+        param2 = request.POST.get('param_second')
         print(param1, param2)
 
         response_data = 'successful!'
