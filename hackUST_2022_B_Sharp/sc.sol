@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
+pragma abicoder v2;
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 //Strings.toString(myUINT)
@@ -7,15 +8,14 @@ contract SharpBargain
 {
     uint256 product_count;
     uint256 batch_count;
-    mapping(uint =>Purchase) pid_purchases; //prod_id => Purchase
-    mapping(address =>Purchase) bid_purchases; //user_id => Purchase
-    mapping(address =>Purchase) mid_purchases; //manu_id => Purchase
-    Procurement[] procurements;
     mapping(uint => Chain_Product) products; //prod_id => Chain_Product
 
     address[] manufacturers;
     address[] retailers;
     address owner;
+    uint256[] prod_id_array;
+    Chain_Product[] temp_prod_array;
+    string[] temp_string_array;
 
     constructor()
     {
@@ -31,32 +31,41 @@ contract SharpBargain
 		_;
 	}
 
-    struct Purchase
-    {
-        address user_address;
-        address retailer_address;
-        uint256 prod_id;
-        uint256 purchase_date;
-        string purchase_comment;
-        string purchase_retail_price;
-    }
 
-    struct Procurement
-    {
-        address retailer_address;
-        address manu_address;
-        string procure_prod_category;
-        uint256 procure_quantity;
-        uint256 produre_date;
-    }
+    //TO-DO
+    //design 2 method
 
-    struct Chain_Product
+    /*
+        both method, manu need to input retailer address
+
+
+        1 is for demp purpose, so manu input prod_type and quantity n, then program check it quantity vaild, if vaild, search from begining to get first n prod
+        with that prod_type and manu address
+
+        2 of real application, manu need to use RFID scanner to get all selling product_id, the input the array of prod_id to function,
+        program will set all inform in those products ID
+
+    */
+
+
+    struct Chain_Product                //pk = batch_id + manu_address + prod_type
     {
-        address manu_address;
-        uint256 prod_id;
-        string procure_prod_category;
-        string prod_wholesale_price;
-        uint256 prod_production_date;
+        uint256 prod_id;                //unique ID
+        uint256 batch_id;               //find which make with this tgt
+        string prod_type;               //what is that
+
+        address manu_address;           //who make
+        address retailer_address;       //who sell
+        address buyer_address;          //who buy
+
+        uint256 prod_production_date;   //when this is made
+        uint256 procure_date;           //when retailer buy
+        uint256 purchase_date;          //when buyer buy
+
+        string prod_wholesale_price;    //retailer buy price
+        string purchase_retail_price;   //buyer buy price
+
+        string comment;                 //buyer how see
 
     }
 
@@ -82,10 +91,16 @@ contract SharpBargain
         return Strings.toString(_i);
     }
 
+    function compareStrings(string memory a, string memory b) public pure returns (bool)
+    {
+        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+    }
+
     function increasement_product_count() internal
     {
         product_count ++;
     }
+
     function increasement_batch_count() internal
     {
         batch_count ++;
@@ -96,9 +111,35 @@ contract SharpBargain
         manufacturers.push(new_manufacturer);
     }
 
+    function remove_manufacturer(address m_address) public onlyOwner returns (bool)
+    {
+        for(uint i = 0; i<manufacturers.length;i++)
+        {
+            if (manufacturers[i] == m_address)
+            {
+                delete manufacturers[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
     function add_retailer(address new_retailers) public onlyOwner
     {
         retailers.push(new_retailers);
+    }
+
+    function remove_retailer(address r_address) public onlyOwner returns (bool)
+    {
+        for(uint i = 0; i<retailers.length;i++)
+        {
+            if (retailers[i] == r_address)
+            {
+                delete retailers[i];
+                return true;
+            }
+        }
+        return false;
     }
 
     function get_role(address input_address) public view returns (string memory)
@@ -121,39 +162,112 @@ contract SharpBargain
         return "customer";
     }
 
-    function add_product(address m_address,string memory prod_type,string memory prod_wholesale_price, uint256 prod_production_date,uint quantity) public
+    function add_product(address m_address,string memory prod_type,string memory prod_wholesale_price, uint256 prod_production_date,uint quantity) public returns (uint256[] memory)
     {
-        string memory new_procure_prod_category = string(abi.encodePacked(prod_type,  "-", uint2string(batch_count))) ;
+        delete prod_id_array ;
         for (uint i =0; i<quantity;i++)
         {
-            products[product_count] = Chain_Product(m_address,product_count,new_procure_prod_category,prod_wholesale_price,prod_production_date);
+            products[product_count] = Chain_Product(product_count,batch_count,prod_type,m_address,m_address,m_address,prod_production_date,0,0,prod_wholesale_price,"","");
+            prod_id_array.push(product_count);
             increasement_product_count();
         }
         increasement_batch_count();
+        return prod_id_array;
 
     }
 
-    function get_product_from_pid(uint256 prod_id) internal view returns (Chain_Product memory)
+    function retailer_purchase_from_manu_demo(address m_address,address r_address,string memory prod_type,uint256 quantity) public returns (bool)
     {
-        return products[prod_id];
+
+        uint256 count = quantity;
+        for (uint i =0;i<product_count;i++)
+        {
+            if(products[i].manu_address==m_address && compareStrings(products[i].prod_type, prod_type))
+            {
+                products[i].retailer_address = r_address;
+                count--;
+            }
+            if (count == 0)
+            {
+                return true;
+            }
+        }
+
+        if(count>0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
-    function add_purchase(address buyer_address,address retailer_address, uint256 prod_id,uint256 purchase_date,string memory purchase_retail_price) public
+    function retailer_purchase_from_manu_final(address r_address,uint256[] memory pid_array) public
     {
-        Purchase memory this_Purchase = Purchase(buyer_address,retailer_address,prod_id,purchase_date,"",purchase_retail_price);
-        pid_purchases[prod_id] = this_Purchase;
-        bid_purchases[buyer_address] = this_Purchase;
-        mid_purchases[products[prod_id].manu_address] = this_Purchase;
+        for (uint i; i<pid_array.length;i++)
+        {
+            products[pid_array[i]].retailer_address = r_address;
+        }
+    }
 
+    function buyer_purchase_from_retailer(address buyer_address, uint256 prod_id,uint256 purchase_date,string memory purchase_retail_price) public
+    {
+        products[prod_id].buyer_address = buyer_address;
+        products[prod_id].purchase_retail_price = purchase_retail_price;
+        products[prod_id].purchase_date = purchase_date;
+
+    }
+
+    function get_user_history(bool pull_all,address b_address) public returns (Chain_Product[] memory)
+    {
+        delete temp_prod_array;
+        for (uint i =0;i<product_count;i++)
+        {
+            if(products[i].buyer_address == b_address)
+            {
+                if (pull_all||(!pull_all && !compareStrings(products[i].comment,"")))
+                {
+                    temp_prod_array.push(products[i]);
+                }
+
+            }
+        }
+        return temp_prod_array;
     }
 
     function set_comment(string memory input_comment,uint256 product_id) public
     {
-        pid_purchases[product_id].purchase_comment = input_comment;
+        products[product_id].comment = input_comment;
+
     }
 
-    function view_comment(uint256 product_id) public view returns (string memory)
+
+    function view_comment_of_prod_type(uint256 product_id) public returns (string[] memory)
     {
-        return pid_purchases[product_id].purchase_comment;
+        delete temp_string_array;
+        string memory p_type = products[product_id].prod_type;
+        for (uint i =0;i<product_count;i++)
+        {
+           if(compareStrings(products[i].prod_type,p_type) && !compareStrings(products[i].comment,""))
+           {
+               temp_string_array.push(products[i].comment);
+           }
+        }
+        return temp_string_array;
+
+    }
+
+    function get_remaining(address m_address,string memory p_type) public view returns(uint)
+    {
+        uint256 count = 0;
+        for (uint i =0;i<product_count;i++)
+        {
+            if(products[i].manu_address==m_address && compareStrings(products[i].prod_type, p_type) && products[i].manu_address==products[i].retailer_address)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 }
