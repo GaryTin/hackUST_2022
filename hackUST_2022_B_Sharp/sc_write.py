@@ -1,117 +1,16 @@
-from django.shortcuts import render,HttpResponse,redirect
 import json
 from web3 import Web3
-from django.middleware.csrf import get_token
-from django.template import RequestContext, Template
 
 
-# Create your views here.
-def home(request):
-    return render(request,'SharpBargain/home.html')
+# Fill in your infura API key here
+def main():
+    infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
+    # infura_url = "https://deaxjqnqrbvx.usemoralis.com:2053/server"
+    web3 = Web3(Web3.HTTPProvider(infura_url))
 
-def Test(request):
-    if request.method =="POST" and 'run' in request.POST:
-        print("start")
-        print(request.POST["v1"])
-        print(request.POST["v2"])
-        print(request.POST["userAddress"])
-        return render(request, 'SharpBargain/test.html')
-    else:
-        return render(request,'SharpBargain/test.html')
-
-def MetaMaskTestPage(request):
-
-        return render(request, 'SharpBargain/MetaMaskTestPage.html',)
-
-def some_func(request):
-    if request.method == 'POST':
-        param1 = request.POST.get('v1')
-        param2 = request.POST.get('v2')
-        print(param1, param2)
-
-        response_data = 'successful!'
-
-    return render(request, 'SharpBargain/test.html')
-
-def read_name(request):
-    if request.method == 'GET':
-        infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
-        web3 = Web3(Web3.HTTPProvider(infura_url))
-
-        abi = json.loads(
-            """[
-           {
-               "inputs": [
-                   {
-                       "internalType": "string",
-                       "name": "_name",
-                       "type": "string"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "constructor"
-           },
-           {
-               "inputs": [],
-               "name": "say_hi",
-               "outputs": [
-                   {
-                       "internalType": "string",
-                       "name": "",
-                       "type": "string"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "string",
-                       "name": "_name",
-                       "type": "string"
-                   }
-               ],
-               "name": "set_name",
-               "outputs": [],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           }
-       ]""")
-
-        # smart contract address
-        address = web3.toChecksumAddress('0x676a9e2BB951D0DD7bc5B4cFAF733d2c04aD907e')
-        User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
-        contract = web3.eth.contract(address=address, abi=abi)
-        name = contract.functions.say_hi().call()
-
-        response_data = name
-
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-
-def index(request):
-    return render(request,'SharpBargain/index.html')
-
-def cusDashboard(request):
-    return render(request, 'SharpBargain/cusDashboard.html')
-
-def retailerDashboard(request):
-    return render(request, 'SharpBargain/retailerDashboard.html')
-
-def manuDashboard(request):
-    return render(request, 'SharpBargain/manuDashboard.html')
-
-def login_test(request):
-    if request.method == 'GET':
-        infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
-        web3 = Web3(Web3.HTTPProvider(infura_url))
-
-        abi = json.loads(
-            """
-            [
+    abi = json.loads(
+        """
+        [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -744,18 +643,56 @@ def login_test(request):
 		"type": "function"
 	}
 ]
-            """)
 
-        # smart contract address
-        address = web3.toChecksumAddress('0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459')
-        contract = web3.eth.contract(address=address, abi=abi)
-        ac = web3.toChecksumAddress(request.GET.get('ac'))
-        print(ac)
-        role = contract.functions.get_role(ac).call()
-        print(role)
+        """)
 
-        return HttpResponse(
-            json.dumps(role),
-            content_type="application/json"
-        )
+    # smart contract address
+    address = web3.toChecksumAddress('0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459')
+    User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
+    contract = web3.eth.contract(address=address, abi=abi)
+    SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
+    web3.eth.defaultAccount = User_address
+
+    nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
+    print(nonce)
+    # print(contract.functions.say_hi().call({'from': SC_OWNER_ADDR}))
+
+    transaction = contract.functions.add_retailer("").buildTransaction(
+        {
+            'gasPrice': web3.toWei('200', 'gwei'),
+            'from': SC_OWNER_ADDR,
+            'nonce': nonce
+        }
+    )
+
+    private_key = "0x380143b9a67553f5fe93c6c827b30e1cdfaf050ba75e3836878cebcff1c17af6"
+    signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
+    print(signed_txn)
+
+    txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    print(txn_receipt)
+
+    web3.eth.waitForTransactionReceipt(txn_receipt)
+
+    transaction = contract.functions.add_manufacturer("").buildTransaction(
+        {
+            'gasPrice': web3.toWei('200', 'gwei'),
+            'from': SC_OWNER_ADDR,
+            'nonce': nonce
+        }
+    )
+
+    private_key = "0x380143b9a67553f5fe93c6c827b30e1cdfaf050ba75e3836878cebcff1c17af6"
+    signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
+    print(signed_txn)
+
+    txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    print(txn_receipt)
+
+    web3.eth.waitForTransactionReceipt(txn_receipt)
+    # print(contract.functions.say_hi().call())
+
+
+if __name__ == "__main__":
+    main()
 

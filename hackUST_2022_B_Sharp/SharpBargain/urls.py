@@ -7,6 +7,12 @@ urlpatterns = [
     path('test/read_name/', views.read_name,name="read_name"),
     path('test/change_name/', views.read_name,name="change_name"),
     path('test/', views.Test,name="test"),
+    path("index/login_check/",views.login_test,name="login_check"),
+    path("index/",views.index,name="index"),
+
+    path("cusDashboard/",views.cusDashboard,name="cusDashboard"),
+    path("retailerDashboard/",views.retailerDashboard,name="retailerDashboard"),
+    path("manuDashboard/",views.manuDashboard,name="manuDashboard"),
 
 
 

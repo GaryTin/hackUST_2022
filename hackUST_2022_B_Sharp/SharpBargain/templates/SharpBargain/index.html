@@ -1,10 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>#BARGAIN</title>
-    <link rel="stylesheet" href="index.css">
+   <link rel="stylesheet" href="{% static 'SharpBargain/styles/index.css' %}">
 </head>
 
 <header>
@@ -20,7 +24,7 @@
     </div>
     <div class="login">
 <h1>Connect to metamask:</h1>
-         <button class="button" type="button">Connect</button>
+         <button class="button" type="button" id="loginButton">Connect</button>
     </div>
 </div>
 
@@ -32,5 +36,97 @@
     <a class="footerlink">&nbsp;|&nbsp;</a> 
     <a class="footerlink" href="privacy.html">Privacy Policy</a>
 </footer>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+        window.userWalletAddress = null
+        const loginButton = document.getElementById('loginButton')
+
+        async function login_check()
+        {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+            .catch((e) => {
+              console.error(e.message)
+              return
+            })
+            if (!accounts) { return }
+
+            //getAccount();
+            window.userWalletAddress = accounts[0];
+            const account = accounts[0];
+            console.log(account);
+            console.log("running");
+            return_data ="";
+            return new Promise(function(resolve, reject) {
+            $.ajax({
+              url : "login_check/", // the endpoint
+                        type : "GET", // http method
+                        data : { ac:account}, // data sent with the get request
+                        success : function(data) {
+                            resolve(data)
+                        },
+                        error : function(err) {
+                             reject(err)
+                        }
+            });
+          });
+        }
+
+
+
+        function toggleButton() {
+          if (!window.ethereum) {
+            loginButton.innerText = 'MetaMask is not installed'
+            loginButton.classList.remove('bg-purple-500', 'text-white')
+            loginButton.classList.add('bg-gray-500', 'text-gray-100', 'cursor-not-allowed')
+            return false
+          }
+          loginButton.addEventListener('click', loginWithMetaMask)
+        }
+
+        function loginWithMetaMask()
+        {
+
+            login_check().then(function(data) {
+              // Run this when your request was successful
+              console.log(data);
+              if(data == "customer")
+              {
+                console.log("hi");
+                window.location.href = "{% url 'cusDashboard' %}"
+              }
+              else if (data == "manufacturer"){
+                console.log("hi");
+                window.location.href = "{% url 'retailerDashboard' %}"
+              }
+              else if (data == "retailer")
+              {
+                console.log("hi");
+                window.location.href = "{% url 'manuDashboard' %}"
+              }
+
+            }).catch(function(err) {
+              // Run this when promise was rejected via reject()
+              console.log(err)
+            })
+
+
+
+
+        }
+
+
+
+        window.addEventListener('DOMContentLoaded', () => {
+          toggleButton()
+        });
+
+        async function getAccount() {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+        }
+
+
+    </script>
 
 </html>
