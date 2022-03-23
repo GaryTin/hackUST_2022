@@ -102,12 +102,12 @@
               }
               else if (data == "manufacturer"){
                 console.log("hi");
-                window.location.href = "{% url 'retailerDashboard' %}"
+                window.location.href = "{% url 'manuDashboard' %}"
               }
               else if (data == "retailer")
               {
                 console.log("hi");
-                window.location.href = "{% url 'manuDashboard' %}"
+                window.location.href = "{% url 'retailerDashboard' %}"
               }
 
             }).catch(function(err) {

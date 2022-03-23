@@ -657,24 +657,24 @@ def main():
     print(nonce)
     # print(contract.functions.say_hi().call({'from': SC_OWNER_ADDR}))
 
-    transaction = contract.functions.add_retailer("").buildTransaction(
-        {
-            'gasPrice': web3.toWei('200', 'gwei'),
-            'from': SC_OWNER_ADDR,
-            'nonce': nonce
-        }
-    )
+    #transaction = contract.functions.add_retailer("0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7").buildTransaction(
+    #    {
+    #        'gasPrice': web3.toWei('200', 'gwei'),
+    #        'from': SC_OWNER_ADDR,
+    #        'nonce': nonce
+    #    }
+    #)
 
-    private_key = "0x380143b9a67553f5fe93c6c827b30e1cdfaf050ba75e3836878cebcff1c17af6"
-    signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
-    print(signed_txn)
+    #private_key = "0x380143b9a67553f5fe93c6c827b30e1cdfaf050ba75e3836878cebcff1c17af6"
+    #signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
+    #print(signed_txn)
 
-    txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    print(txn_receipt)
+    #txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    #print(txn_receipt)
 
-    web3.eth.waitForTransactionReceipt(txn_receipt)
+    #web3.eth.waitForTransactionReceipt(txn_receipt)
 
-    transaction = contract.functions.add_manufacturer("").buildTransaction(
+    transaction = contract.functions.add_manufacturer("0x56aA34aFaAfe665AD33C90002dcEFC3b3327a62a").buildTransaction(
         {
             'gasPrice': web3.toWei('200', 'gwei'),
             'from': SC_OWNER_ADDR,
