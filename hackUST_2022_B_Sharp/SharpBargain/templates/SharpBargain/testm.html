@@ -79,6 +79,11 @@ import Web3 from 'web3';
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "prod_retail_price",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
 				"name": "prod_production_date",
 				"type": "uint256"
@@ -196,6 +201,11 @@ import Web3 from 'web3';
 					{
 						"internalType": "string",
 						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "purchase_retail_price",
 						"type": "string"
 					},
 					{
@@ -353,6 +363,11 @@ import Web3 from 'web3';
 					},
 					{
 						"internalType": "string",
+						"name": "purchase_retail_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "comment",
 						"type": "string"
 					},
@@ -430,6 +445,11 @@ import Web3 from 'web3';
 					{
 						"internalType": "string",
 						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "purchase_retail_price",
 						"type": "string"
 					},
 					{
@@ -634,6 +654,11 @@ import Web3 from 'web3';
 					},
 					{
 						"internalType": "string",
+						"name": "purchase_retail_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "comment",
 						"type": "string"
 					},
@@ -674,13 +699,13 @@ import Web3 from 'web3';
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-], '0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459');
+], '0x0DbE5540e23925849f2E6F5237ff4E0D89312790');
     }
 
     async function add_product() {
         updateStatus(`Try to add product`);
         const account = await getCurrentAccount();
-        const coolNumber = await window.contract.methods.add_product(account,"Gary shirt","10.02",Date.now(),20).send({ from: account });
+        const coolNumber = await window.contract.methods.add_product(account,"Gary shirt","10.02","20.20",Date.now(),20).send({ from: account });
         updateStatus('Updated.');
     }
 

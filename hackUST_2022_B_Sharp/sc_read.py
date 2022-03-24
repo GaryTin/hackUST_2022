@@ -9,8 +9,8 @@ def main():
     web3 = Web3(Web3.HTTPProvider(infura_url))
 
     abi = json.loads(
-        """
-        [
+    """
+    [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -44,6 +44,11 @@ def main():
 			{
 				"internalType": "string",
 				"name": "prod_wholesale_price",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_retail_price",
 				"type": "string"
 			},
 			{
@@ -164,6 +169,11 @@ def main():
 					{
 						"internalType": "string",
 						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "purchase_retail_price",
 						"type": "string"
 					},
 					{
@@ -321,6 +331,11 @@ def main():
 					},
 					{
 						"internalType": "string",
+						"name": "purchase_retail_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "comment",
 						"type": "string"
 					},
@@ -398,6 +413,11 @@ def main():
 					{
 						"internalType": "string",
 						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "purchase_retail_price",
 						"type": "string"
 					},
 					{
@@ -602,6 +622,11 @@ def main():
 					},
 					{
 						"internalType": "string",
+						"name": "purchase_retail_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "comment",
 						"type": "string"
 					},
@@ -643,11 +668,11 @@ def main():
 		"type": "function"
 	}
 ]
-
-        """)
+    
+    """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459')
+    address = web3.toChecksumAddress('0x0DbE5540e23925849f2E6F5237ff4E0D89312790')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
