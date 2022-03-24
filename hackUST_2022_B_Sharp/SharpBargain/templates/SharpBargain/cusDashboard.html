@@ -23,9 +23,11 @@
     <li><a href="#logout">Logout</a></li>
 </ul>
 
-    <div class="container">
-        <h2>Important Notes</h2>
-        <p>The sections show the most important things for you.</p>
+<div class="main_content">
+        <div class="container">
+        <div class="title_container">
+            <p class="title">Shopping Habits</p>
+        </div>
             <div class="column">
                 <div class="section">
                     <p class="line1">You have bought...</p>
@@ -34,8 +36,6 @@
                 </div>
             </div>
 
-
-
             <div class="column">
                 <div class="section">
                     <p class="line1">You have saved...</p>
@@ -43,8 +43,6 @@
                     <p class="line3">last week.</p>
                 </div>
             </div>
-
-
 
             <div class="column">
                 <div class="section">
@@ -58,13 +56,39 @@
     </div>
 
     <div class="history_container">
-        <h2 style="margin-top: 0px;">History</h2>
+         <div class="title_container">
+            <p class="title">History</p>
+        </div>
         <table id="history_temp">
             <tr>
-                <td class="img_holder">img</td>
-                <td class="data_holder">data</td>
+                <td class="img_holder">
+                    <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
+                </td>
+                <td class="data_holder">
+                    <span class="data_title">
+                        Product Type:
+                    </span>xx
+                    <br>
+                    <span class="data_title">
+                        Product ID: &#9;
+                    </span>123123123
+                    <br>
+                    <span class="data_title">
+                        Purchase Date: &#x09;
+                    </span>dd/mm/yyyy
+                    <br>
+                    <span class="data_title">
+                        Price: &#x09;
+                    </span>$XXX
+
+                    <button id="btn_comment">
+                        Comment
+                    </button>
+                </td>
             </tr>
         </table>
     </div>
+</div>
+
 </body>
 </html>

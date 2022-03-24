@@ -8,6 +8,9 @@ html{
     background-color: #F0F9FF;
 }
 
+.main_content{
+    margin-left: 30vh;
+}
 body{
     padding: 0px;
     margin: 0px;
@@ -31,12 +34,13 @@ ul {
     position: fixed;
     padding-left: -5%;
 
-    width: 30vh;
+    width: 20vw;
     height: 100%;
     background-color: whitesmoke;
     list-style-type: none;
     overflow: auto;
     border-right: solid #5AA2AE 6px;
+    box-sizing: border-box;
 
 }
 
@@ -53,15 +57,25 @@ a:hover{
     color: white;
     background-color: #5AA2AE;
 }
-
-.container {
-    margin-left:20%;
-    padding:10px 20px 0px 20px;
-    height:300px;
-    margin-bottom: 0;
-
+.title{
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #5AA2AE;
+    margin-bottom: 20px;
 }
 
+.title_container{
+    border-bottom: grey 3px solid;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.container {
+    margin-left:10%;
+    padding:10px 20px 0px 0px;
+    height:300px;
+    margin-bottom: 0;
+}
 .section {
     box-shadow: 0 2px 4px 0 grey;
     padding: 15px 10px 15px 10px;
@@ -89,6 +103,7 @@ a:hover{
   float: left;
   width: 30%;
   padding: 10px;
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 700px) {
@@ -100,22 +115,31 @@ a:hover{
 }
 
 .history_container {
-    margin-left:20%;
-    padding:10px 20px;
-    height: 100%;
-    width: 133vh;
+    margin-left:10%;
+    padding:10px 20px 0px 0px;
+    height:100%;
+    margin-bottom: 0;
 }
 #history_temp {
 	border-collapse: collapse;
 	margin-left: auto;
-    margin-right: auto;
+	margin-right: auto;
+
 }
 
+.table_img{
+    max-height: 100%;
+    height: 100%;
+    max-width:100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
 .img_holder{
-    width: 30vh;
-    max-width: 50vh;
+    width: 15vw;
+    max-width: 15vw;
     height: 30vh;
     max-height: 50vh;
+    padding: 1%;
 
     background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
     border-radius: 20px 0px 0px 20px;
@@ -123,13 +147,34 @@ a:hover{
 }
 
 .data_holder{
-    width: 100vh;
-    max-width: 150vh;
+    width: 50vw;
+    max-width: 50vw;
     height: 30vh;
     max-height: 60vh;
+    line-height: 250%;
+    font-size: 1.2em;
+    padding-left: 15px;
+    position: relative;
 
     background-color: #82C5C4;
     border-radius: 0px 20px 20px 0px;
 
 }
 
+.data_title{
+    font-weight: 600;
+}
+
+#btn_comment{
+    padding: 12px;
+    bottom: 7%;
+    right: 3%;
+    position: absolute;
+    font-family: 'Montserrat';
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+
+
+}
