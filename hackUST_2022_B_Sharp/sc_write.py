@@ -1,5 +1,6 @@
 import json
 from web3 import Web3
+import time
 
 
 # Fill in your infura API key here
@@ -674,23 +675,25 @@ def main():
 
     #web3.eth.waitForTransactionReceipt(txn_receipt)
 
-    transaction = contract.functions.add_manufacturer("0x56aA34aFaAfe665AD33C90002dcEFC3b3327a62a").buildTransaction(
+    transaction = contract.functions.add_product("0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6","Gary shirt","10.02",int(time.time()),20).buildTransaction(
         {
             'gasPrice': web3.toWei('200', 'gwei'),
             'from': SC_OWNER_ADDR,
             'nonce': nonce
         }
-    )
+     )
 
     private_key = "0x380143b9a67553f5fe93c6c827b30e1cdfaf050ba75e3836878cebcff1c17af6"
     signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
+    #signed_txn = web3.eth.account.signTransaction(transaction, private_key=os.environ['PRIVATE_KEY'])
     print(signed_txn)
 
     txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
     print(txn_receipt)
 
     web3.eth.waitForTransactionReceipt(txn_receipt)
-    # print(contract.functions.say_hi().call())
+
+
 
 
 if __name__ == "__main__":

@@ -1,117 +1,48 @@
-from django.shortcuts import render,HttpResponse,redirect
-import json
-from web3 import Web3
-from django.middleware.csrf import get_token
-from django.template import RequestContext, Template
+import Web3 from 'web3';
 
+<!DOCTYPE html>
+<html>
 
-# Create your views here.
-def home(request):
-    return render(request,'SharpBargain/home.html')
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Web 3 Demo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
+</head>
 
-def Test(request):
-    if request.method =="POST" and 'run' in request.POST:
-        print("start")
-        print(request.POST["v1"])
-        print(request.POST["v2"])
-        print(request.POST["userAddress"])
-        return render(request, 'SharpBargain/test.html')
-    else:
-        return render(request,'SharpBargain/test.html')
+<body>
 
-def MetaMaskTestPage(request):
+    Web 3 Demo
+    <br >
+    <button onclick="manu_get_all_data();">Get all record</button>
+    <button onclick="add_product();">add 20 Gary shirt</button>
+    <br /><br />
+    Status: <span id="status">Loading...</span>
 
-        return render(request, 'SharpBargain/MetaMaskTestPage.html',)
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
 
-def some_func(request):
-    if request.method == 'POST':
-        param1 = request.POST.get('v1')
-        param2 = request.POST.get('v2')
-        print(param1, param2)
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }
 
-        response_data = 'successful!'
+    async function load() {
+        await loadWeb3();
+        window.contract = await loadContract();
+        updateStatus('Ready!');
+    }
 
-    return render(request, 'SharpBargain/test.html')
-
-def read_name(request):
-    if request.method == 'GET':
-        infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
-        web3 = Web3(Web3.HTTPProvider(infura_url))
-
-        abi = json.loads(
-            """[
-           {
-               "inputs": [
-                   {
-                       "internalType": "string",
-                       "name": "_name",
-                       "type": "string"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "constructor"
-           },
-           {
-               "inputs": [],
-               "name": "say_hi",
-               "outputs": [
-                   {
-                       "internalType": "string",
-                       "name": "",
-                       "type": "string"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "string",
-                       "name": "_name",
-                       "type": "string"
-                   }
-               ],
-               "name": "set_name",
-               "outputs": [],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           }
-       ]""")
-
-        # smart contract address
-        address = web3.toChecksumAddress('0x676a9e2BB951D0DD7bc5B4cFAF733d2c04aD907e')
-        User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
-        contract = web3.eth.contract(address=address, abi=abi)
-        name = contract.functions.say_hi().call()
-
-        response_data = name
-
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-
-def index(request):
-    return render(request,'SharpBargain/index.html')
-
-def cusDashboard(request):
-    return render(request, 'SharpBargain/cusDashboard.html')
-
-def retailerDashboard(request):
-    return render(request, 'SharpBargain/retailerDashboard.html')
-
-def manuDashboard(request):
-    return render(request, 'SharpBargain/manuDashboard.html')
-
-def login_test(request):
-    if request.method == 'GET':
-        infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
-        web3 = Web3(Web3.HTTPProvider(infura_url))
-
-        abi = json.loads(
-            """
-            [
+    function updateStatus(status) {
+        const statusEl = document.getElementById('status');
+        statusEl.innerHTML = status;
+        console.log(status);
+    }
+    async function loadContract() {
+        return await new window.web3.eth.Contract([
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -743,21 +674,80 @@ def login_test(request):
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]
-            """)
+], '0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459');
+    }
 
-        # smart contract address
-        address = web3.toChecksumAddress('0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459')
-        contract = web3.eth.contract(address=address, abi=abi)
-        ac = web3.toChecksumAddress(request.GET.get('ac'))
-        print(ac)
-        role = contract.functions.get_role(ac).call()
-        print(role)
+    async function add_product() {
+        updateStatus(`Try to add product`);
+        const account = await getCurrentAccount();
+        const coolNumber = await window.contract.methods.add_product(account,"Gary shirt","10.02",Date.now(),20).send({ from: account });
+        updateStatus('Updated.');
+    }
 
-        return HttpResponse(
-            json.dumps(role),
-            content_type="application/json"
-        )
+     async function manu_get_all_data() {
+        updateStatus(`Try to read product`);
+        const account = await getCurrentAccount();
+        const data = await window.contract.methods.manu_get_all_data(account).call({ from: account });
+        //console.log(data);
+        generate_table(data,"dataTable");
+        updateStatus('Get data!');
+    }
 
-def testm(request):
-    return render(request,"SharpBargain/testm.html")
+    function generate_table(data,id) {
+
+        //delete old table
+        var removeTab = document.getElementById(id);
+        if (removeTab != null)
+        {
+            var parentEl = removeTab.parentElement;
+            parentEl.removeChild(removeTab);
+        }
+
+        // get the reference for the body
+        var body = document.getElementsByTagName("body")[0];
+
+        // creates a <table> element and a <tbody> element
+        var tbl = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+
+        // creating all cells
+        for (var i = 0; i < data.length; i++)
+        {
+            // creates a table row
+            var row = document.createElement("tr");
+
+            for (var j = 0; j < data[0].length; j++)
+            {
+                // Create a <td> element and a text node, make the text
+                // node the contents of the <td>, and put the <td> at
+                // the end of the table row
+                var cell = document.createElement("td");
+                var cellText = document.createTextNode(data[i][j]);
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            // add the row to the end of the table body
+            tblBody.appendChild(row);
+        }
+
+        // put the <tbody> in the <table>
+        tbl.appendChild(tblBody);
+        // appends <table> into <body>
+        body.appendChild(tbl);
+        // sets the border attribute of tbl to 2;
+        tbl.setAttribute("border", "2");
+        tbl.setAttribute("id", id);
+    }
+
+
+    async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+    }
+
+    load();
+    </script>
+</body>
+
+</html>

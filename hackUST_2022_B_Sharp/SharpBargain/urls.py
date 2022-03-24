@@ -13,6 +13,7 @@ urlpatterns = [
     path("cusDashboard/",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/",views.retailerDashboard,name="retailerDashboard"),
     path("manuDashboard/",views.manuDashboard,name="manuDashboard"),
+    path("testm/",views.testm,name="testm")
 
 
 
