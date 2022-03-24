@@ -759,3 +759,5 @@ def login_test(request):
             content_type="application/json"
         )
 
+def testm(request):
+    return render(request,"SharpBargain/testm.html")

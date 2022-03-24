@@ -655,7 +655,7 @@ def main():
 
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
-    print(contract.functions.get_role('0x56aA34aFaAfe665AD33C90002dcEFC3b3327a62a').call({'from': SC_OWNER_ADDR}))
+    print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
 
 
 

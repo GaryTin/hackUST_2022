@@ -1,0 +1,753 @@
+import Web3 from 'web3';
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Web 3 Demo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
+</head>
+
+<body>
+
+    Web 3 Demo
+    <br >
+    <button onclick="manu_get_all_data();">Get all record</button>
+    <button onclick="add_product();">add 20 Gary shirt</button>
+    <br /><br />
+    Status: <span id="status">Loading...</span>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }
+
+    async function load() {
+        await loadWeb3();
+        window.contract = await loadContract();
+        updateStatus('Ready!');
+    }
+
+    function updateStatus(status) {
+        const statusEl = document.getElementById('status');
+        statusEl.innerHTML = status;
+        console.log(status);
+    }
+    async function loadContract() {
+        return await new window.web3.eth.Contract([
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_manufacturer",
+				"type": "address"
+			}
+		],
+		"name": "add_manufacturer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_wholesale_price",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_production_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "add_product",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_retailers",
+				"type": "address"
+			}
+		],
+		"name": "add_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "buyer_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_purchase_from_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "product_id",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_view_comment",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "prod_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "batch_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_type",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "manu_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "retailer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "prod_production_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "procure_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "purchase_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "comment",
+						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "rate",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct SharpBargain.Chain_Product[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "p_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "pull_all",
+				"type": "bool"
+			},
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_user_history",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "prod_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "batch_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_type",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "manu_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "retailer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "prod_production_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "procure_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "purchase_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "comment",
+						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "rate",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct SharpBargain.Chain_Product[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "manu_get_all_data",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "prod_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "batch_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_type",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "manu_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "retailer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "prod_production_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "procure_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "purchase_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "comment",
+						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "rate",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct SharpBargain.Chain_Product[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_manufacturer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_retailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "retailer_get_all_prod_type",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_purchase_from_manu_demo",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "pid_array",
+				"type": "uint256[]"
+			}
+		],
+		"name": "retailer_purchase_from_manu_final",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "p_type",
+				"type": "string"
+			}
+		],
+		"name": "retailer_view_comment",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "prod_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "batch_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_type",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "manu_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "retailer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "buyer_address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "prod_production_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "procure_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "purchase_date",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "prod_wholesale_price",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "comment",
+						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "rate",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct SharpBargain.Chain_Product[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "input_comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "input_rate",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "product_id",
+				"type": "uint256"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+], '0x1DD68f7e1cD9166aB83E8900eB6b92eC7e396459');
+    }
+
+    async function add_product() {
+        updateStatus(`Try to add product`);
+        const account = await getCurrentAccount();
+        const coolNumber = await window.contract.methods.add_product(account,"Gary shirt","10.02",Date.now(),20).send({ from: account });
+        updateStatus('Updated.');
+    }
+
+     async function manu_get_all_data() {
+        updateStatus(`Try to read product`);
+        const account = await getCurrentAccount();
+        const data = await window.contract.methods.manu_get_all_data(account).call({ from: account });
+        //console.log(data);
+        generate_table(data,"dataTable");
+        updateStatus('Get data!');
+    }
+
+    function generate_table(data,id) {
+
+        //delete old table
+        var removeTab = document.getElementById(id);
+        if (removeTab != null)
+        {
+            var parentEl = removeTab.parentElement;
+            parentEl.removeChild(removeTab);
+        }
+
+        // get the reference for the body
+        var body = document.getElementsByTagName("body")[0];
+
+        // creates a <table> element and a <tbody> element
+        var tbl = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+
+        // creating all cells
+        for (var i = 0; i < data.length; i++)
+        {
+            // creates a table row
+            var row = document.createElement("tr");
+
+            for (var j = 0; j < data[0].length; j++)
+            {
+                // Create a <td> element and a text node, make the text
+                // node the contents of the <td>, and put the <td> at
+                // the end of the table row
+                var cell = document.createElement("td");
+                var cellText = document.createTextNode(data[i][j]);
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            // add the row to the end of the table body
+            tblBody.appendChild(row);
+        }
+
+        // put the <tbody> in the <table>
+        tbl.appendChild(tblBody);
+        // appends <table> into <body>
+        body.appendChild(tbl);
+        // sets the border attribute of tbl to 2;
+        tbl.setAttribute("border", "2");
+        tbl.setAttribute("id", id);
+    }
+
+
+    async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+    }
+
+    load();
+    </script>
+</body>
+
+</html>
