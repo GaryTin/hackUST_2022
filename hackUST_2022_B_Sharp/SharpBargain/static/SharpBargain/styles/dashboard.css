@@ -5,6 +5,7 @@ html{
     font-family: 'Montserrat';
     max-width: 100%;
     overflow-x: hidden;
+    background-color: #F0F9FF;
 }
 
 body{
@@ -12,36 +13,30 @@ body{
     margin: 0px;
 }
 
-header{
-    padding: 5px;
-    position: fixed;
-    left: 0;
-    top: 0;
+
+.logo{
+    height: auto;
     width: 100%;
-    height: 60px;
-    background-color: #5AA2AE;
-    z-index: 10;
 }
 
-.title{
-    font-size: 40px;
-    margin:0px;
-    font-weight: 600;
+.selected{
     color: white;
-    padding: 10px;
+    background-color: #5AA2AE;
 }
 
 ul {
     margin: 0;
     padding: 0;
-    padding-top: 10%;
+    padding-top: 0%;
     position: fixed;
+    padding-left: -5%;
 
     width: 30vh;
     height: 100%;
     background-color: whitesmoke;
     list-style-type: none;
     overflow: auto;
+    border-right: solid #5AA2AE 6px;
 
 }
 
@@ -51,6 +46,7 @@ li a {
     padding: 8px 16px;
     text-decoration: none;
     font-family: 'Montserrat';
+    font-size: 1.4rem;
 }
 
 a:hover{
@@ -62,7 +58,6 @@ a:hover{
     margin-left:20%;
     padding:10px 20px 0px 20px;
     height:300px;
-    padding-top: 5%;
     margin-bottom: 0;
 
 }
@@ -109,11 +104,12 @@ a:hover{
     padding:10px 20px;
     height: 100%;
     width: 133vh;
-
-table {
+}
+#history_temp {
 	border-collapse: collapse;
 	margin-left: auto;
     margin-right: auto;
+}
 
 .img_holder{
     width: 30vh;
@@ -123,6 +119,7 @@ table {
 
     background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
     border-radius: 20px 0px 0px 20px;
+    color: red;
 }
 
 .data_holder{
