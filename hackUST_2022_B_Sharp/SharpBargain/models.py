@@ -28,6 +28,8 @@ class DB_Product(models.Model):
 
     objects = models.Manager()
 
+
+
 class Manufacturer(models.Model):
     manu_id = models.IntegerField(unique=True)
     manu_name = models.CharField(max_length=256)
