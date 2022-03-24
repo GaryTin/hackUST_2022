@@ -114,10 +114,13 @@ a:hover{
 
 img{
     width: 100%;
+    height :auto;
+    max-height:30%;
+    object-fit: cover;
 }
 
 .slideshow{
-    max-width: 1200px;
+    width:100%;
     position: relative;
     margin: auto;
 }
