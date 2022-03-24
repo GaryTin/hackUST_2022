@@ -69,7 +69,7 @@ contract SharpBargain
         uint256 purchase_date;          //when buyer buy
 
         string prod_wholesale_price;    //retailer buy price
-        //string purchase_retail_price;   //buyer buy price
+        string purchase_retail_price;   //buyer buy price
 
         string comment;                 //buyer how see
         uint8 rate;                     //0-5 start
@@ -169,12 +169,12 @@ contract SharpBargain
         return "customer";
     }
 
-    function add_product(address m_address,string memory prod_type,string memory prod_wholesale_price, uint256 prod_production_date,uint quantity) public addressMatch(m_address) returns (uint256[] memory)
+    function add_product(address m_address,string memory prod_type,string memory prod_wholesale_price,string memory prod_retail_price, uint256 prod_production_date,uint quantity) public addressMatch(m_address) returns (uint256[] memory)
     {
         delete prod_id_array ;
         for (uint i =0; i<quantity;i++)
         {
-            products[product_count] = Chain_Product(product_count,batch_count,prod_type,m_address,m_address,m_address,prod_production_date,0,0,prod_wholesale_price,"",6);
+            products[product_count] = Chain_Product(product_count,batch_count,prod_type,m_address,m_address,m_address,prod_production_date,0,0,prod_wholesale_price,prod_retail_price,"",6);
             prod_id_array.push(product_count);
             increasement_product_count();
         }
