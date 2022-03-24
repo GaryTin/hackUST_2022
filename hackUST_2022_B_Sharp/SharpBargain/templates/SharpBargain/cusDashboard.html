@@ -27,8 +27,6 @@
     <div class="container">
         <h2>Important Notes</h2>
         <p>The sections show the most important things for you.</p>
-
-
             <div class="column">
                 <div class="section">
                     <p class="line1">You have bought...</p>
@@ -60,65 +58,14 @@
 
     </div>
 
-    <div class="slideshow_container">
-        <h2 style="margin-top: 0px;">Promotion</h2>
-        <div class="slideshow">
-            <div class="slide fade">
-                <div class="page">1/3</div>
-                <img src="{% static 'SharpBargain/media/slide1.jpg' %}">
-            </div>
-
-            <div class="slide fade">
-                <div class="page">2/3</div>
-                <img src="{% static 'SharpBargain/media/slide2.jpg' %}">
-            </div>
-
-            <div class="slide fade">
-                <div class="page">3/3</div>
-                <img src="{% static 'SharpBargain/media/slide3.jpg' %}">
-            </div>
-
-            <a class="previous" onclick="SlideNum(-1)">&#10094;</a>
-            <a class="next" onclick="SlideNum(1)">&#10095;</a>
-        </div>
+    <div class="history_container">
+        <h2 style="margin-top: 0px;">History</h2>
+        <table>
+            <tr>
+                <td class="img_holder">img</td>
+                <td class="data_holder">data</td>
+            </tr>
+        </table>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-<script>
-    let slideIndex = 1;
-    showSlides(slideIndex);
-
-    function SlideNum(n){
-        showSlides(slideIndex += n);
-    }
-
-    function showSlides(n){
-        let i;
-        let slide = document.getElementsByClassName("slide");
-
-        if (n > slide.length) {
-        slideIndex = 1
-        }
-
-        if (n < 1) {
-        slideIndex = slide.length
-        }
-
-        for (i = 0; i < slide.length; i++) {
-          slide[i].style.display = "none";
-        }
-
-        slide[slideIndex-1].style.display = "block";
-    }
-</script>
 </body>
 </html>
