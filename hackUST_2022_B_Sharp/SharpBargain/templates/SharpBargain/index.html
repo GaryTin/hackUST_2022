@@ -105,11 +105,11 @@
                 window.location.href = "{% url 'cusDashboard' account_address=12345 %}".replace(/12345/,account.toString());
               }
               else if (role == "manufacturer"){
-                window.location.href = "{% url 'manuDashboard' %}"
+                window.location.href = "{% url 'manuDashboard' account_address=12345 %}".replace(/12345/,account.toString());
               }
               else if (role == "retailer")
               {
-                window.location.href = "{% url 'retailerDashboard' %}"
+                window.location.href = "{% url 'retailerDashboard' account_address=12345 %}".replace(/12345/,account.toString());
               }
 
             }).catch(function(err) {

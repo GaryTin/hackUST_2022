@@ -1,0 +1,27 @@
+<tr>
+    <td class="img_holder">
+        <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
+    </td>
+    <td class="data_holder">
+                    <span class="data_title">
+                        Product Type:
+                    </span>{{prod_type}}
+        <br>
+        <span class="data_title">
+                        Product ID: &#9;
+                    </span>{{prod_id}}
+        <br>
+        <span class="data_title">
+                        Purchase Date: &#x09;
+                    </span>{{data}}
+        <br>
+        <span class="data_title">
+                        Price: &#x09;
+                    </span>${{price}}
+        {% if not_comment %}
+            <button id="btn_comment">
+                Comment
+            </button>
+        {% endif %}
+    </td>
+</tr>
