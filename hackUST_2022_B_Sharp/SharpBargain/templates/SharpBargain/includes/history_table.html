@@ -1,3 +1,5 @@
+{% load static %}
+
 <tr>
     <td class="img_holder">
         <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
@@ -8,15 +10,15 @@
                     </span>{{prod_type}}
         <br>
         <span class="data_title">
-                        Product ID: &#9;
+                        Product ID:
                     </span>{{prod_id}}
         <br>
         <span class="data_title">
-                        Purchase Date: &#x09;
-                    </span>{{data}}
+                        Purchase Date:
+                    </span>{{date}}
         <br>
         <span class="data_title">
-                        Price: &#x09;
+                        Price:
                     </span>${{price}}
         {% if not_comment %}
             <button id="btn_comment">

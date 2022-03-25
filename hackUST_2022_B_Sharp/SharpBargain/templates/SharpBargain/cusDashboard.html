@@ -65,32 +65,7 @@
             <p class="title">History</p>
         </div>
         <table id="history_temp">
-            <tr>
-                <td class="img_holder">
-                    <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
-                </td>
-                <td class="data_holder">
-                    <span class="data_title">
-                        Product Type:
-                    </span>xx
-                    <br>
-                    <span class="data_title">
-                        Product ID: &#9;
-                    </span>123123123
-                    <br>
-                    <span class="data_title">
-                        Purchase Date: &#x09;
-                    </span>dd/mm/yyyy
-                    <br>
-                    <span class="data_title">
-                        Price: &#x09;
-                    </span>$XXX
-
-                    <button id="btn_comment">
-                        Comment
-                    </button>
-                </td>
-            </tr>
+            {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
         </table>
     </div>
 </div>

@@ -11,8 +11,8 @@ urlpatterns = [
     path("index/",views.index,name="index"),
 
     path("cusDashboard/<str:account_address>",views.cusDashboard,name="cusDashboard"),
-    path("retailerDashboard/",views.retailerDashboard,name="retailerDashboard"),
-    path("manuDashboard/",views.manuDashboard,name="manuDashboard"),
+    path("retailerDashboard/<str:account_address>",views.retailerDashboard,name="retailerDashboard"),
+    path("manuDashboard/<str:account_address>",views.manuDashboard,name="manuDashboard"),
     path("testm/",views.testm,name="testm")
 
 

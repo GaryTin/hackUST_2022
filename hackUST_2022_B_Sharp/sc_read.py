@@ -12,11 +12,6 @@ def main():
     """
     [
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -193,73 +188,6 @@ def main():
 			}
 		],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "a",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "b",
-				"type": "string"
-			}
-		],
-		"name": "compareStrings",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "p_type",
-				"type": "string"
-			}
-		],
-		"name": "get_remaining",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "input_address",
-				"type": "address"
-			}
-		],
-		"name": "get_role",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -509,6 +437,11 @@ def main():
 				"type": "address"
 			},
 			{
+				"internalType": "uint256",
+				"name": "pro_date",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "prod_type",
 				"type": "string"
@@ -541,6 +474,11 @@ def main():
 				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "pro_date",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256[]",
@@ -666,24 +604,95 @@ def main():
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "p_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
-    
     """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0x0DbE5540e23925849f2E6F5237ff4E0D89312790')
+    address = web3.toChecksumAddress('0xfe5E3b5A9490B116aCF1FB0e6f9635e91853Bbe4')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
     web3.eth.defaultAccount = User_address
 
-    nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
-    print(nonce)
-    print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
-    print(web3.eth.gasPrice)
-
-
+    #nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
+    #print(nonce)
+    #print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
+    #print(web3.eth.gasPrice)
+    m_address = web3.toChecksumAddress('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6')
+    print(contract.functions.manu_get_all_data(m_address).call({'from': m_address}))
 
 if __name__ == "__main__":
     main()

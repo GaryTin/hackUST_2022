@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+
 
 <!DOCTYPE html>
 <html>
@@ -6,14 +6,13 @@ import Web3 from 'web3';
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Web 3 Demo</title>
+    <title>Test Manu Page</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
 </head>
 
 <body>
 
-    Web 3 Demo
     <br >
     <button onclick="manu_get_all_data();">Get all record</button>
     <button onclick="add_product();">add 20 Gary shirt</button>
@@ -33,6 +32,7 @@ import Web3 from 'web3';
     async function load() {
         await loadWeb3();
         window.contract = await loadContract();
+
         updateStatus('Ready!');
     }
 
@@ -699,13 +699,15 @@ import Web3 from 'web3';
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-], '0x0DbE5540e23925849f2E6F5237ff4E0D89312790');
+], '0xfe5E3b5A9490B116aCF1FB0e6f9635e91853Bbe4');
     }
 
     async function add_product() {
+
         updateStatus(`Try to add product`);
         const account = await getCurrentAccount();
-        const coolNumber = await window.contract.methods.add_product(account,"Gary shirt","10.02","20.20",Date.now(),20).send({ from: account });
+        console.log(account);
+        const coolNumber = await window.contract.methods.add_product(account,"Red T-shirt","50.0","70.0",Date.now(),10).send({ from: account,gasLimit: 8000000, });
         updateStatus('Updated.');
     }
 
