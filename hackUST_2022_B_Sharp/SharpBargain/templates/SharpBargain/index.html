@@ -97,14 +97,17 @@
             login_check().then(function(data) {
               // Run this when your request was successful
               console.log(data);
-              if(data == "customer")
+              const strArray = data.split("/");
+              let role = strArray[0];
+              let account = strArray[1];
+              if(role == "customer")
               {
-                window.location.href = "{% url 'cusDashboard' %}"
+                window.location.href = "{% url 'cusDashboard' account_address=12345 %}".replace(/12345/,account.toString());
               }
-              else if (data == "manufacturer"){
+              else if (role == "manufacturer"){
                 window.location.href = "{% url 'manuDashboard' %}"
               }
-              else if (data == "retailer")
+              else if (role == "retailer")
               {
                 window.location.href = "{% url 'retailerDashboard' %}"
               }

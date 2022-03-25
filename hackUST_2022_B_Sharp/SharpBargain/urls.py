@@ -10,7 +10,7 @@ urlpatterns = [
     path("index/login_check/",views.login_test,name="login_check"),
     path("index/",views.index,name="index"),
 
-    path("cusDashboard/",views.cusDashboard,name="cusDashboard"),
+    path("cusDashboard/<str:account_address>",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/",views.retailerDashboard,name="retailerDashboard"),
     path("manuDashboard/",views.manuDashboard,name="manuDashboard"),
     path("testm/",views.testm,name="testm")

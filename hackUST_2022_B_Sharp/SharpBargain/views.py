@@ -95,7 +95,8 @@ def read_name(request):
 def index(request):
     return render(request,'SharpBargain/index.html')
 
-def cusDashboard(request):
+def cusDashboard(request,account_address):
+    print(account_address)
     return render(request, 'SharpBargain/cusDashboard.html')
 
 def retailerDashboard(request):
@@ -778,7 +779,7 @@ def login_test(request):
         ac = web3.toChecksumAddress(request.GET.get('ac'))
         print(ac)
         role = contract.functions.get_role(ac).call()
-        print(role)
+        role = role+"/"+ac
 
         return HttpResponse(
             json.dumps(role),

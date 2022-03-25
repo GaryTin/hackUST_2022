@@ -9,7 +9,7 @@ html{
 }
 
 .main_content{
-    margin-left: 30vh;
+    margin-left: 30vw;
 }
 body{
     padding: 0px;
@@ -73,7 +73,7 @@ a:hover{
 .container {
     margin-left:10%;
     padding:10px 20px 0px 0px;
-    height:300px;
+    height:20%;
     margin-bottom: 0;
 }
 .section {
@@ -81,8 +81,15 @@ a:hover{
     padding: 15px 10px 15px 10px;
     border-radius: 10px;
     background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
-}
 
+}
+.three_data
+{
+    height :20%;
+    max-height : 20%;
+    overflow:hidden;
+
+}
 .line1{
     margin: 0px;
     font-size: 1.2em;
@@ -106,6 +113,7 @@ a:hover{
   width: 30%;
   padding: 10px;
   margin-right: 10px;
+  height = 100%;
 }
 
 @media screen and (max-width: 700px) {
