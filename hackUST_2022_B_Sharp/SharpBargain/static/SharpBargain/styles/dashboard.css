@@ -85,15 +85,17 @@ a:hover{
 
 .line1{
     margin: 0px;
+    font-size: 1.2em;
 }
 .line3{
     text-align: right;
     margin: 0px;
+    font-size: 1.2em;
 }
 
 .numbering{
     text-align: center;
-    font-size: 35px;
+    font-size: 4em;
     font-weight: 600;
     margin: 15px;
 
@@ -152,7 +154,7 @@ a:hover{
     height: 30vh;
     max-height: 60vh;
     line-height: 250%;
-    font-size: 1.2em;
+    font-size: 1.3em;
     padding-left: 15px;
     position: relative;
 
@@ -174,7 +176,9 @@ a:hover{
     border: none;
     border-radius: 20px;
     cursor: pointer;
+}
 
-
-
+#btn_comment:hover{
+    background-color: GREY;
+    color: white;
 }

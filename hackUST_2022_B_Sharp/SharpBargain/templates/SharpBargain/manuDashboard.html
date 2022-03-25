@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManuDash</title>
+   <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+</head>
+
+
+<body>
+
+    <ul>
+    <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+    <li><a href="#home" class="selected">Home</a></li>
+    <li><a href="#inputproductdata">Input Product Data</a></li>
+    <li><a href="#inputretailerbuy">Input Retailer Buy</a></li>
+    <li><a href="#viewdata">View Data</a></li>
+    <li><a href="#logout">Logout</a></li>
+</ul>
+
+<div class="main_content">
+        <div class="container">
+        <div class="title_container">
+            <p class="title">Critical Data</p>
+        </div>
+            <div class="column">
+                <div class="section">
+                    <p class="line1">You have sold...</p>
+                    <p class="numbering">6</p>
+                    <p class="line3">last week.</p>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="section">
+                    <p class="line1">You have earned...</p>
+                    <p class="numbering">$999</p>
+                    <p class="line3">last week.</p>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="section">
+                    <p class="line1">You have ...</p>
+                    <p class="numbering">6</p>
+                    <p class="line3">last week.</p>
+                </div>
+            </div>
+
+
+    </div>
+</html>
