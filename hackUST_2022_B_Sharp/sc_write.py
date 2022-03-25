@@ -699,35 +699,33 @@ def main():
     #print(txn_receipt)
 
     #web3.eth.waitForTransactionReceipt(txn_receipt)
-    nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
-    print(nonce)
+    #nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
+    #print(nonce)
     #print(contract.functions.say_hi().call({'from': SC_OWNER_ADDR}))
+    #transaction = contract.functions.add_retailer("0xB18Ad402c99221FdDa1E732A7719b4D744c86D16").buildTransaction(
+    #   {
+    #      'gasPrice':web3.eth.gasPrice,
+    #       'from': SC_OWNER_ADDR,
+    #       'nonce': nonce
+    #    }
+    #)
 
-    transaction = contract.functions.add_retailer("0xB18Ad402c99221FdDa1E732A7719b4D744c86D16").buildTransaction(
-       {
-          'gasPrice': web3.toWei('200', 'gwei'),
-           'from': SC_OWNER_ADDR,
-           'nonce': nonce
-        }
-    )
 
+    #signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
+    #print(signed_txn)
 
-    signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
-    print(signed_txn)
+    #txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    #print(txn_receipt)
 
-    txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    print(txn_receipt)
-
-    web3.eth.waitForTransactionReceipt(txn_receipt)
-    print("Done")
+    #web3.eth.waitForTransactionReceipt(txn_receipt)
+    #print("Done")
 
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
-    print(contract.functions.say_hi().call({'from': SC_OWNER_ADDR}))
 
     transaction = contract.functions.add_manufacturer("0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6").buildTransaction(
         {
-            'gasPrice': web3.toWei('200', 'gwei'),
+            'gasPrice': web3.eth.gasPrice,
             'from': SC_OWNER_ADDR,
             'nonce': nonce
         }
