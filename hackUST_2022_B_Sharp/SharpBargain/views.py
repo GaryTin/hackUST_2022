@@ -759,6 +759,12 @@ def read_name(request):
 def index(request):
     return render(request,'SharpBargain/index.html')
 
+def cusHistory(request):
+    return render(request, 'SharpBargain/cusHistory.html')
+
+def cusComment(request):
+    return render(request, 'SharpBargain/cusComment.html')
+
 def cusDashboard(request,account_address):
 
     user_ac = web3.toChecksumAddress(account_address)
@@ -769,10 +775,10 @@ def cusDashboard(request,account_address):
 
     return render(request, 'SharpBargain/cusDashboard.html')
 
-def retailerDashboard(request):
+def retailerDashboard(request,account_address):
     return render(request, 'SharpBargain/retailerDashboard.html')
 
-def manuDashboard(request):
+def manuDashboard(request,account_address):
     return render(request, 'SharpBargain/manuDashboard.html')
 
 def login_test(request):
@@ -790,3 +796,5 @@ def login_test(request):
 
 def testm(request):
     return render(request,"SharpBargain/testm.html")
+
+

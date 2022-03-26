@@ -1,0 +1,54 @@
+
+.container {
+    margin-left:10%;
+    padding:10px 20px 0px 0px;
+    height:20%;
+    margin-bottom: 0;
+}
+.section {
+    box-shadow: 0 2px 4px 0 grey;
+    padding: 15px 10px 15px 10px;
+    border-radius: 10px;
+    background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
+
+}
+.three_data
+{
+    height :20%;
+    max-height : 20%;
+    overflow:hidden;
+
+}
+.line1{
+    margin: 0px;
+    font-size: 1.2em;
+}
+.line3{
+    text-align: right;
+    margin: 0px;
+    font-size: 1.2em;
+}
+
+.numbering{
+    text-align: center;
+    font-size: 4em;
+    font-weight: 600;
+    margin: 15px;
+
+}
+
+.column {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  margin-right: 10px;
+  height = 100%;
+}
+
+@media screen and (max-width: 700px) {
+    .column {
+        width: 100%;
+        margin-bottom: 15px;
+        display: block;
+    }
+}

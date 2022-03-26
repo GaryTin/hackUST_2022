@@ -6,6 +6,10 @@ html{
     max-width: 100%;
     overflow-x: hidden;
     background-color: #F0F9FF;
+    background-color: #bff8ed;
+    background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
+
+
 }
 
 .main_content{
@@ -70,123 +74,9 @@ a:hover{
     width: 100%;
 }
 
-.container {
-    margin-left:10%;
-    padding:10px 20px 0px 0px;
-    height:20%;
-    margin-bottom: 0;
-}
-.section {
-    box-shadow: 0 2px 4px 0 grey;
-    padding: 15px 10px 15px 10px;
-    border-radius: 10px;
-    background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
-
-}
-.three_data
-{
-    height :20%;
-    max-height : 20%;
-    overflow:hidden;
-
-}
-.line1{
-    margin: 0px;
-    font-size: 1.2em;
-}
-.line3{
-    text-align: right;
-    margin: 0px;
-    font-size: 1.2em;
-}
-
-.numbering{
-    text-align: center;
-    font-size: 4em;
-    font-weight: 600;
-    margin: 15px;
-
-}
-
-.column {
-  float: left;
-  width: 30%;
-  padding: 10px;
-  margin-right: 10px;
-  height = 100%;
-}
-
-@media screen and (max-width: 700px) {
-    .column {
-        width: 100%;
-        margin-bottom: 15px;
-        display: block;
-    }
-}
-
-.history_container {
-    margin-left:10%;
-    padding:10px 20px 0px 0px;
-    height:100%;
-    margin-bottom: 0;
-}
-#history_temp {
-	border-collapse: collapse;
-	margin-left: auto;
-	margin-right: auto;
-
-}
-
-.table_img{
-    max-height: 100%;
-    height: 100%;
-    max-width:100%;
-    object-fit: cover;
-    border-radius: 20px;
-}
-.img_holder{
-    width: 15vw;
-    max-width: 15vw;
-    height: 30vh;
-    max-height: 50vh;
-    padding: 1%;
-
-    background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
-    border-radius: 20px 0px 0px 20px;
-    color: red;
-}
-
-.data_holder{
-    width: 50vw;
-    max-width: 50vw;
-    height: 30vh;
-    max-height: 60vh;
-    line-height: 250%;
-    font-size: 1.3em;
-    padding-left: 15px;
-    position: relative;
-
-    background-color: #82C5C4;
-    border-radius: 0px 20px 20px 0px;
-
-}
-
-.data_title{
-    font-weight: 600;
-}
-
-#btn_comment{
-    padding: 12px;
-    bottom: 7%;
-    right: 3%;
-    position: absolute;
-    font-family: 'Montserrat';
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-#btn_comment:hover{
-    background-color: GREY;
-    color: white;
+.subtitle{
+    font-size: 0.6em;
+    font-weight: bold;
+    color: #5AA2AE;
+    margin-bottom: 20px;
 }

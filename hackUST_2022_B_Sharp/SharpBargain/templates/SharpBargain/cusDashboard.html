@@ -7,7 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CusDash</title>
-   <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/critical_data.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/history.css' %}">
 
 </head>
 
@@ -27,7 +29,6 @@
         <div class="container">
         <div class="title_container">
             <p class="title">Shopping Habits</p>
-
         </div>
         <div class="three_data">
              <div class="column">
@@ -53,16 +54,12 @@
                     <p class="line3">last week.</p>
                 </div>
             </div>
-
         </div>
-
-
-
     </div>
 
     <div class="history_container">
          <div class="title_container">
-            <p class="title">History</p>
+            <p class="title">History <span class="subtitle">(past a week)</span></p>
         </div>
         <table id="history_temp">
             {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
