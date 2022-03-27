@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cusHistory</title>
+    <title>cusComment</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/comment.css' %}">
 </head>
@@ -17,15 +17,30 @@
         <li><a href="#comment" class="selected">Comment</a></li>
         <li><a href="#logout">Logout</a></li>
     </ul>
+
 <div class="main_content">
     <div class="comment_container">
          <div class="title_container">
             <p class="title">Comment System</p>
+        </div>
+
+        <div class="search_container">
+            <span class="field_des">Search by ID:</span>
+            <input type="text" id="pid" name="pid" class="search">
+            <input type="submit" value="Search" class="btn_submit">
+        </div>
+
+
+        <div class="comment_section">
+            <span class="field_des">Comment Section</span>
+            <input type="text" id="comment_content" name="comment_content"><br>
+            <input type="submit" value="Submit" class="btn_submit">
+        </div>
 
         </div>
     </div>
 </div>
-    </div>
+
 
 
 </body>

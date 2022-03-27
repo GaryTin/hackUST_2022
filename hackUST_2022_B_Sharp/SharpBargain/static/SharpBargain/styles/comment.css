@@ -4,3 +4,19 @@
     height:100%;
     margin-bottom: 0;
 }
+
+html .field_des{
+    font-size: 50px;
+
+
+}
+
+.search{
+    border: none;
+}
+
+.btn_submit{
+    padding: 50px 10px;
+
+}
+
