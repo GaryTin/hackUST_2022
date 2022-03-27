@@ -7,6 +7,9 @@
     <title>cusComment</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/comment.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/search.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css' %}">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 </head>
 <body>
     <ul>
@@ -24,25 +27,56 @@
             <p class="title">Comment System</p>
         </div>
 
-        <div class="search_container">
-            <span class="field_des">Search by ID:</span>
+        <div class="search_section">
+            <span class="field_des_search">Search by ID</span>
             <input type="text" id="pid" name="pid" class="search">
-            <input type="submit" value="Search" class="btn_submit">
+            <input type="submit" value="Search" class="btn_search">
+            <br>
         </div>
 
+        <table id="info_table">
+            {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
+        </table>
 
         <div class="comment_section">
-            <span class="field_des">Comment Section</span>
-            <input type="text" id="comment_content" name="comment_content"><br>
-            <input type="submit" value="Submit" class="btn_submit">
+            <form action="">
+                <span class="field_des_comment">Comment Section</span><br>
+
+                 <div class="submit_pos">
+                    <div class="rate">
+                      <form action="">
+                        <input class="star star5" id="star5" type="radio" name="star"/>
+                        <label class="star star5" for="star5"></label>
+                        <input class="star star4" id="star4" type="radio" name="star"/>
+                        <label class="star star4" for="star4"></label>
+                        <input class="star star3" id="star3" type="radio" name="star"/>
+                        <label class="star star3" for="star3"></label>
+                        <input class="star star2" id="star2" type="radio" name="star"/>
+                        <label class="star star2" for="star2"></label>
+                        <input class="star star1" id="star1" type="radio" name="star"/>
+                        <label class="star star1" for="star1"></label>
+                      </form>
+                    </div>
+
+
+                </div>
+                    <div class="comment_pos">
+                    <textarea id="comment_content" name="comment_content" class="comment_content" maxlength="500"></textarea><br>
+                </div>
+
+                <div class="submit_pos">
+                    <input type="submit" value="Submit" class="btn_submit">
+                </div>
+            </form>
         </div>
 
-        </div>
+
+
     </div>
 </div>
 
 
 
-</body>
 
+</body>
 </html>

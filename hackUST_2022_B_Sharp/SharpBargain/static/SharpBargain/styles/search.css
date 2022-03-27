@@ -1,0 +1,38 @@
+.search_section{
+margin-bottom: 4vh;
+}
+
+.field_des_search{
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #5AA2AE;
+}
+
+.search{
+    width: 30vw;
+    margin-left: 15px;
+    margin-right: 15px;
+    font-size: 1.6em;
+    border: 3px solid grey;
+    border-radius: 5px;
+    outline: none;
+}
+
+
+.btn_search{
+    padding: 8px 20px;
+    font-family: 'Montserrat';
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.6em;
+    background-color: #82C5C4;
+    color: white;
+}
+
+.btn_search:hover{
+    background-color: #AAD6D7;
+    color: white;
+}
+
+

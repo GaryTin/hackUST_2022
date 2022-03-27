@@ -5,18 +5,89 @@
     margin-bottom: 0;
 }
 
-html .field_des{
-    font-size: 50px;
-
-
+.field_des_comment{
+    font-size: 2.3em;
+    font-weight: bold;
+    color: #5AA2AE;
 }
 
-.search{
-    border: none;
+.comment_section{
+    margin-top: 4vh;
+}
+.comment_pos{
+	text-align: center;
+}
+
+.submit_pos{
+	text-align: right;
+	margin-right: 7%;
+	float: right;
+}
+.comment_content{
+    resize: none;
+    width: 65vw;
+    height: 25vw;
+    font-size: 1.6em;
+    margin-bottom: 2vh;
+
+    border: 3px solid grey;
+    border-radius: 5px;
+    outline: none;
+
 }
 
 .btn_submit{
-    padding: 50px 10px;
+    padding: 8px 20px;
+    font-family: 'Montserrat';
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.6em;
+    background-color: #82C5C4;
+    color: white;
+}
+
+.btn_submit:hover{
+    background-color: #AAD6D7;
+    color: white;
+}
+
+.rate_txt{
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #5AA2AE;
 
 }
+
+div.rate {
+  width: 34vh;
+  display: inline-block;
+}
+input.star { display: none; }
+label.star {
+  float: right;
+  padding: 7px;
+  font-size: 2em;
+  color: grey;
+  transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+  content: '\f005';
+  color: #FFB302;
+  transition: all .25s;
+}
+
+
+label.star:hover {
+    transform: rotate(-20deg) scale(1.4);
+}
+
+label.star:before {
+  content: '\f006';
+  font-family: FontAwesome;
+}
+
+
+
 
