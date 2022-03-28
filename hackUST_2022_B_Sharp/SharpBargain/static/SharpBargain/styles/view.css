@@ -1,0 +1,29 @@
+.view_container {
+    margin-left:10%;
+    padding:10px 20px 0px 0px;
+    height:100%;
+    margin-bottom: 0;
+}
+
+.read_more_section{
+    text-align: center;
+}
+
+#read_more{
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    padding: 8px 20px;
+    font-family: 'Montserrat';
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.6em;
+    background-color: #82C5C4;
+    color: white;
+}
+
+#read_more:hover{
+    background-color: #AAD6D7;
+    color: white;
+}
+

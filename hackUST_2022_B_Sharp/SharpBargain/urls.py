@@ -11,6 +11,7 @@ urlpatterns = [
     path("index/",views.index,name="index"),
     path("cusHistory/",views.cusHistory,name="cusHistory"),
     path("cusComment/", views.cusComment, name="cusComment"),
+    path("cusView/", views.cusView, name="cusView"),
 
     path("cusDashboard/<str:account_address>",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/<str:account_address>",views.retailerDashboard,name="retailerDashboard"),

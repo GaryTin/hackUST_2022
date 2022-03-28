@@ -27,7 +27,7 @@
 
     background-image: linear-gradient(to right,#5AA2AE, #82C5C4,#82C5C4);
     border-radius: 20px 0px 0px 20px;
-    color: red;
+
 }
 
 .data_holder{
@@ -64,3 +64,4 @@
     background-color: GREY;
     color: white;
 }
+

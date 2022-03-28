@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/critical_data.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css' %}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 
@@ -18,11 +18,11 @@
 <body>
     <ul>
         <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href="#home" class="selected">Home</a></li>
-        <li><a href="#history">History</a></li>
-        <li><a href="#view">View</a></li>
-        <li><a href="#comment">Comment</a></li>
-        <li><a href="#logout">Logout</a></li>
+        <li><a href="" class="selected"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="{% url 'cusHistory' %}"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
+        <li><a href="{% url 'cusView' %}"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+        <li><a href="{% url 'cusComment' %}"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
     </ul>
 
 <div class="main_content">

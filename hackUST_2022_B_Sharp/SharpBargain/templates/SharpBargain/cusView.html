@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CusView</title>
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/search.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/view.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/comment_holder.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/rate_view.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <ul>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href=""><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="{% url 'cusHistory' %}"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
+        <li><a href="{% url 'cusView' %}" class="selected"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+        <li><a href="{% url 'cusComment' %}"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+    </ul>
+
+<div class="main_content">
+    <div class="view_container">
+         <div class="title_container">
+            <p class="title">View</p>
+        </div>
+
+        <div class="search_section">
+            <span class="field_des_search">Search by ID</span>
+            <input type="text" id="pid" name="pid" class="search">
+            <input type="submit" value="Search" class="btn_search">
+            <br>
+        </div>
+        <table id="info_table">
+            {% include 'SharpBargain/includes/view_table.html' with prod_type="test_type" date="00/00/0000" cusComment="This shirt is cool!jy hjghjghjghj ghjghjghjg ghjghjghjgh hjghjghj ghjgh" %}
+        </table>
+
+        <table id="cm_table">
+             {% include 'SharpBargain/includes/comment_table.html' with date="00/00/0000" cusComment="Thanksdfsdfdsssss asdasd 3rgfdg $%^ ssssssssssssss ssssssssssss ssssssssssssssss" %}
+        </table>
+
+        <table id="cm_table">
+             {% include 'SharpBargain/includes/comment_table.html' with date="00/00/0000" cusComment="Wow, this shirt cool wor, let me buy one more." %}
+        </table>
+
+        <div class="read_more_section">
+             <button type="button" id="read_more">Read More <i class="fa fa-angle-double-down"></i></button>
+        </div>
+
+    </div>
+</div>
+</body>
+
+
+</html>

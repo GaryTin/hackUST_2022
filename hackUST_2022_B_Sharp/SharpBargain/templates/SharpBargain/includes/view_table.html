@@ -1,0 +1,33 @@
+{% load static %}
+
+<tr>
+    <td class="img_holder">
+        <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
+    </td>
+    <td class="data_holder">
+                    <span class="data_title">
+                        Product Type:
+                    </span>{{prod_type}}
+        <br>
+                    <span class="data_title">
+                        Purchase Date:
+                    </span>{{date}}
+        <br>
+                    <span class="data_title">
+                        Comment:
+                    </span>{{cusComment}}
+        <br>
+                    <span class="rate">
+                        <input class="star star5" id="star5" type="radio" name="star" disabled>
+                        <label class="star star5" for="star5"></label>
+                        <input class="star star4" id="star4" type="radio" name="star" disabled>
+                        <label class="star star4" for="star4"></label>
+                        <input class="star star3" id="star3" type="radio" name="star" disabled>
+                        <label class="star star3" for="star3"></label>
+                        <input class="star star2" id="star2" type="radio" name="star" disabled>
+                        <label class="star star2" for="star2"></label>
+                        <input class="star star1" id="star1" type="radio" name="star" disabled>
+                        <label class="star star1" for="star1"></label>
+        </span>
+    </td>
+</tr>

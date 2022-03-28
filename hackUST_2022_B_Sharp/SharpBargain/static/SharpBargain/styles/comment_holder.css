@@ -1,0 +1,25 @@
+#cm_table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4vh;
+}
+
+.comment_holder{
+    width: 65vw;
+    max-width: 65vw;
+    height: 10vh;
+    max-height: 60vh;
+    line-height: 250%;
+    font-size: 1.3em;
+    padding-left: 15px;
+    position: relative;
+
+    background-image: linear-gradient(to right,#5AA2AE,#82C5C4,#82C5C4,#82C5C4,#82C5C4,#82C5C4,#82C5C4,#82C5C4,#82C5C4);
+    border-radius: 20px 20px 20px 20px;
+
+}
+
+.comment_title{
+    font-weight: 600;
+}

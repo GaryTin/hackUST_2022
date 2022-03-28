@@ -765,6 +765,9 @@ def cusHistory(request):
 def cusComment(request):
     return render(request, 'SharpBargain/cusComment.html')
 
+def cusView(request):
+    return render(request, 'SharpBargain/cusView.html')
+
 def cusDashboard(request,account_address):
 
     user_ac = web3.toChecksumAddress(account_address)
