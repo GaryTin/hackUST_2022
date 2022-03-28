@@ -182,7 +182,7 @@ contract SharpBargain
         increasement_batch_count();
     }
 
-    function get_remaining(address m_address,string memory prod_type) internal view returns(uint)
+    function get_remaining(address m_address,string memory prod_type) public view returns(uint)
     {
         uint count = 0;
         for (uint i = 0; i < products.length;i++)
@@ -356,7 +356,7 @@ contract SharpBargain
                 string memory comment;
                 uint8 rate;
                 (comment,rate) = get_comment_and_rate(pid_list[i]);
-                if(!compareStrings(comment,""))
+                if(compareStrings(comment,""))
                 {
                     string memory prod_type;
                     string memory prod_retail_price;
@@ -386,7 +386,7 @@ contract SharpBargain
             string memory comment;
             uint8 rate;
             (comment,rate) = get_comment_and_rate(pid_list[i]);
-            if(!compareStrings(comment,""))
+            if(compareStrings(comment,""))
             {
                 string memory prod_type;
                 string memory prod_retail_price;
@@ -449,7 +449,7 @@ contract SharpBargain
                     if(!compareStrings(comment,""))
                     {
                         uint256 purchase_data = get_purchase_date(j);
-                        result = (string)(abi.encodePacked(result,"[",purchase_data,"/",comment,"/",rate,"],"));
+                        result = (string)(abi.encodePacked(result,"[",uint2string(purchase_data),"/",comment,"/", uint2string(rate) ,"],"));
                     }
 
                 }
@@ -460,7 +460,8 @@ contract SharpBargain
 
     }
 
-    function substring(string memory str, uint startIndex, uint endIndex) public pure returns (string memory )
+
+    function substring(string memory str, uint startIndex, uint endIndex) internal pure returns (string memory )
     {
         bytes memory strBytes = bytes(str);
         bytes memory result = new bytes(endIndex-startIndex);
@@ -469,6 +470,121 @@ contract SharpBargain
             result[i-startIndex] = strBytes[i];
         }
         return string(result);
+    }
+
+    function utfStringLength(string memory str) internal pure returns (uint length)
+    {
+        uint i=0;
+        bytes memory string_rep = bytes(str);
+
+        while (i<string_rep.length)
+        {
+            if (string_rep[i]>>7==0)
+                i+=1;
+            else if (string_rep[i]>>5==bytes1(uint8(0x6)))
+                i+=2;
+            else if (string_rep[i]>>4==bytes1(uint8(0xE)))
+                i+=3;
+            else if (string_rep[i]>>3==bytes1(uint8(0x1E)))
+                i+=4;
+            else
+                i+=1;
+
+            length++;
+        }
+    }
+
+    function get_position(string memory str,string memory target ) public pure returns(uint256)
+    {
+        uint length = utfStringLength(str);
+        for (uint i =0; i<length;i++)
+        {
+            if(compareStrings(substring(str,i,i+1),target))
+            {
+                return i;
+            }
+        }
+        revert("Cant find this char in this string.");
+    }
+
+    function test(address r_address) public view returns (uint256)
+    {
+        string memory result;
+        for(uint i =0; i<retailer_purchase_records.length;i++)
+        {
+            if(retailer_purchase_records[i].retailer_address == r_address)
+            {
+                uint256 pid = str2uint(substring(retailer_purchase_records[i].prod_indexs,1,get_position(retailer_purchase_records[i].prod_indexs,"/"))) ;
+                string memory prod_type;
+                string memory prod_retail_price;
+                (prod_type,prod_retail_price) = get_prod_type_price(pid);
+                result = (string)(abi.encodePacked(result,prod_type,","));
+                return pid;
+            }
+        }
+        return 0;
+    }
+
+    function retailer_get_all_prod_type(address r_address) public view returns (string memory)
+    {
+        string memory result;
+        for(uint i =0; i<retailer_purchase_records.length;i++)
+        {
+            if(retailer_purchase_records[i].retailer_address == r_address)
+            {
+                uint256 pid = str2uint(substring(retailer_purchase_records[i].prod_indexs,1,get_position(retailer_purchase_records[i].prod_indexs,"/"))) ;
+                string memory prod_type;
+                string memory prod_retail_price;
+                (prod_type,prod_retail_price) = get_prod_type_price(pid);
+                result = (string)(abi.encodePacked(result,prod_type,","));
+            }
+        }
+        return result;
+
+    }
+
+    function get_index_pair(string memory str) public pure returns(uint,uint,uint)
+    {
+        uint256 slash_pos = get_position(str,"/");
+        uint256 open_bracket_pos = get_position(str,"[");
+        uint256 close_bracket_pos = get_position(str,"]");
+        string memory start_index_str = substring(str,open_bracket_pos+1,slash_pos);
+        string memory end_index_str = substring(str,slash_pos+1,close_bracket_pos);
+        return (str2uint(start_index_str),str2uint(end_index_str),close_bracket_pos+2);
+
+    }
+
+    function retailer_view_comment(address r_address) public view returns (string memory)
+    {
+        string memory result;
+        uint256 start_index;
+        uint256 end_index;
+        uint256 next=0;
+        uint256 str_length =1;
+        for(uint i = 0; i<retailer_purchase_records.length;i++)
+        {
+            if(retailer_purchase_records[i].retailer_address == r_address)
+            {
+
+                do{
+                    str_length = utfStringLength(retailer_purchase_records[i].prod_indexs);
+                    (start_index,end_index,next) = get_index_pair(retailer_purchase_records[i].prod_indexs);
+                    for(uint j = start_index;j<end_index;j++)
+                    {
+                        string memory comment;
+                        uint8 rate;
+                        (comment,rate) = get_comment_and_rate(j);
+                        if (!compareStrings(comment,""))
+                        {
+                            uint256 purchase_data = get_purchase_date(j);
+                            result = (string)(abi.encodePacked(result,"[",uint2string(purchase_data) ,"/",comment,"/",uint2string(rate),"],"));
+                        }
+                    }
+                }while (str_length>=next);
+
+            }
+        }
+        return result;
     }
 
 
