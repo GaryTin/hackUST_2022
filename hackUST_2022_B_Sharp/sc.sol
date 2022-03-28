@@ -400,8 +400,78 @@ contract SharpBargain
 
     }
 
+    function get_manu_address(uint256 pid) internal view returns (address)
+    {
+        for (uint i=0;i<products.length;i++)
+        {
+            if(pid>=products[i].start_index && pid < products[i].end_index )
+            {
+                return  products[i].manu_address;
+            }
+        }
+        revert("Cant find Manufacturer for this Product ID.");
 
+    }
+
+    function get_purchase_date(uint pid) internal view returns (uint256)
+    {
+        for (uint i=0;i<buyer_purchase_records.length;i++)
+        {
+            uint[] memory temp =  buyer_purchase_records[i].prod_ids;
+            for (uint j=0;j<temp.length;j++)
+            {
+                if (pid == temp[j])
+                {
+                    return buyer_purchase_records[i].buyer_purchase_date;
+                }
+            }
+
+        }
+        return 0;
+    }
+
+    function buyer_view_comment(uint256 pid) public view returns (string memory)
+    {
+        string memory result;
+        string memory prod_type;
+        string memory retailer_price;
+        (prod_type,retailer_price) = get_prod_type_price(pid);
+        address m_address = get_manu_address(pid);
+        for(uint i =0; i<products.length;i++)
+        {
+            if (products[i].manu_address == m_address && compareStrings(products[i].prod_type,prod_type))
+            {
+                for (uint j = products[i].start_index;j<products[i].end_index;j++)
+                {
+                    string memory comment;
+                    uint8 rate;
+                    (comment,rate) = get_comment_and_rate(j);
+                    if(!compareStrings(comment,""))
+                    {
+                        uint256 purchase_data = get_purchase_date(j);
+                        result = (string)(abi.encodePacked(result,"[",purchase_data,"/",comment,"/",rate,"],"));
+                    }
+
+                }
+
+            }
+        }
+        return result;
+
+    }
+
+    function substring(string memory str, uint startIndex, uint endIndex) public pure returns (string memory )
+    {
+        bytes memory strBytes = bytes(str);
+        bytes memory result = new bytes(endIndex-startIndex);
+        for(uint i = startIndex; i < endIndex; i++)
+        {
+            result[i-startIndex] = strBytes[i];
+        }
+        return string(result);
+    }
 
 
 }
 
+    
