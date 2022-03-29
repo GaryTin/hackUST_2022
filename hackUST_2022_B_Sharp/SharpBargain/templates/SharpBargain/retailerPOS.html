@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetPOS</title>
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/pos.css' %}">
+</head>
+
+
+
+<body onload="date_time()">
+    <div class="header_container">
+        Retailer ID:
+        <div id="time"></div>
+        <div id="date"></div>
+    </div>
+
+</body>
+
+<script>
+function date_time(){
+    const date = new Date();
+    let hour = date.getHours();
+    let min = date.getMinutes();
+    let sec = date.getSeconds();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    min = check(min);
+    sec = check(sec);
+    document.getElementById('time').innerHTML = hour + ":" + min + ":" + sec;
+    document.getElementById('date').innerHTML = day + "/" + month + "/" + year;
+    setTimeout(date_time, 1000);
+}
+
+function check(n){
+    if (n<10) {
+        n = "0" + n;
+    }
+    return n
+}
+
+
+
+</script>
+
+
+</html>

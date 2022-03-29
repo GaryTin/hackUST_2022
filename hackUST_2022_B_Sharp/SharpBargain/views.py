@@ -539,6 +539,12 @@ def cusDashboard(request,account_address):
 def retailerDashboard(request,account_address):
     return render(request, 'SharpBargain/retailerDashboard.html')
 
+def retailerPOS(request):
+    return render(request, 'SharpBargain/retailerPOS.html')
+
+def retailerView(request):
+    return render(request, 'SharpBargain/retailerView.html')
+
 def manuDashboard(request,account_address):
     return render(request, 'SharpBargain/manuDashboard.html')
 

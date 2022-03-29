@@ -12,11 +12,14 @@ urlpatterns = [
     path("cusHistory/",views.cusHistory,name="cusHistory"),
     path("cusComment/", views.cusComment, name="cusComment"),
     path("cusView/", views.cusView, name="cusView"),
+    path("retailerPOS/", views.retailerPOS, name="retailerPOS"),
+    path("retailerView/", views.retailerView, name="retailerView"),
 
     path("cusDashboard/<str:account_address>",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/<str:account_address>",views.retailerDashboard,name="retailerDashboard"),
     path("manuDashboard/<str:account_address>",views.manuDashboard,name="manuDashboard"),
     path("testm/",views.testm,name="testm")
+
 
 
 
