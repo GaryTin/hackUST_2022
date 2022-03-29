@@ -1,31 +1,32 @@
 {% load static %}
+<table id="info_table">
+    <tr class="record">
+        <td class="img_holder">
+            <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
+        </td>
+        <td class="data_holder">
+                        <span class="data_title">
+                            Product Type:
+                        </span>{{prod_type}}
+            <br>
+            <span class="data_title">
+                            Product ID:
+                        </span>{{prod_id}}
+            <br>
+            <span class="data_title">
+                            Purchase Date:
+                        </span>{{date}}
+            <br>
+            <span class="data_title">
+                            Price:
+                        </span>${{price}}
+            <br>
 
-<tr class="record">
-    <td class="img_holder">
-        <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
-    </td>
-    <td class="data_holder">
-                    <span class="data_title">
-                        Product Type:
-                    </span>{{prod_type}}
-        <br>
-        <span class="data_title">
-                        Product ID:
-                    </span>{{prod_id}}
-        <br>
-        <span class="data_title">
-                        Purchase Date:
-                    </span>{{date}}
-        <br>
-        <span class="data_title">
-                        Price:
-                    </span>${{price}}
-        <br>
-
-        {% if not_comment %}
-            <button id="btn_comment">
-                Comment
-            </button>
-        {% endif %}
-    </td>
-</tr>
+            {% if not_comment %}
+                <button id="btn_comment">
+                    Comment
+                </button>
+            {% endif %}
+        </td>
+    </tr>
+</table>

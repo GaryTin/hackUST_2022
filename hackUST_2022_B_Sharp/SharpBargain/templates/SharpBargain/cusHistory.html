@@ -13,7 +13,7 @@
 <body>
     <ul>
         <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href=""><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="" id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
         <li><a href="{% url 'cusHistory' %}" class="selected"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
         <li><a href="{% url 'cusView' %}"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
         <li><a href="{% url 'cusComment' %}"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
@@ -21,6 +21,7 @@
     </ul>
 
 <div class="main_content">
+
     <div class="item_container">
          <div class="title_container">
             <p class="title">Full History</p>
@@ -34,6 +35,25 @@
 
 
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "cusDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+            }
+    );
+
+
+</script>
 
 
 </html>
