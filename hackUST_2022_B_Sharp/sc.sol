@@ -30,13 +30,13 @@ contract SharpBargain
 
     modifier onlyOwner()
 	{
-		require(msg.sender == owner, "Not owner");
+		require(msg.sender == owner, "Not owner!");
 		_;
 	}
 
     modifier addressMatch(address target)
     {
-        require(msg.sender == target, "Not Match");
+        require(msg.sender == target, "Sender Address not match! You can view or modify this!");
         _;
     }
 
@@ -195,7 +195,7 @@ contract SharpBargain
         return count;
     }
 
-    function retailer_purchase_from_manu(address m_address,address r_address,string memory prod_type,uint256 purchase_date,uint256 quantity) public returns (string memory)
+    function retailer_purchase_from_manu(address m_address,address r_address,string memory prod_type,uint256 purchase_date,uint256 quantity) public addressMatch(m_address) returns (string memory)
     {
 
         uint remaining = get_remaining(m_address,prod_type);
@@ -305,7 +305,7 @@ contract SharpBargain
         }
         return 0;
     }
-    function get_user_history(address b_address) public view returns (string memory)
+    function get_user_history(address b_address) public addressMatch(b_address) view returns (string memory)
     {
        uint[] memory pid_list = get_all_pid(b_address);
        string memory result;
@@ -345,7 +345,7 @@ contract SharpBargain
         buyer_comments.push(Buyer_Comment(pid,comment,rate));
     }
 
-    function get_uncomment_prod_by_id (address b_address,uint256 prod_id) public view returns(string memory)
+    function get_uncomment_prod_by_id (address b_address,uint256 prod_id) public addressMatch(b_address) view returns(string memory)
     {
         uint[] memory pid_list = get_all_pid(b_address);
         string memory result;
@@ -377,7 +377,7 @@ contract SharpBargain
 
     }
 
-    function get_all_uncomment_prod (address b_address) public view returns(string memory)
+    function get_all_uncomment_prod (address b_address) public addressMatch(b_address) view returns(string memory)
     {
         uint[] memory pid_list = get_all_pid(b_address);
         string memory result;
@@ -494,7 +494,7 @@ contract SharpBargain
         }
     }
 
-    function get_position(string memory str,string memory target ) public pure returns(uint256)
+    function get_position(string memory str,string memory target ) internal pure returns(uint256)
     {
         uint length = utfStringLength(str);
         for (uint i =0; i<length;i++)
@@ -507,25 +507,8 @@ contract SharpBargain
         revert("Cant find this char in this string.");
     }
 
-    function test(address r_address) public view returns (uint256)
-    {
-        string memory result;
-        for(uint i =0; i<retailer_purchase_records.length;i++)
-        {
-            if(retailer_purchase_records[i].retailer_address == r_address)
-            {
-                uint256 pid = str2uint(substring(retailer_purchase_records[i].prod_indexs,1,get_position(retailer_purchase_records[i].prod_indexs,"/"))) ;
-                string memory prod_type;
-                string memory prod_retail_price;
-                (prod_type,prod_retail_price) = get_prod_type_price(pid);
-                result = (string)(abi.encodePacked(result,prod_type,","));
-                return pid;
-            }
-        }
-        return 0;
-    }
 
-    function retailer_get_all_prod_type(address r_address) public view returns (string memory)
+    function retailer_get_all_prod_type(address r_address) public addressMatch(r_address) view returns (string memory)
     {
         string memory result;
         for(uint i =0; i<retailer_purchase_records.length;i++)
@@ -543,7 +526,7 @@ contract SharpBargain
 
     }
 
-    function get_index_pair(string memory str) public pure returns(uint,uint,uint)
+    function get_index_pair(string memory str) internal pure returns(uint,uint,uint)
     {
         uint256 slash_pos = get_position(str,"/");
         uint256 open_bracket_pos = get_position(str,"[");
@@ -554,7 +537,7 @@ contract SharpBargain
 
     }
 
-    function retailer_view_comment(address r_address) public view returns (string memory)
+    function retailer_view_comment(address r_address) public addressMatch(r_address) view returns (string memory)
     {
         string memory result;
         uint256 start_index;
@@ -582,6 +565,81 @@ contract SharpBargain
                     }
                 }while (str_length>=next);
 
+            }
+        }
+        return result;
+    }
+
+
+    function is_sold_to_retailer(uint256 pid) internal view returns(bool)
+    {
+        uint256 start_index;
+        uint256 end_index;
+        uint256 next=0;
+        uint256 str_length =1;
+
+        for(uint i = 0;i< retailer_purchase_records.length;i++)
+        {
+            do{
+                str_length = utfStringLength(retailer_purchase_records[i].prod_indexs);
+                (start_index,end_index,next) = get_index_pair(retailer_purchase_records[i].prod_indexs);
+                if(pid>=start_index && pid<end_index)
+                {
+                    return true;
+                }
+            }while (str_length>=next);
+
+        }
+        return false;
+    }
+
+    function is_sold_to_buyer(uint256 pid) internal view returns(bool)
+    {
+        for(uint i = 0; i<buyer_purchase_records.length;i++)
+        {
+            uint[] memory temp =  buyer_purchase_records[i].prod_ids;
+            for (uint j=0;j<temp.length;j++)
+            {
+                if (pid == temp[j])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function manu_get_all_data(address m_address) public addressMatch(m_address) view returns (string memory)
+    {
+        string memory result;
+        for(uint i = 0; i<products.length;i++)
+        {
+            if(products[i].manu_address==m_address)
+            {
+                uint256 start_index = products[i].start_index;
+                uint256 end_index = products[i].end_index;
+                for(uint j = start_index;j<end_index;j++)
+                {
+                    string memory r_status;
+                    if(is_sold_to_retailer(j))
+                    {
+                        if(is_sold_to_buyer(j))
+                        {
+                            r_status = "Sold to Buyer";
+                        }
+                        else
+                        {
+                            r_status = "In retailer stock";
+                        }
+                    }
+                    else
+                    {
+                        r_status = "In manufacturer stock";
+                    }
+
+                    result = (string)(abi.encodePacked(result,"[",products[i].prod_type,"/",uint2string(products[i].prod_production_date),"/",r_status,"],"));
+
+                }
             }
         }
         return result;
