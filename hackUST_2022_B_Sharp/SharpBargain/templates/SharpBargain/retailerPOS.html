@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/pos.css' %}">
 </head>
 
-
-
 <body onload="date_time()">
     <div class="header_container">
-        Retailer ID:
-        <div id="time"></div>
-        <div id="date"></div>
-    </div>
+    <img src="{% static 'SharpBargain/media/logo.png' %}" class="logo">
 
+        <div class="date_time_container">
+            <div id="time"></div>
+            <div id="date"></div>
+        </div>
+    </div>
 </body>
 
 <script>
@@ -43,9 +43,6 @@ function check(n){
     }
     return n
 }
-
-
-
 </script>
 
 

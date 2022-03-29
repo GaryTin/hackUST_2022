@@ -8,7 +8,6 @@ html{
     background-color: #bff8ed;
     background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
 
-
 }
 
 body{
@@ -17,7 +16,29 @@ body{
 }
 
 .header_container{
-    width: 100%
+    width: 100%;
     position: fixed;
     background-color: #5aa2ae;
+
+}
+
+.logo{
+    height: 100%;
+    width: 15%;
+    float: left;
+}
+.date_time_container{
+    color: white;
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-left: 90%;
+
+
+}
+
+.retailer_id{
+    color: white;
+    font-weight: 600;
+    font-size: 1.8em;
+    margin-top: 1.5%;
 }
