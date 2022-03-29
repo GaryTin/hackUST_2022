@@ -10,8 +10,13 @@ def main():
     web3 = Web3(Web3.HTTPProvider(infura_url))
 
     abi = json.loads(
-        """
-        [
+       """
+       [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"inputs": [
 			{
@@ -28,14 +33,19 @@ def main():
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
 				"internalType": "address",
 				"name": "m_address",
 				"type": "address"
 			},
 			{
-				"internalType": "string",
-				"name": "prod_type",
-				"type": "string"
+				"internalType": "uint256",
+				"name": "prod_production_date",
+				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -49,23 +59,12 @@ def main():
 			},
 			{
 				"internalType": "uint256",
-				"name": "prod_production_date",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
 				"name": "quantity",
 				"type": "uint256"
 			}
 		],
 		"name": "add_product",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -85,14 +84,14 @@ def main():
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "buyer_address",
-				"type": "address"
+				"internalType": "uint256[]",
+				"name": "prod_id_list",
+				"type": "uint256[]"
 			},
 			{
-				"internalType": "uint256",
-				"name": "prod_id",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
 			},
 			{
 				"internalType": "uint256",
@@ -109,95 +108,133 @@ def main():
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "product_id",
+				"name": "pid",
 				"type": "uint256"
 			}
 		],
 		"name": "buyer_view_comment",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
+				"internalType": "string",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "bool",
-				"name": "pull_all",
-				"type": "bool"
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
 			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_all_uncomment_prod",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
+			}
+		],
+		"name": "get_uncomment_prod_by_id",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "address",
 				"name": "b_address",
@@ -207,79 +244,12 @@ def main():
 		"name": "get_user_history",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
+				"internalType": "string",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -293,79 +263,12 @@ def main():
 		"name": "manu_get_all_data",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
+				"internalType": "string",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -417,12 +320,12 @@ def main():
 		"name": "retailer_get_all_prod_type",
 		"outputs": [
 			{
-				"internalType": "string[]",
+				"internalType": "string",
 				"name": "",
-				"type": "string[]"
+				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -436,11 +339,6 @@ def main():
 				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "pro_date",
-				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -449,240 +347,73 @@ def main():
 			},
 			{
 				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
 				"name": "quantity",
 				"type": "uint256"
 			}
 		],
-		"name": "retailer_purchase_from_manu_demo",
+		"name": "retailer_purchase_from_manu",
 		"outputs": [
 			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "pro_date",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "pid_array",
-				"type": "uint256[]"
-			}
-		],
-		"name": "retailer_purchase_from_manu_final",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			},
-			{
 				"internalType": "string",
-				"name": "p_type",
+				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
 			}
 		],
 		"name": "retailer_view_comment",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
+				"internalType": "string",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
-				"name": "input_comment",
+				"name": "comment",
 				"type": "string"
 			},
 			{
 				"internalType": "uint8",
-				"name": "input_rate",
+				"name": "rate",
 				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "product_id",
-				"type": "uint256"
 			}
 		],
 		"name": "set_comment",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "a",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "b",
-				"type": "string"
-			}
-		],
-		"name": "compareStrings",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "p_type",
-				"type": "string"
-			}
-		],
-		"name": "get_remaining",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "input_address",
-				"type": "address"
-			}
-		],
-		"name": "get_role",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
 	}
 ]
-        """)
+       """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0xfe5E3b5A9490B116aCF1FB0e6f9635e91853Bbe4')
+    address = web3.toChecksumAddress('0x23D774025440f42c8C2d6872c85410A362A497f9')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
@@ -732,7 +463,7 @@ def main():
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
 
-    transaction = contract.functions.add_retailer("0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7").buildTransaction(
+    transaction = contract.functions.add_manufacturer("0x56aA34aFaAfe665AD33C90002dcEFC3b3327a62a").buildTransaction(
         {
             'gasPrice': web3.eth.gasPrice,
             'from': SC_OWNER_ADDR,

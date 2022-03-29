@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/critical_data.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
 </head>
-
 
 
 <body>
@@ -62,7 +62,9 @@
             <p class="title">History <span class="subtitle">(past a week)</span></p>
         </div>
         <table id="info_table">
-            {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
+            {% for history in user_historys %}
+                {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
+            {% endfor %}
         </table>
     </div>
 </div>

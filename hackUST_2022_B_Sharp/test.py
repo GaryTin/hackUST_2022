@@ -8,3 +8,5 @@ print(newlist)
 matrix = [ [4,5,6], [1,2,3], [7,0,9]]
 
 sorted(matrix, key=itemgetter(1))
+str = "012345"
+print(str[3:3])
