@@ -63,7 +63,7 @@
         </div>
         <table id="info_table">
             {% for history in user_historys %}
-                {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
+               {% include 'SharpBargain/includes/history_table.html' with prod_type=history.prod_type prod_id=history.prod_id date=history.purchase_date price=history.price not_comment=True %}
             {% endfor %}
         </table>
     </div>
