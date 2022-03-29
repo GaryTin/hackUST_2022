@@ -8,14 +8,8 @@ async function loadWeb3() {
     async function load() {
         await loadWeb3();
         window.contract = await loadContract();
-        updateStatus('Ready!');
     }
 
-    function updateStatus(status) {
-        const statusEl = document.getElementById('status');
-        statusEl.innerHTML = status;
-        console.log(status);
-    }
     async function loadContract() {
         return await new window.web3.eth.Contract(
         [
@@ -421,8 +415,8 @@ async function loadWeb3() {
     }
 
     async function getCurrentAccount() {
-        const accounts = await window.web3.eth.getAccounts();
-        return accounts[0];
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
     }
 
     load();
