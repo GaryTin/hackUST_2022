@@ -512,12 +512,25 @@ def cusView(request):
 def cusDashboard(request,account_address):
 
     user_ac = web3.toChecksumAddress(account_address)
-    user_history_raw = contract.functions.get_user_history(True,user_ac).call()
-    print(user_history_raw)
+    user_history_raw = contract.functions.get_user_history(user_ac).call({'from':user_ac})
+    print(user_history_raw) #[prod_type/prod_id/purchase_date/price/comment/rate],[.....
     img_urls = None
-    user_history = []
+    user_history = {}
+    user_historys = []
+    next_open_bracket_index= 0
+    while (next_open_bracket_index< len(user_history_raw)):
+        close_bracket_index =user_history_raw.find(']')
+        next_open_bracket_index = close_bracket_index+2
+        one_history = user_history_raw[1:close_bracket_index] #prod_type/prod_id/purchase_date/price/comment/rate
+        history_array = one_history.spilt('/')
+        user_history = {"prod_type":history_array[0],"prod_id":history_array[1],"purchase_date":history_array[2],"price":history_array[3],"comment":history_array[4],"rate":history_array[5]}
+        user_historys.append(user_history)
+        if (next_open_bracket_index< user_history_raw.length()):
+            user_history_raw = user_history_raw[next_open_bracket_index:]
 
-    return render(request, 'SharpBargain/cusDashboard.html')
+    return render(request, 'SharpBargain/cusDashboard.html',{
+        "user_historys":user_historys,
+    })
 
 def retailerDashboard(request,account_address):
     return render(request, 'SharpBargain/retailerDashboard.html')
