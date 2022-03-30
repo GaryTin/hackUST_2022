@@ -1,12 +1,9 @@
-
 html{
     height: 100%;
     box-sizing: border-box;
     font-family: 'Montserrat';
     max-width: 100%;
     overflow-x: hidden;
-    background-color: #F0F9FF;
-    background-color: #bff8ed;
     background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
 
 

@@ -4,9 +4,73 @@ html{
     font-family: 'Montserrat';
     max-width: 100%;
     overflow-x: hidden;
-    background-color: #F0F9FF;
-    background-color: #bff8ed;
     background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
+
+}
+
+body{
+    padding: 0px;
+    margin: 0px;
+}
+
+.total_container {
+    margin: 0;
+    padding: 0;
+    padding-top: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    position: fixed;
+    right: 0;
+
+    width: 35vw;
+    height: 100%;
+    background-color: whitesmoke;
+    list-style-type: none;
+    overflow: auto;
+    border-left: solid #5AA2AE 6px;
+    box-sizing: border-box;
+
+
+}
+
+.total_title{
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #5AA2AE;
+    padding-bottom: 10px;
+    text-align: center;
+    border-bottom: grey 3px solid;
+}
+
+.title{
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #5AA2AE;
+    margin-bottom: 20px;
+}
+
+.title_container{
+    border-bottom: grey 3px solid;
+    margin-bottom: 20px;
+    width: 50%;
+}
+
+
+
+.main {
+    margin-left:4%;
+    padding:4% 20px 0px 0px;
+
+}
+
+html{
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Montserrat';
+    max-width: 100%;
+    overflow-x: hidden;
+    background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
+
 
 }
 
@@ -17,28 +81,40 @@ body{
 
 .header_container{
     width: 100%;
-    position: fixed;
+    position: absolute;
     background-color: #5aa2ae;
-
+    z-index:2;
 }
 
 .logo{
     height: 100%;
-    width: 15%;
+    width: 15vw;
     float: left;
 }
+
 .date_time_container{
-    color: white;
-    font-weight: 600;
+    margin: 1.5% 4.5% 0% 0;
+    text-align: right;
     font-size: 1.2em;
-    margin-left: 90%;
-
-
+    font-weight: 600;
+    color: whitesmoke;
+    letter-spacing: 1.5px;
 }
 
-.retailer_id{
-    color: white;
-    font-weight: 600;
-    font-size: 1.8em;
-    margin-top: 1.5%;
+.back_icon{
+    color: whitesmoke;
+}
+
+.back_icon:hover{
+    color: #AAD6D7;
+}
+
+.back{
+    position: absolute;
+    top: 17%;
+    right: 1%;
+    font-size: 3em;
+    border-radius: 5px;
+    padding: 0 5px;
+
 }
