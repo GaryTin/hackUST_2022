@@ -88,7 +88,8 @@ body{
 
 .logo{
     height: 100%;
-    width: 15vw;
+    width: auto;
+    max-height:12vh;
     float: left;
 }
 
@@ -99,6 +100,7 @@ body{
     font-weight: 600;
     color: whitesmoke;
     letter-spacing: 1.5px;
+    float: right;
 }
 
 .back_icon{
@@ -111,8 +113,8 @@ body{
 
 .back{
     position: absolute;
+    right:1%;
     top: 17%;
-    right: 1%;
     font-size: 3em;
     border-radius: 5px;
     padding: 0 5px;
