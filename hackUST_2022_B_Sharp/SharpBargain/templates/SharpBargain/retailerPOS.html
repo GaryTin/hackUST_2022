@@ -6,34 +6,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetPOS</title>
+    <title>RetDash</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/pos.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/search.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="date_time()">
     <div class="header_container">
-    <img src="{% static 'SharpBargain/media/logo.png' %}" class="logo">
+        <img src="{% static 'SharpBargain/media/logo.png' %}" class="logo">
 
         <div class="date_time_container">
             <div id="time"></div>
             <div id="date"></div>
         </div>
+
+        <div class="back">
+            <a href="#home" class="back_icon">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+        </div>
     </div>
+    <div class="total_container">
+        <p class="total_title">Subtotal</p>
+    </div>
+
+
+    <div class="main">
+
+        <div class="title_container">
+            <p class="title">123</p>
+        </div>
+    </div>
+
+
 </body>
 
 <script>
 function date_time(){
     const date = new Date();
+    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     let hour = date.getHours();
     let min = date.getMinutes();
     let sec = date.getSeconds();
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
+    let weekday = days[date.getDay()];
     min = check(min);
     sec = check(sec);
     document.getElementById('time').innerHTML = hour + ":" + min + ":" + sec;
-    document.getElementById('date').innerHTML = day + "/" + month + "/" + year;
+    document.getElementById('date').innerHTML = day + "/" + month + "/" + year + "("+ weekday +")";
     setTimeout(date_time, 1000);
 }
 
@@ -44,6 +67,5 @@ function check(n){
     return n
 }
 </script>
-
 
 </html>
