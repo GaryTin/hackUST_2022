@@ -40,6 +40,47 @@ body{
     padding-bottom: 10px;
     text-align: center;
     border-bottom: grey 3px solid;
+    margin-bottom: 2vh;
+}
+
+.total_amount{
+    font-size: 5em;
+    text-align: center;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 4vh;
+    color: #5aa2ae;
+}
+
+.payment_container{
+    background-color: #5AA2AE;
+    border-radius: 20px;
+    padding: 5px 10px;
+    text-align: center;
+    height: 50vh;
+    max-height: 50vh;
+}
+
+.pay_change_title{
+    font-size: 2.5em;
+    font-weight: 600;
+    color:whitesmoke;
+}
+
+.btn_pay{
+    width: 25%;
+    font-size: 4em;
+    border: none;
+    background-color: whitesmoke;
+    cursor: pointer;
+    border-radius: 20px;
+    margin: 20px 5px;
+    color: #373F51;
+}
+
+.btn_pay:hover{
+    background-color: grey;
+    color: whitesmoke;
 }
 
 .title{
@@ -70,7 +111,6 @@ html{
     max-width: 100%;
     overflow-x: hidden;
     background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
-
 
 }
 
