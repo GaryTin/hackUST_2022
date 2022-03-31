@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -25,12 +26,31 @@
         <input type="number" name="quantity"  id="quantity" min="1" class="input_field" required><br>
         <input type="submit" value="Submit" class="submit_btn">
     </form>
+    <br><br>
+    
+    <form onsubmit="retailer_purchase_from_manu();return false" action="#">
+        <label for="retailer_address" class="input_label">Retailer Address</label>
+        <input type="text" name="retailer_address" id="retailer_address" class="input_field" required><br>
+        <label for="prod_type_r" class="input_label">prod_type</label>
+        <input type="text" name="prod_type_r" id="prod_type_r" class="input_field" required><br>
+        <label for="quantity_r" class="input_label">quantity</label>
+        <input type="number" name="quantity_r"  id="quantity_r" min="1" class="input_field" required><br>
+        <input type="submit" value="Submit" class="submit_btn">
+    </form>
 
     <br /><br />
     Status: <span id="status">Loading...</span>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
+    var index_list=[];
+    function add_id()
+    {
+        var id = document.getElementById('prod_index').value;
+        index_list.push(id);
+        document.getElementById('prod_index_list').innerHTML=index_list;
+        document.getElementById('prod_index').value="";
+    }
 
     async function loadWeb3() {
         if (window.ethereum) {
@@ -42,7 +62,8 @@
     async function load() {
         await loadWeb3();
         window.contract = await loadContract();
-
+        const account = await getCurrentAccount();
+        var retailer_receipt = null;
         updateStatus('Ready!');
     }
 
@@ -51,7 +72,8 @@
         statusEl.innerHTML = status;
         console.log(status);
     }
-    async function loadContract() {
+    async function loadContract()
+    {
         return await new window.web3.eth.Contract([
 	{
 		"anonymous": false,
@@ -318,6 +340,25 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "get_lastest_retailer_record",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "m_address",
 				"type": "address"
 			},
@@ -476,7 +517,7 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-], '0xAAC07FAa48619b2F0Ce852DD8B22914383Aded1a');
+], '0xAB6A4705D5d077294C418f175A9f4De597298F7e');
     }
 
     async function add_product() {
@@ -498,7 +539,7 @@
 
 
         //console.log("Start!");
-        //const coolNumber = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
+        //const tx = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
         //updateStatus('Updated.');
     }
 
@@ -507,10 +548,50 @@
         const account = await getCurrentAccount();
         const data = await window.contract.methods.manu_get_all_data(account).call({ from: account });
         console.log(data);
+        //download("test.txt",data);
         build_array(data);
         generate_table(build_array(data),"dataTable");
         updateStatus('Get data!');
     }
+
+    async function retailer_purchase_from_manu()
+    {
+        updateStatus(`Try to buy product from manu`);
+        const account = await getCurrentAccount();
+        var retailer_address = document.getElementById("retailer_address").value;
+        var prod_type = document.getElementById("prod_type_r").value;
+        var quantity = document.getElementById("quantity_r").value;
+        console.log("Form data: ");
+        console.log(account);
+        console.log(retailer_address);
+        console.log(prod_type);
+        console.log(quantity);
+
+        //console.log("Start!");
+        //const tx = await window.contract.methods.retailer_purchase_from_manu(account,retailer_address,prod_type,Date.now(),quantity).send({ from: account });
+
+        //const data = await window.contract.methods.get_lastest_retailer_record(web3.utils.toChecksumAddress(retailer_address)).call();
+        //var filename = "retailer_"+retailer_address.toString()+"_receipt.txt";
+        //download(filename,data);
+
+        //updateStatus('Updated.');
+
+    }
+    function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+
+
+
     function build_array(data)
     {
         var result = [];

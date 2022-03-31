@@ -10,8 +10,8 @@ def main():
     web3 = Web3(Web3.HTTPProvider(infura_url))
 
     abi = json.loads(
-      """
-      [
+     """
+     [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -277,6 +277,25 @@ def main():
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "get_lastest_retailer_record",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "m_address",
 				"type": "address"
 			},
@@ -436,10 +455,10 @@ def main():
 		"type": "function"
 	}
 ]
-      """)
+     """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0xAAC07FAa48619b2F0Ce852DD8B22914383Aded1a')
+    address = web3.toChecksumAddress('0xAB6A4705D5d077294C418f175A9f4De597298F7e')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
@@ -489,7 +508,7 @@ def main():
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
 
-    transaction = contract.functions.add_retailer("0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7").buildTransaction(
+    transaction = contract.functions.add_manufacturer("0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6").buildTransaction(
         {
             'gasPrice': web3.eth.gasPrice,
             'from': SC_OWNER_ADDR,

@@ -9,8 +9,8 @@ from django.template import RequestContext, Template
 infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
 web3 = Web3(Web3.HTTPProvider(infura_url))
 abi = json.loads(
-       """
-       [
+      """
+      [
 	{
 		"anonymous": false,
 		"inputs": [
@@ -276,6 +276,25 @@ abi = json.loads(
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "get_lastest_retailer_record",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "m_address",
 				"type": "address"
 			},
@@ -435,9 +454,9 @@ abi = json.loads(
 		"type": "function"
 	}
 ]
-       """)
+      """)
 # smart contract address
-address = web3.toChecksumAddress('0xAAC07FAa48619b2F0Ce852DD8B22914383Aded1a')
+address = web3.toChecksumAddress('0xAB6A4705D5d077294C418f175A9f4De597298F7e')
 contract = web3.eth.contract(address=address, abi=abi)
 
 def home(request):
