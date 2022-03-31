@@ -195,14 +195,18 @@ contract SharpBargain
         return count;
     }
 
-    function retailer_purchase_from_manu(address m_address,address r_address,string memory prod_type,uint256 purchase_date,uint256 quantity) public addressMatch(m_address) returns (string memory)
+    event retailer_receipt (string prod_index);
+
+    function retailer_purchase_from_manu(address m_address,address r_address,string memory prod_type,uint256 purchase_date,uint256 quantity) public addressMatch(m_address)
     {
 
         uint remaining = get_remaining(m_address,prod_type);
         string memory result;
         if(remaining < quantity)
         {
-            return "Out of Supply";
+            result = "Out of Supply";
+            emit retailer_receipt(result);
+            return;
         }
         for (uint i = 0; i < products.length;i++)
         {
@@ -229,7 +233,7 @@ contract SharpBargain
             }
         }
         retailer_purchase_records.push(Retailer_Purchase_Record(r_address,result,purchase_date));
-        return result;
+        emit retailer_receipt(result);
     }
 
     function buyer_purchase_from_retailer(uint[] memory prod_id_list,address b_address,uint256 purchase_date) public
@@ -643,6 +647,32 @@ contract SharpBargain
             }
         }
         return result;
+    }
+
+    function retailer_get_prod_info_by_pid(uint pid) public view returns (string memory)
+    {
+        string memory result;
+        for(uint i = 0; i<products.length;i++)
+        {
+            if(pid>=products[i].start_index && pid<products[i].end_index)
+            {
+                result = (string)(abi.encodePacked(result,"[",pid,"/",products[i].prod_type,"/",products[i].prod_retail_price,"],"));
+            }
+        }
+
+        return result;
+    }
+
+    function get_lastest_retailer_record(address r_address) public view returns(string memory)
+    {
+        for (uint i = retailer_purchase_records.length-1;i>=0;i--)
+        {
+            if(retailer_purchase_records[i].retailer_address == r_address)
+            {
+                return retailer_purchase_records[i].prod_indexs;
+            }
+        }
+        return "No record for this retailer!";
     }
 
 
