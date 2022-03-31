@@ -15,7 +15,17 @@
 
     <br >
     <button onclick="manu_get_all_data();">Get all record</button>
-    <button onclick="add_product();">add 20 Gary shirt</button>
+
+    <form onsubmit="add_product();return false" action="#">
+        <label for="prod_type" class="input_label">prod_type</label>
+        <input type="text" name="prod_type" id="prod_type" class="input_field" required><br>
+        <label for="prod_wholesale_price" class="input_label">prod_wholesale_price</label>
+        <input type="text" name="prod_wholesale_price" id="prod_wholesale_price" class="input_field" required><br>
+        <label for="quantity" class="input_label">quantity</label>
+        <input type="number" name="quantity"  id="quantity" min="1" class="input_field" required><br>
+        <input type="submit" value="Submit" class="submit_btn">
+    </form>
+
     <br /><br />
     Status: <span id="status">Loading...</span>
 
@@ -473,18 +483,50 @@
 
         updateStatus(`Try to add product`);
         const account = await getCurrentAccount();
+
+        var prod_type = document.getElementById("prod_type").value;
+        var prod_wholesale_price = document.getElementById("prod_wholesale_price").value.toString();
+        var prod_retail_price = (parseFloat(prod_wholesale_price) *1.4).toString();
+        var quantity = document.getElementById("quantity").value;
+        console.log("Form data: ");
         console.log(account);
-        const coolNumber = await window.contract.methods.add_product(account,"Red T-shirt","50.0","70.0",Date.now(),10).send({ from: account,gasLimit: 8000000, });
-        updateStatus('Updated.');
+        console.log(prod_type);
+        console.log(prod_wholesale_price);
+        console.log(prod_retail_price);
+        console.log(quantity);
+
+
+
+        //console.log("Start!");
+        //const coolNumber = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
+        //updateStatus('Updated.');
     }
 
      async function manu_get_all_data() {
         updateStatus(`Try to read product`);
         const account = await getCurrentAccount();
         const data = await window.contract.methods.manu_get_all_data(account).call({ from: account });
-        //console.log(data);
-        generate_table(data,"dataTable");
+        console.log(data);
+        build_array(data);
+        generate_table(build_array(data),"dataTable");
         updateStatus('Get data!');
+    }
+    function build_array(data)
+    {
+        var result = [];
+        var split_data = data.split(",");
+        split_data.pop();
+
+        for (var i =0;i<split_data.length;i++)
+        {
+            var temp = split_data[i].substring(1,split_data[i].length-1);
+            temp = temp.split("/");
+            result.push(temp);
+        };
+        //console.log("Done");
+        //console.log(result);
+        return result;
+
     }
 
     function generate_table(data,id) {
@@ -539,6 +581,8 @@
         const accounts = await window.web3.eth.getAccounts();
         return accounts[0];
     }
+
+
 
     load();
     </script>
