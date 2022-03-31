@@ -44,9 +44,17 @@
     async function loadContract() {
         return await new window.web3.eth.Contract([
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "prod_index",
+				"type": "string"
+			}
+		],
+		"name": "retailer_receipt",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -64,14 +72,19 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
 				"internalType": "address",
 				"name": "m_address",
 				"type": "address"
 			},
 			{
-				"internalType": "string",
-				"name": "prod_type",
-				"type": "string"
+				"internalType": "uint256",
+				"name": "prod_production_date",
+				"type": "uint256"
 			},
 			{
 				"internalType": "string",
@@ -85,23 +98,12 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "prod_production_date",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
 				"name": "quantity",
 				"type": "uint256"
 			}
 		],
 		"name": "add_product",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -121,14 +123,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "buyer_address",
-				"type": "address"
+				"internalType": "uint256[]",
+				"name": "prod_id_list",
+				"type": "uint256[]"
 			},
 			{
-				"internalType": "uint256",
-				"name": "prod_id",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
 			},
 			{
 				"internalType": "uint256",
@@ -138,336 +140,6 @@
 		],
 		"name": "buyer_purchase_from_retailer",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "product_id",
-				"type": "uint256"
-			}
-		],
-		"name": "buyer_view_comment",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "a",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "b",
-				"type": "string"
-			}
-		],
-		"name": "compareStrings",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "p_type",
-				"type": "string"
-			}
-		],
-		"name": "get_remaining",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "input_address",
-				"type": "address"
-			}
-		],
-		"name": "get_role",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "pull_all",
-				"type": "bool"
-			},
-			{
-				"internalType": "address",
-				"name": "b_address",
-				"type": "address"
-			}
-		],
-		"name": "get_user_history",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			}
-		],
-		"name": "manu_get_all_data",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -513,25 +185,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			}
-		],
-		"name": "retailer_get_all_prod_type",
-		"outputs": [
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "m_address",
 				"type": "address"
 			},
@@ -547,11 +200,81 @@
 			},
 			{
 				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
 				"name": "quantity",
 				"type": "uint256"
 			}
 		],
-		"name": "retailer_purchase_from_manu_demo",
+		"name": "retailer_purchase_from_manu",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rate",
+				"type": "uint8"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -559,7 +282,26 @@
 				"type": "bool"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_all_uncomment_prod",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -570,19 +312,101 @@
 				"type": "address"
 			},
 			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
-				"name": "r_address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256[]",
-				"name": "pid_array",
-				"type": "uint256[]"
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
 			}
 		],
-		"name": "retailer_purchase_from_manu_final",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "get_uncomment_prod_by_id",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_user_history",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "manu_get_all_data",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -591,115 +415,58 @@
 				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
-			},
+			}
+		],
+		"name": "retailer_get_all_prod_type",
+		"outputs": [
 			{
 				"internalType": "string",
-				"name": "p_type",
+				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_get_prod_info_by_pid",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
 			}
 		],
 		"name": "retailer_view_comment",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "prod_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batch_id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_type",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "manu_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "retailer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "buyer_address",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "prod_production_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "procure_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "purchase_date",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "prod_wholesale_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "purchase_retail_price",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "comment",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "rate",
-						"type": "uint8"
-					}
-				],
-				"internalType": "struct SharpBargain.Chain_Product[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "string",
-				"name": "input_comment",
+				"name": "",
 				"type": "string"
-			},
-			{
-				"internalType": "uint8",
-				"name": "input_rate",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "product_id",
-				"type": "uint256"
 			}
 		],
-		"name": "set_comment",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	}
-], '0xfe5E3b5A9490B116aCF1FB0e6f9635e91853Bbe4');
+], '0xAAC07FAa48619b2F0Ce852DD8B22914383Aded1a');
     }
 
     async function add_product() {

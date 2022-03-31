@@ -9,8 +9,21 @@ from django.template import RequestContext, Template
 infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
 web3 = Web3(Web3.HTTPProvider(infura_url))
 abi = json.loads(
-        """
-        [
+       """
+       [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "prod_index",
+				"type": "string"
+			}
+		],
+		"name": "retailer_receipt",
+		"type": "event"
+	},
 	{
 		"inputs": [
 			{
@@ -165,13 +178,7 @@ abi = json.loads(
 			}
 		],
 		"name": "retailer_purchase_from_manu",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -392,6 +399,25 @@ abi = json.loads(
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_get_prod_info_by_pid",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
@@ -409,9 +435,9 @@ abi = json.loads(
 		"type": "function"
 	}
 ]
-        """)
+       """)
 # smart contract address
-address = web3.toChecksumAddress('0x23D774025440f42c8C2d6872c85410A362A497f9')
+address = web3.toChecksumAddress('0xAAC07FAa48619b2F0Ce852DD8B22914383Aded1a')
 contract = web3.eth.contract(address=address, abi=abi)
 
 def home(request):
