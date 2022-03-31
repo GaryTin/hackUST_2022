@@ -3,6 +3,7 @@ import json
 from web3 import Web3
 from django.middleware.csrf import get_token
 from django.template import RequestContext, Template
+import time
 
 
 # Create your views here.
@@ -562,19 +563,17 @@ def cusDashboard(request,account_address):
     img_urls = None
     user_history = {}
     user_historys = []
-    user_historys.append(
-        {"prod_type": "Test", "prod_id": "123321", "purchase_date": "111", "price": "9999", "not_comment": True})
-    user_historys.append(
-        {"prod_type": "Test2", "prod_id": "14444", "purchase_date": "11122", "price": "888", "not_comment": False})
     next_open_bracket_index= 0
     while (next_open_bracket_index< len(user_history_raw)):
         close_bracket_index =user_history_raw.find(']')
         next_open_bracket_index = close_bracket_index+2
         one_history = user_history_raw[1:close_bracket_index] #prod_type/prod_id/purchase_date/price/comment/rate
-        history_array = one_history.spilt('/')
-        user_history = {"prod_type":history_array[0],"prod_id":history_array[1],"purchase_date":history_array[2],"price":history_array[3],"not_comment":history_array[4]==""}
+        history_array = one_history.split('/')
+        time_temp = str(time.ctime(int(history_array[2])/1000)).split(" ")
+        format_time = time_temp[2]+"/"+time_temp[1]+"/"+time_temp[4]
+        user_history = {"prod_type":history_array[0],"prod_id":history_array[1],"purchase_date":format_time,"price":history_array[3],"not_comment":history_array[4]==""}
         user_historys.append(user_history)
-        if (next_open_bracket_index< user_history_raw.length()):
+        if (next_open_bracket_index< len(user_history_raw)):
             user_history_raw = user_history_raw[next_open_bracket_index:]
 
     return render(request, 'SharpBargain/cusDashboard.html',{
