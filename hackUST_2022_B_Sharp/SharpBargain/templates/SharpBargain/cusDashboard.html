@@ -66,8 +66,28 @@
         {% endfor %}
     </div>
 </div>
-
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script >
+
+    $('.btn_comment').click(async function() {
+        var prod_id = $(this).parent().children(".prod_id").html();
+              get_accounts().then
+              (
+                    function (value)
+                    {
+
+                        console.log(prod_id);
+                        var new_herf =  "{% url 'cusComment' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,value[0].toString()).replace(/999999999999999999999999999999999999999999999/,prod_id.toString());
+                        console.log(new_herf);
+                        window.location.href = new_herf;
+                    }
+                );
+
+
+
+    });
+
     var ac;
     async function get_accounts()
     {
@@ -89,5 +109,5 @@
             }
     );
 </script>
-</body>
+
 </html>

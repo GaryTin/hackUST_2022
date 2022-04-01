@@ -7,11 +7,11 @@
         <td class="data_holder">
                         <span class="data_title">
                             Product Type:
-                        </span>{{prod_type}}
+                        </span> {{prod_type}}
             <br>
             <span class="data_title">
                             Product ID:
-                        </span>{{prod_id}}
+                        </span><span class="prod_id">{{prod_id}}</span>
             <br>
             <span class="data_title">
                             Purchase Date:
@@ -23,7 +23,7 @@
             <br>
 
             {% if not_comment %}
-                <button id="btn_comment">
+                <button id="btn_comment" class="btn_comment">
                     Comment
                 </button>
             {% endif %}
