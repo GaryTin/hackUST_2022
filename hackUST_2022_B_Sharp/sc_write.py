@@ -10,8 +10,13 @@ def main():
     web3 = Web3(Web3.HTTPProvider(infura_url))
 
     abi = json.loads(
-     """
-     [
+    """
+    [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -111,105 +116,6 @@ def main():
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			}
-		],
-		"name": "remove_manufacturer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			}
-		],
-		"name": "remove_retailer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "prod_type",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "purchase_date",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "quantity",
-				"type": "uint256"
-			}
-		],
-		"name": "retailer_purchase_from_manu",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "pid",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "comment",
-				"type": "string"
-			},
-			{
-				"internalType": "uint8",
-				"name": "rate",
-				"type": "uint8"
-			}
-		],
-		"name": "set_comment",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"inputs": [
@@ -401,6 +307,44 @@ def main():
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_manufacturer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_retailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
 			}
@@ -439,8 +383,46 @@ def main():
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_purchase_from_manu",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_prod_type",
+				"type": "string"
 			}
 		],
 		"name": "retailer_view_comment",
@@ -453,62 +435,46 @@ def main():
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rate",
+				"type": "uint8"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ]
-     """)
+    """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0xAB6A4705D5d077294C418f175A9f4De597298F7e')
+    address = web3.toChecksumAddress('0x1f8269977E52c009D41B51d282fD15984B7c450f')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
     web3.eth.defaultAccount = User_address
-
-    #nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
-    #print(nonce)
-    # print(contract.functions.say_hi().call({'from': SC_OWNER_ADDR}))
-
-    #transaction = contract.functions.add_retailer("0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7").buildTransaction(
-    #    {
-    #        'gasPrice': web3.toWei('200', 'gwei'),
-    #        'from': SC_OWNER_ADDR,
-    #        'nonce': nonce
-    #    }
-    #)
-
     private_key = "0x380143b9a67553f5fe93c6c827b30e1cdfaf050ba75e3836878cebcff1c17af6"
-    #signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
-    #print(signed_txn)
 
-    #txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    #print(txn_receipt)
-
-    #web3.eth.waitForTransactionReceipt(txn_receipt)
-    #nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
-    #print(nonce)
-    #print(contract.functions.say_hi().call({'from': SC_OWNER_ADDR}))
-    #transaction = contract.functions.add_retailer("0xB18Ad402c99221FdDa1E732A7719b4D744c86D16").buildTransaction(
-    #   {
-    #      'gasPrice':web3.eth.gasPrice,
-    #       'from': SC_OWNER_ADDR,
-    #       'nonce': nonce
-    #    }
-    #)
-
-
-    #signed_txn = web3.eth.account.signTransaction(transaction, private_key=private_key)
-    #print(signed_txn)
-
-    #txn_receipt = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    #print(txn_receipt)
-
-    #web3.eth.waitForTransactionReceipt(txn_receipt)
-    #print("Done")
 
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
 
-    transaction = contract.functions.buyer_purchase_from_retailer([12,13,26,30],"0x9FBaFA447AbB4DbB2D40219d41009d3DbEEf158f",int(time.time()*1000)).buildTransaction(
+    transaction = contract.functions.buyer_purchase_from_retailer([12,13,26,30],'0x9FBaFA447AbB4DbB2D40219d41009d3DbEEf158f',int(time.time()*1000)).buildTransaction(
         {
             'gasPrice': web3.eth.gasPrice,
             'from': SC_OWNER_ADDR,

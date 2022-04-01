@@ -4,14 +4,21 @@ from web3 import Web3
 from django.middleware.csrf import get_token
 from django.template import RequestContext, Template
 import time
+from .forms import *
+from .models import *
 
 
 # Create your views here.
 infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
 web3 = Web3(Web3.HTTPProvider(infura_url))
 abi = json.loads(
-      """
-      [
+     """
+     [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -111,105 +118,6 @@ abi = json.loads(
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			}
-		],
-		"name": "remove_manufacturer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			}
-		],
-		"name": "remove_retailer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "m_address",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "r_address",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "prod_type",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "purchase_date",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "quantity",
-				"type": "uint256"
-			}
-		],
-		"name": "retailer_purchase_from_manu",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "pid",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "comment",
-				"type": "string"
-			},
-			{
-				"internalType": "uint8",
-				"name": "rate",
-				"type": "uint8"
-			}
-		],
-		"name": "set_comment",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"inputs": [
@@ -401,6 +309,44 @@ abi = json.loads(
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_manufacturer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_retailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
 			}
@@ -439,8 +385,46 @@ abi = json.loads(
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
 				"name": "r_address",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_purchase_from_manu",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_prod_type",
+				"type": "string"
 			}
 		],
 		"name": "retailer_view_comment",
@@ -453,11 +437,34 @@ abi = json.loads(
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rate",
+				"type": "uint8"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ]
-      """)
+     """)
 # smart contract address
-address = web3.toChecksumAddress('0xAB6A4705D5d077294C418f175A9f4De597298F7e')
+address = web3.toChecksumAddress('0x1f8269977E52c009D41B51d282fD15984B7c450f')
 contract = web3.eth.contract(address=address, abi=abi)
 
 def home(request):
@@ -559,25 +566,46 @@ def cusDashboard(request,account_address):
 
     user_ac = web3.toChecksumAddress(account_address)
     user_history_raw = contract.functions.get_user_history(user_ac).call({'from':user_ac})
-    print(user_history_raw) #[prod_type/prod_id/purchase_date/price/comment/rate],[.....
+    #print(user_history_raw) #[prod_type/prod_id/purchase_date/price/comment/rate],[.....
     img_urls = None
     user_history = {}
     user_historys = []
     next_open_bracket_index= 0
-    while (next_open_bracket_index< len(user_history_raw)):
+    count = 0
+    buy_count = 0
+    total_payment = 0
+    uncomment_count = 0
+    while (next_open_bracket_index< len(user_history_raw) and count<10) :
         close_bracket_index =user_history_raw.find(']')
         next_open_bracket_index = close_bracket_index+2
         one_history = user_history_raw[1:close_bracket_index] #prod_type/prod_id/purchase_date/price/comment/rate
         history_array = one_history.split('/')
-        time_temp = str(time.ctime(int(history_array[2])/1000)).split(" ")
-        format_time = time_temp[2]+"/"+time_temp[1]+"/"+time_temp[4]
-        user_history = {"prod_type":history_array[0],"prod_id":history_array[1],"purchase_date":format_time,"price":history_array[3],"not_comment":history_array[4]==""}
-        user_historys.append(user_history)
+        py_date = int(history_array[2])/1000
+        one_week_before = py_date-(3600*24*7)
+        if(py_date>= one_week_before):
+            buy_count = buy_count+1
+            total_payment = total_payment+float(history_array[3])
+            uncomment_count = uncomment_count + (1 if history_array[4]=="" else 0)
+        if (py_date>= one_week_before or count <10):
+
+            time_temp = str(time.ctime(py_date)).split(" ")
+            time_temp[:] = [x for x in time_temp if x != '']
+
+            prod_type =  history_array[0][0:history_array[0].rfind('_')]
+
+            product = DB_Product.objects.get(prod_type=history_array[0])
+            format_time = time_temp[2]+"/"+time_temp[1]+"/"+time_temp[4]
+            user_history = {"prod_type":prod_type,"prod_id":history_array[1],"purchase_date":format_time,"price":history_array[3],"not_comment":history_array[4]=="","img_url":product.prod_img.url}
+            user_historys.append(user_history)
+            count = count+1
         if (next_open_bracket_index< len(user_history_raw)):
             user_history_raw = user_history_raw[next_open_bracket_index:]
 
     return render(request, 'SharpBargain/cusDashboard.html',{
         "user_historys":user_historys,
+        "buy_count":buy_count,
+        "total_payment":total_payment,
+        "uncomment_count":uncomment_count,
     })
 
 def retailerDashboard(request,account_address):
@@ -606,6 +634,20 @@ def login_test(request):
         )
 
 def testm(request):
-    return render(request,"SharpBargain/testm.html")
+    if request.method =="GET":
+        ai_form=add_img_form()
+        return render(request,"SharpBargain/testm.html",
+                      {
+                          "add_img_form":ai_form,
+                      })
+    elif request.method =="POST":
+        ai_form = add_img_form(request.POST,request.FILES)
+        if ai_form.is_valid():  # check valid
+            ai_form.save()  # save to DB
+        ai_form = add_img_form()
+        return render(request, "SharpBargain/testm.html",
+                      {
+                          "add_img_form": ai_form,
+                      })
 
 

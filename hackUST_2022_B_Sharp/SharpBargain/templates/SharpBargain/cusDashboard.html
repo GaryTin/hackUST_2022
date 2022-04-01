@@ -28,30 +28,30 @@
 <div class="main_content">
         <div class="container">
         <div class="title_container">
-            <p class="title">Shopping Habits</p>
+            <p class="title">Shopping Habits <span class="subtitle">(Last week)</span></p>
         </div>
         <div class="three_data">
              <div class="column">
                 <div class="section">
                     <p class="line1">You have bought...</p>
-                    <p class="numbering">6</p>
-                    <p class="line3">last week.</p>
+                    <p class="numbering">{{buy_count}}</p>
+                    <p class="line3">products.</p>
                 </div>
              </div>
 
             <div class="column">
                 <div class="section">
-                    <p class="line1">You have saved...</p>
-                    <p class="numbering">$999</p>
-                    <p class="line3">last week.</p>
+                    <p class="line1">You have spent...</p>
+                    <p class="numbering">${{total_payment}}</p>
+                    <p class="line3">HKD</p>
                 </div>
             </div>
 
             <div class="column">
                 <div class="section">
                     <p class="line1">You have ...</p>
-                    <p class="numbering">6</p>
-                    <p class="line3">last week.</p>
+                    <p class="numbering">{{uncomment_count}}</p>
+                    <p class="line3">uncommented products.</p>
                 </div>
             </div>
         </div>
@@ -59,13 +59,15 @@
 
     <div class="item_container">
          <div class="title_container">
-            <p class="title">History <span class="subtitle">(past a week)</span></p>
+            <p class="title">History <span class="subtitle">(Recent Purchase)</span></p>
         </div>
         {% for history in user_historys %}
-           {% include 'SharpBargain/includes/history_table.html' with prod_type=history.prod_type prod_id=history.prod_id date=history.purchase_date price=history.price not_comment=history.not_comment %}
+           {% include 'SharpBargain/includes/history_table.html' with prod_type=history.prod_type prod_id=history.prod_id date=history.purchase_date price=history.price not_comment=history.not_comment img_url=history.img_url %}
+
         {% endfor %}
     </div>
 </div>
+
 <script>
     var ac;
     async function get_accounts()
