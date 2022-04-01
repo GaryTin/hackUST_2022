@@ -466,6 +466,7 @@ abi = json.loads(
 # smart contract address
 address = web3.toChecksumAddress('0x1f8269977E52c009D41B51d282fD15984B7c450f')
 contract = web3.eth.contract(address=address, abi=abi)
+data_dic = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 
 def home(request):
     return render(request,'SharpBargain/home.html')
@@ -565,7 +566,8 @@ def cusHistory(request,account_address):
     buy_count = 0
     total_payment = 0
     uncomment_count = 0
-    while (next_open_bracket_index < len(user_history_raw) and count < 10):
+    check = True
+    while (check and count < 10):
         close_bracket_index = user_history_raw.find(']')
         next_open_bracket_index = close_bracket_index + 2
         one_history = user_history_raw[1:close_bracket_index]  # prod_type/prod_id/purchase_date/price/comment/rate
@@ -583,14 +585,17 @@ def cusHistory(request,account_address):
             prod_type = history_array[0][0:history_array[0].rfind('_')]
 
             product = DB_Product.objects.get(prod_type=history_array[0])
-            format_time = time_temp[2] + "/" + time_temp[1] + "/" + time_temp[4]
+            format_time = time_temp[2] + "/" + str(data_dic[time_temp[1]]) + "/" + time_temp[4]
+
             user_history = {"prod_type": prod_type, "prod_id": history_array[1], "purchase_date": format_time,
                             "price": history_array[3], "not_comment": history_array[4] == "",
                             "img_url": product.prod_img.url}
             user_historys.append(user_history)
             count = count + 1
+        check = False
         if (next_open_bracket_index < len(user_history_raw)):
             user_history_raw = user_history_raw[next_open_bracket_index:]
+            check = True
     return render(request, 'SharpBargain/cusHistory.html',{
         "user_historys":user_historys,
         "buy_count":buy_count,
@@ -599,13 +604,51 @@ def cusHistory(request,account_address):
     })
 
 def cusComment(request,account_address,product_id):
-    is_show = True
+    status =""
     if(product_id==0):
         is_show = False
+        prod_type = ""
+        purchase_date=""
+        price=""
+        format_time=""
+        img_url=""
+        product_data=[[]]
+    else:
+        is_show = True
+
+        user_ac = web3.toChecksumAddress(account_address)
+        product_data = contract.functions.get_uncomment_prod_by_id(user_ac,product_id).call({'from': user_ac})[1:-2].split('/')
+        print(product_data)
+        if(len(product_data)==1):
+            is_show = False
+            prod_type = ""
+            purchase_date = ""
+            price = ""
+            format_time = ""
+            img_url = ""
+            product_data = [[]]
+            status="Already comment!"
+        else:
+            prod_type = product_data[0][0:product_data[0].rfind('_')]
+            purchase_date = int(product_data[2])
+            price = product_data[3]
+            py_date = int(product_data[2]) / 1000
+            time_temp = str(time.ctime(py_date)).split(" ")
+            time_temp[:] = [x for x in time_temp if x != '']
+            format_time = time_temp[2] + "/" + str(data_dic[time_temp[1]]) + "/" + time_temp[4]
+            #print(product_data)
+            product = DB_Product.objects.get(prod_type=product_data[0])
+            img_url=product.prod_img.url
     return render(request, 'SharpBargain/cusComment.html',
                   {
                       "is_show":  is_show,
                       'prod_id':product_id,
+                      "prod_type":prod_type,
+                      "purchase_date":format_time,
+                      "price":price,
+                      "img_url":img_url,
+                      "prod_type_raw":product_data[0],
+                      "status":status,
                   })
 
 def cusView(request,account_address):
@@ -624,31 +667,34 @@ def cusDashboard(request,account_address):
     buy_count = 0
     total_payment = 0
     uncomment_count = 0
-    while (next_open_bracket_index< len(user_history_raw) and count<10) :
+    check = True
+    while (check and count<10) :
         close_bracket_index =user_history_raw.find(']')
         next_open_bracket_index = close_bracket_index+2
         one_history = user_history_raw[1:close_bracket_index] #prod_type/prod_id/purchase_date/price/comment/rate
         history_array = one_history.split('/')
         py_date = int(history_array[2])/1000
         one_week_before = py_date-(3600*24*7)
+
         if(py_date>= one_week_before):
             buy_count = buy_count+1
             total_payment = total_payment+float(history_array[3])
             uncomment_count = uncomment_count + (1 if history_array[4]=="" else 0)
         if (py_date>= one_week_before or count <10):
-
             time_temp = str(time.ctime(py_date)).split(" ")
             time_temp[:] = [x for x in time_temp if x != '']
 
             prod_type =  history_array[0][0:history_array[0].rfind('_')]
 
             product = DB_Product.objects.get(prod_type=history_array[0])
-            format_time = time_temp[2]+"/"+time_temp[1]+"/"+time_temp[4]
+            format_time = time_temp[2] + "/" + str(data_dic[time_temp[1]]) + "/" + time_temp[4]
             user_history = {"prod_type":prod_type,"prod_id":history_array[1],"purchase_date":format_time,"price":history_array[3],"not_comment":history_array[4]=="","img_url":product.prod_img.url}
             user_historys.append(user_history)
             count = count+1
+        check = False
         if (next_open_bracket_index< len(user_history_raw)):
             user_history_raw = user_history_raw[next_open_bracket_index:]
+            check = True
 
     return render(request, 'SharpBargain/cusDashboard.html',{
         "user_historys":user_historys,

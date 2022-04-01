@@ -7,19 +7,19 @@
         <td class="data_holder">
                         <span class="data_title">
                             Product Type:
-                        </span> {{prod_type}}
+                        </span> <span id="prod_type" class="prod_type">{{prod_type}} </span>
             <br>
             <span class="data_title">
                             Product ID:
-                        </span><span class="prod_id">{{prod_id}}</span>
+                        </span><span id="prod_id" class="prod_id">{{prod_id}}</span>
             <br>
             <span class="data_title">
                             Purchase Date:
-                        </span>{{date}}
+                        </span><span id="purchase_date" class="purchase_date">{{date}}</span>
             <br>
             <span class="data_title">
                             Price:
-                        </span>${{price}}
+                        </span>$ <span id="price" class="price">{{price}}</span>
             <br>
 
             {% if not_comment %}

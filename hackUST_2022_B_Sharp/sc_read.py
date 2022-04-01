@@ -472,8 +472,8 @@ def main():
     #print(nonce)
     #print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
     #print(web3.eth.gasPrice)
-    address = web3.toChecksumAddress('0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7')
-    print(contract.functions.get_role(address).call({'from': address}))
+    address = web3.toChecksumAddress('0xF5EB01007e46c3296087063a155b5F68d9D72157')
+    print(contract.functions.get_user_history(address).call({'from': address}))
 
 if __name__ == "__main__":
     main()

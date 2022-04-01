@@ -27,6 +27,7 @@
 
 <div class="main_content">
     <div class="comment_container">
+        <p id="prod_type_raw">{{prod_type_raw}}</p>
          <div class="title_container">
             <p class="title">Comment System</p>
         </div>
@@ -41,12 +42,12 @@
         </div>
         <div id="whole_comment_part">
 
-             <table id="info_table">
-                {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
-            </table>
+
+            {% include 'SharpBargain/includes/history_table.html' with prod_type=prod_type prod_id=prod_id date=purchase_date not_comment=False %}
+
 
             <div class="comment_section">
-                <form action="" name="form" onsubmit="return valid()">
+                <form action="#" name="form" onsubmit="return false;">
                     <span class="field_des_comment">Comment Section</span><br>
 
                      <div class="submit_pos">
@@ -68,7 +69,7 @@
                     </div>
 
                     <div class="submit_pos">
-                        <input type="submit" value="Submit" class="btn_submit">
+                        <input type="submit" value="Submit" class="btn_submit" id="comment_submit"onclick="set_comment();">
                     </div>
                 </form>
             </div>
@@ -84,6 +85,67 @@
 
 </body>
 <script type="text/javascript">
+
+    async function set_comment()
+    {
+        console.log("Check Start");
+        if(valid())
+        {
+            console.log("ok");
+            var prod_type = document.getElementById('prod_type_raw').textContent;
+            var rate = get_rate();
+            var comment = document.forms["form"]["comment_content"].value;
+            const account = await getCurrentAccount();
+            document.getElementById('comment_submit').disabled = true;
+            document.getElementById('comment_submit').value  = "Processing";
+            var id = {{prod_id}};
+            console.log("Start");
+            console.log(id);
+            console.log(comment);
+            console.log(rate);
+            const tx = await window.contract.methods.set_comment(id,comment,rate).send({ from: account });
+
+            location.reload(true);
+            return false;
+
+        }
+
+
+    }
+
+    function get_rate()
+    {
+        var s1 = document.getElementById('star1').checked
+        var s2 = document.getElementById('star2').checked
+        var s3 = document.getElementById('star3').checked
+        var s4 = document.getElementById('star4').checked
+        var s5 = document.getElementById('star5').checked
+        if(s5)
+        {
+            return 5;
+        }
+        else if(s4)
+        {
+            return 4;
+        }
+        else if(s3)
+        {
+            return 3;
+        }
+        else if(s2)
+        {
+            return 2;
+        }
+        else if(s1)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     async function loadWeb3() {
         if (window.ethereum) {
             window.web3 = new Web3(window.ethereum);
@@ -100,7 +162,15 @@
         }
         else
         {
-            updateStatus('Ready!');
+            if("{{status}}" != "")
+            {
+                updateStatus('Already commented!');
+            }
+            else
+            {
+                updateStatus('Ready!');
+            }
+
         }
 
     }
@@ -569,7 +639,6 @@
         const account = await getCurrentAccount();
         var id = document.getElementById("pid").value;
         const data = await window.contract.methods.get_uncomment_prod_by_id(account,id).call({ from: account });
-        console.log(data);
         if(data == "You did not buy this product!")
         {
             updateStatus('<Error> You did not buy this product!');
@@ -577,14 +646,13 @@
         }
         else if(data == "Already comment!")
         {
-            updateStatus('<Error> Already comment!');
+            updateStatus('<Error> Already commented!');
             document.getElementById("whole_comment_part").style.display="none";
         }
         else
         {
-            document.getElementById("whole_comment_part").style.display="block";
-            updateStatus('Get product data! Please comment below!');
-
+            var new_herf =  "{% url 'cusComment' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,account.toString()).replace(/999999999999999999999999999999999999999999999/,id.toString());
+            window.location.href = new_herf;
         }
 
     }
@@ -601,17 +669,15 @@
 <script>
     function valid(){
         let x = document.forms["form"]["comment_content"].value;
-        var s1 = document.getElementById('star1').checked
-        var s2 = document.getElementById('star2').checked
-        var s3 = document.getElementById('star3').checked
-        var s4 = document.getElementById('star4').checked
-        var s5 = document.getElementById('star5').checked
 
-        if ((s1 == false && s2 == false && s3 == false && s4 == false && s5 == false)||(x == ""))  {
+        if (x == "")  {
             alert("Your comment section/rating cannot be empty.");
             return false;
         }
+        return true;
     }
+
+
 </script>
 <script >
     var ac;
