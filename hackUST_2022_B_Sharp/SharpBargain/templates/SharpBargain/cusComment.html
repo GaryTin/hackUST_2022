@@ -10,16 +10,18 @@
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/search.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/rate.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/status.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
 </head>
 <body>
     <ul>
         <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href="" id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-        <li><a href="{% url 'cusHistory' %}"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
-        <li><a href="{% url 'cusView' %}"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-        <li><a href="{% url 'cusComment' %}" class="selected"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
+        <li><a href=""  id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="" id="History"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
+        <li><a href="" id="View"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+        <li><a href="" class="selected" id="Comment"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
         <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
     </ul>
 
@@ -32,41 +34,47 @@
         <div class="search_section">
             <span class="field_des_search">Search by ID</span>
             <input type="text" id="pid" name="pid" class="search">
-            <input type="submit" value="Search" class="btn_search">
+            <input type="submit" value="Search" class="btn_search" onclick="get_uncomment_prod_by_id();">
             <br>
+            <p class="status">Status: <span id="status">Loading...</span></p>
+
         </div>
+        <div id="whole_comment_part">
 
-        <table id="info_table">
-            {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
-        </table>
+             <table id="info_table">
+                {% include 'SharpBargain/includes/history_table.html' with prod_type="test_type" prod_id="123456" date="00/00/0000" not_comment=true %}
+            </table>
 
-        <div class="comment_section">
-            <form action="" name="form" onsubmit="return valid()">
-                <span class="field_des_comment">Comment Section</span><br>
+            <div class="comment_section">
+                <form action="" name="form" onsubmit="return valid()">
+                    <span class="field_des_comment">Comment Section</span><br>
 
-                 <div class="submit_pos">
-                    <div class="rate">
-                        <input class="star star5" id="star5" type="radio" name="star">
-                        <label class="star star5" for="star5"></label>
-                        <input class="star star4" id="star4" type="radio" name="star">
-                        <label class="star star4" for="star4"></label>
-                        <input class="star star3" id="star3" type="radio" name="star">
-                        <label class="star star3" for="star3"></label>
-                        <input class="star star2" id="star2" type="radio" name="star">
-                        <label class="star star2" for="star2"></label>
-                        <input class="star star1" id="star1" type="radio" name="star">
-                        <label class="star star1" for="star1"></label>
+                     <div class="submit_pos">
+                        <div class="rate">
+                            <input class="star star5" id="star5" type="radio" name="star">
+                            <label class="star star5" for="star5"></label>
+                            <input class="star star4" id="star4" type="radio" name="star">
+                            <label class="star star4" for="star4"></label>
+                            <input class="star star3" id="star3" type="radio" name="star">
+                            <label class="star star3" for="star3"></label>
+                            <input class="star star2" id="star2" type="radio" name="star">
+                            <label class="star star2" for="star2"></label>
+                            <input class="star star1" id="star1" type="radio" name="star">
+                            <label class="star star1" for="star1"></label>
+                        </div>
                     </div>
-                </div>
-                <div class="comment_pos">
-                    <textarea id="comment_content" name="comment_content" class="comment_content" maxlength="500"></textarea><br>
-                </div>
+                    <div class="comment_pos">
+                        <textarea id="comment_content" name="comment_content" class="comment_content" maxlength="500"></textarea><br>
+                    </div>
 
-                <div class="submit_pos">
-                    <input type="submit" value="Submit" class="btn_submit">
-                </div>
-            </form>
+                    <div class="submit_pos">
+                        <input type="submit" value="Submit" class="btn_submit">
+                    </div>
+                </form>
+            </div>
+
         </div>
+
 
 
 
@@ -75,7 +83,521 @@
 
 
 </body>
+<script type="text/javascript">
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }
+    async function load() {
+        await loadWeb3();
+        window.contract = await loadContract();
+        const account = await getCurrentAccount();
+        if("{{is_show}}" == "True")
+        {
+            updateStatus('Get product data! Please comment below!');
+        }
+        else
+        {
+            updateStatus('Ready!');
+        }
 
+    }
+
+    function updateStatus(status) {
+        const statusEl = document.getElementById('status');
+        statusEl.innerHTML = status;
+        console.log(status);
+    }
+    async function loadContract()
+    {
+        return await new window.web3.eth.Contract([
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "prod_index",
+				"type": "string"
+			}
+		],
+		"name": "retailer_receipt",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_manufacturer",
+				"type": "address"
+			}
+		],
+		"name": "add_manufacturer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_production_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_wholesale_price",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_retail_price",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "add_product",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_retailers",
+				"type": "address"
+			}
+		],
+		"name": "add_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "prod_id_list",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_purchase_from_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_all_uncomment_prod",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "get_lastest_retailer_record",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
+			}
+		],
+		"name": "get_uncomment_prod_by_id",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_user_history",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "manu_get_all_data",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_manufacturer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_retailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "retailer_get_all_prod_type",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_get_prod_info_by_pid",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_purchase_from_manu",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_prod_type",
+				"type": "string"
+			}
+		],
+		"name": "retailer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rate",
+				"type": "uint8"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+], '0x1f8269977E52c009D41B51d282fD15984B7c450f');
+    }
+
+
+     async function get_uncomment_prod_by_id() {
+        updateStatus(`Try to read product`);
+        const account = await getCurrentAccount();
+        var id = document.getElementById("pid").value;
+        const data = await window.contract.methods.get_uncomment_prod_by_id(account,id).call({ from: account });
+        console.log(data);
+        if(data == "You did not buy this product!")
+        {
+            updateStatus('<Error> You did not buy this product!');
+            document.getElementById("whole_comment_part").style.display="none";
+        }
+        else if(data == "Already comment!")
+        {
+            updateStatus('<Error> Already comment!');
+            document.getElementById("whole_comment_part").style.display="none";
+        }
+        else
+        {
+            document.getElementById("whole_comment_part").style.display="block";
+            updateStatus('Get product data! Please comment below!');
+
+        }
+
+    }
+
+    async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+    }
+
+
+
+    load();
+ </script>
 <script>
     function valid(){
         let x = document.forms["form"]["comment_content"].value;
@@ -91,7 +613,7 @@
         }
     }
 </script>
-<script>
+<script >
     var ac;
     async function get_accounts()
     {
@@ -103,9 +625,22 @@
             {
                 var new_href = "{% url "cusDashboard" 1234 %}".replace(/1234/,value[0].toString());
                 document.getElementById("home").href=new_href;
+                new_href = "{% url "cusHistory" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("History").href=new_href;
+                new_href = "{% url "cusView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("View").href=new_href;
+                new_href = "{% url "cusComment" 1234 0 %}".replace(/1234/,value[0].toString());
+                document.getElementById("Comment").href=new_href;
             }
     );
 
-
+    if("{{is_show}}"=="False")
+    {
+        console.log("F");
+        document.getElementById("whole_comment_part").style.display="none";
+    }
+    else
+    {
+        document.getElementById("whole_comment_part").style.display="block";
+    }
 </script>
-</html>

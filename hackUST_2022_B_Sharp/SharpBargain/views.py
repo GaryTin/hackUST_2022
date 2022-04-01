@@ -553,13 +553,62 @@ def read_name(request):
 def index(request):
     return render(request,'SharpBargain/index.html')
 
-def cusHistory(request):
-    return render(request, 'SharpBargain/cusHistory.html')
+def cusHistory(request,account_address):
+    user_ac = web3.toChecksumAddress(account_address)
+    user_history_raw = contract.functions.get_user_history(user_ac).call({'from': user_ac})
+    # print(user_history_raw) #[prod_type/prod_id/purchase_date/price/comment/rate],[.....
+    img_urls = None
+    user_history = {}
+    user_historys = []
+    next_open_bracket_index = 0
+    count = 0
+    buy_count = 0
+    total_payment = 0
+    uncomment_count = 0
+    while (next_open_bracket_index < len(user_history_raw) and count < 10):
+        close_bracket_index = user_history_raw.find(']')
+        next_open_bracket_index = close_bracket_index + 2
+        one_history = user_history_raw[1:close_bracket_index]  # prod_type/prod_id/purchase_date/price/comment/rate
+        history_array = one_history.split('/')
+        py_date = int(history_array[2]) / 1000
+        one_week_before = py_date - (3600 * 24 * 7)
+        if (py_date >= one_week_before):
+            buy_count = buy_count + 1
+            total_payment = total_payment + float(history_array[3])
+            uncomment_count = uncomment_count + (1 if history_array[4] == "" else 0)
+        if (py_date >= one_week_before or count < 10):
+            time_temp = str(time.ctime(py_date)).split(" ")
+            time_temp[:] = [x for x in time_temp if x != '']
 
-def cusComment(request):
-    return render(request, 'SharpBargain/cusComment.html')
+            prod_type = history_array[0][0:history_array[0].rfind('_')]
 
-def cusView(request):
+            product = DB_Product.objects.get(prod_type=history_array[0])
+            format_time = time_temp[2] + "/" + time_temp[1] + "/" + time_temp[4]
+            user_history = {"prod_type": prod_type, "prod_id": history_array[1], "purchase_date": format_time,
+                            "price": history_array[3], "not_comment": history_array[4] == "",
+                            "img_url": product.prod_img.url}
+            user_historys.append(user_history)
+            count = count + 1
+        if (next_open_bracket_index < len(user_history_raw)):
+            user_history_raw = user_history_raw[next_open_bracket_index:]
+    return render(request, 'SharpBargain/cusHistory.html',{
+        "user_historys":user_historys,
+        "buy_count":buy_count,
+        "total_payment":total_payment,
+        "uncomment_count":uncomment_count,
+    })
+
+def cusComment(request,account_address,product_id):
+    is_show = True
+    if(product_id==0):
+        is_show = False
+    return render(request, 'SharpBargain/cusComment.html',
+                  {
+                      "is_show":  is_show,
+                      'prod_id':product_id,
+                  })
+
+def cusView(request,account_address):
     return render(request, 'SharpBargain/cusView.html')
 
 def cusDashboard(request,account_address):

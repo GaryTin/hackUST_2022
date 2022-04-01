@@ -19,9 +19,9 @@
     <ul>
         <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
         <li><a href="" class="selected" id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-        <li><a href="{% url 'cusHistory' %}"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
-        <li><a href="{% url 'cusView' %}"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-        <li><a href="{% url 'cusComment' %}"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
+        <li><a href="" id="History"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
+        <li><a href="" id="View"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+        <li><a href="" id="Comment"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
         <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
     </ul>
 
@@ -63,12 +63,11 @@
         </div>
         {% for history in user_historys %}
            {% include 'SharpBargain/includes/history_table.html' with prod_type=history.prod_type prod_id=history.prod_id date=history.purchase_date price=history.price not_comment=history.not_comment img_url=history.img_url %}
-
         {% endfor %}
     </div>
 </div>
 
-<script>
+<script >
     var ac;
     async function get_accounts()
     {
@@ -80,10 +79,15 @@
             {
                 var new_href = "{% url "cusDashboard" 1234 %}".replace(/1234/,value[0].toString());
                 document.getElementById("home").href=new_href;
+
+                new_href = "{% url "cusHistory" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("History").href=new_href;
+                new_href = "{% url "cusView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("View").href=new_href;
+                new_href = "{% url "cusComment" 1234 0 %}".replace(/1234/,value[0].toString());
+                document.getElementById("Comment").href=new_href;
             }
     );
-
-
 </script>
 </body>
 </html>
