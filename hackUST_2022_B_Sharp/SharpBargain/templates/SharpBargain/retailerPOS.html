@@ -33,8 +33,9 @@
         <div class="payment_container">
             <div class="pay_change_title">Payment</div>
             <button type="button" class="btn_pay"><i class="fa fa-money" aria-hidden="true"></i></button>
-            <button type="button"  class="btn_pay"><img src="{% static 'SharpBargain/media/octopus_icon.png' %}" width="80vw" height="50vw"></button>
+            <button type="button"  class="btn_pay"><img src="{% static 'SharpBargain/media/octopus_icon.png' %}" class="oct_pay" onmouseover="hover(this);" onmouseout="unhover(this);" ></button>
             <button type="button" class="btn_pay"><i class="fa fa-cc-visa" aria-hidden="true"></i></button>
+
             <br>
             <input type="text" class="payed_cash" id="payed_cash" name="payed_cash">
             <br>
@@ -78,6 +79,14 @@ function check(n){
         n = "0" + n;
     }
     return n
+}
+
+function hover(element) {
+  element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon_white.png' %}");
+}
+
+function unhover(element) {
+  element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon.png' %}");
 }
 </script>
 
