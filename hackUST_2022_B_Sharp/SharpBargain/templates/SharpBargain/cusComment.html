@@ -693,7 +693,7 @@
                 document.getElementById("home").href=new_href;
                 new_href = "{% url "cusHistory" 1234 %}".replace(/1234/,value[0].toString());
                 document.getElementById("History").href=new_href;
-                new_href = "{% url "cusView" 1234 %}".replace(/1234/,value[0].toString());
+                new_href = "{% url "cusView" 1234 0 %}".replace(/1234/,value[0].toString());
                 document.getElementById("View").href=new_href;
                 new_href = "{% url "cusComment" 1234 0 %}".replace(/1234/,value[0].toString());
                 document.getElementById("Comment").href=new_href;

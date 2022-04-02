@@ -11,7 +11,7 @@ urlpatterns = [
     path("index/",views.index,name="index"),
     path("cusHistory/<str:account_address>/",views.cusHistory,name="cusHistory"),
     path("cusComment/<str:account_address>/<int:product_id>/", views.cusComment, name="cusComment"),
-    path("cusView/<str:account_address>/", views.cusView, name="cusView"),
+    path("cusView/<str:account_address>/<int:product_id>/", views.cusView, name="cusView"),
     path("retailerPOS/", views.retailerPOS, name="retailerPOS"),
     path("retailerView/", views.retailerView, name="retailerView"),
 

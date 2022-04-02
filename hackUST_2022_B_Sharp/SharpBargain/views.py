@@ -651,8 +651,66 @@ def cusComment(request,account_address,product_id):
                       "status":status,
                   })
 
-def cusView(request,account_address):
-    return render(request, 'SharpBargain/cusView.html')
+def cusView(request,account_address,product_id):
+    comment_data = []
+    f_comment_data = ""
+    other_comment_data =""
+    if product_id == 0:
+        is_show = False
+    else:
+        is_show = True
+        user_ac = web3.toChecksumAddress(account_address)
+        comment_data_raw = contract.functions.buyer_view_comment(product_id).call({'from': user_ac}).split(",")
+        comment_count = len(comment_data_raw)
+        if ( comment_count == 0 ):
+            is_show = False
+        else:
+            comment_data_raw[:] = [x[1:-1] for x in comment_data_raw]
+            comment_data_raw = comment_data_raw[:-1]
+            comment_data = []
+            count = 0
+            for data in comment_data_raw:
+
+                data = data.split("/")
+                prod_type = data[1][:data[1].rfind("_")]
+
+                py_date = int(data[0]) / 1000
+                time_temp = str(time.ctime(py_date)).split(" ")
+                time_temp[:] = [x for x in time_temp if x != '']
+                format_time = time_temp[2] + "/" + str(data_dic[time_temp[1]]) + "/" + time_temp[4]
+                comment = data[2]
+                rate = int(data[3])
+                star = []
+                for i in range(1,6):
+                    if i == rate:
+                        star.append("checked")
+                    else:
+                        star.append("")
+                product = DB_Product.objects.get(prod_type=data[1])
+                img_url = product.prod_img.url
+
+                temp_d = {"prod_type":prod_type,"date":format_time,"comment":comment,"rate":rate,"s1":star[0],"s2":star[1],"s3":star[2],"s4":star[3],"s5":star[4],"img_url":img_url,"pk":count}
+                count = count + 1
+                comment_data.append(temp_d)
+
+            print(comment_data)
+    if(len(comment_data) == 1):
+        f_comment_data = comment_data[0]
+    elif(len(comment_data) > 1):
+        f_comment_data = comment_data[0]
+        other_comment_data = comment_data[1:]
+    else:
+        is_show = False
+
+
+    return render(request, 'SharpBargain/cusView.html',
+                  {
+                      "is_show":is_show,
+                      "f_comment_data":f_comment_data,
+                      "other_comment_data":other_comment_data,
+
+
+                  })
 
 def cusDashboard(request,account_address):
 

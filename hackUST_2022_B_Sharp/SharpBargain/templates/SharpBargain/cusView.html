@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/rate_view.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
 
 </head>
 
@@ -37,27 +38,27 @@
         <div class="search_section">
             <span class="field_des_search">Search by ID</span>
             <input type="text" id="pid" name="pid" class="search">
-            <input type="submit" value="Search" class="btn_search">
+            <input type="submit" value="Search" class="btn_search" onclick="search_by_id();">
             <br>
         </div>
-        <table id="info_table">
-            {% include 'SharpBargain/includes/view_table.html' with prod_type="test_type" date="00/00/0000" cusComment="This shirt is cool!jy hjghjghjghj ghjghjghjg ghjghjghjgh hjghjghj ghjgh" %}
-        </table>
 
-        <table id="cm_table">
-             {% include 'SharpBargain/includes/comment_table.html' with date="00/00/0000" cusComment="Thanksdfsdfdsssss asdasd 3rgfdg $%^ ssssssssssssss ssssssssssss ssssssssssssssss" %}
-        </table>
+        <div id="comment_display">
 
-        <table id="cm_table">
-             {% include 'SharpBargain/includes/comment_table.html' with date="00/00/0000" cusComment="Wow, this shirt cool wor, let me buy one more." %}
-        </table>
+            {% include 'SharpBargain/includes/view_table.html' with prod_type=f_comment_data.prod_type date=f_comment_data.date cusComment=f_comment_data.comment s1=f_comment_data.s1 s2=f_comment_data.s2 s3=f_comment_data.s3 s4=f_comment_data.s4 s5=f_comment_data.s5 img_url=f_comment_data.img_url%}
 
-        <div class="read_more_section">
-             <button type="button" id="read_more">Read More <i class="fa fa-angle-double-down"></i></button>
+
+            {% for data in other_comment_data %}
+                {% include 'SharpBargain/includes/comment_table.html' with date=data.date cusComment=data.comment s1=data.s1 s2=data.s2 s3=data.s3 s4=data.s4 s5=data.s5 name=data.pk%}
+            {% endfor %}
+
+
         </div>
+
+
 
     </div>
 </div>
+
 <script >
     var ac;
     async function get_accounts()
@@ -72,12 +73,50 @@
                 document.getElementById("home").href=new_href;
                 new_href = "{% url "cusHistory" 1234 %}".replace(/1234/,value[0].toString());
                 document.getElementById("History").href=new_href;
-                new_href = "{% url "cusView" 1234 %}".replace(/1234/,value[0].toString());
+                new_href = "{% url "cusView" 1234 0 %}".replace(/1234/,value[0].toString());
                 document.getElementById("View").href=new_href;
                 new_href = "{% url "cusComment" 1234 0 %}".replace(/1234/,value[0].toString());
                 document.getElementById("Comment").href=new_href;
             }
     );
+
+    if ("{{is_show}}" == "False")
+    {
+        console.log("No show");
+        document.getElementById("comment_display").style.display = "none";
+    }
+
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }
+
+
+    async function load() {
+        await loadWeb3();
+        const account = await getCurrentAccount();
+
+    }
+
+    async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+    }
+
+    async function search_by_id()
+    {
+        var search_id = document.getElementById("pid").value;
+        const account = await getCurrentAccount();
+        if (search_id!= "")
+        {
+            var new_herf =  "{% url 'cusView' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,account.toString()).replace(/999999999999999999999999999999999999999999999/,search_id.toString());
+            window.location.href = new_herf;
+        }
+    }
+
+    load();
 </script>
 </body>
 
