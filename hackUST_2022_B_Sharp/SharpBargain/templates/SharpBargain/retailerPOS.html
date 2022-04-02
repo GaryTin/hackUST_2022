@@ -8,14 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RetDash</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/pos.css' %}">
-    <link rel="stylesheet" href="{% static 'SharpBargain/styles/search.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="date_time()">
     <div class="header_container">
         <img src="{% static 'SharpBargain/media/logo.png' %}" class="logo">
-
         <div class="back">
             <a href="#home" class="back_icon">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -32,28 +30,32 @@
         <p class="total_amount" id="total">$200</p>
         <div class="payment_container">
             <div class="pay_change_title">Payment</div>
-            <button type="button" class="btn_pay"><i class="fa fa-money" aria-hidden="true"></i></button>
+            <button type="button" class="btn_pay"><i class="fa fa-money" aria-hidden="true" onclick="enable()"></i></button>
             <button type="button"  class="btn_pay"><img src="{% static 'SharpBargain/media/octopus_icon.png' %}" class="oct_pay" onmouseover="hover(this);" onmouseout="unhover(this);" ></button>
             <button type="button" class="btn_pay"><i class="fa fa-cc-visa" aria-hidden="true"></i></button>
 
             <br>
-            <input type="text" class="payed_cash" id="payed_cash" name="payed_cash">
+            <input type="text" class="cash_input" id="cash_input" disabled>
             <br>
-            <div class="pay_change_title" id="change_cash">Change</div> $300 <br>
-
+            <div class="pay_change_title" id="change_cash">Change</div>
+            <p class="change" id="change">$0</p> <br>
         </div>
 
     </div>
-
 
     <div class="main">
-
-        <div class="title_container">
-            <p class="title">123</p>
+        <div class="input_section">
+            <span class="input_des">Customer Address</span>
+            <input type="text" id="cus_address" class="data_input"><input type="submit" value="Input" class="btn_input">
+            <br>
+            <span class="input_des">Product ID</span>
+            <input type="text" id="pid" class="data_input"><input type="submit" value="Input" class="btn_input">
+        </div>
+        <p class="title">Carts</p>
+        <div class="cart_item">
+            {% include 'SharpBargain/includes/cart_table.html' %}
         </div>
     </div>
-
-
 </body>
 
 <script>
@@ -82,11 +84,15 @@ function check(n){
 }
 
 function hover(element) {
-  element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon_white.png' %}");
+    element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon_white.png' %}");
 }
 
 function unhover(element) {
-  element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon.png' %}");
+    element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon.png' %}");
+}
+
+function enable(){
+    document.getElementById("cash_input").disabled = "";
 }
 </script>
 

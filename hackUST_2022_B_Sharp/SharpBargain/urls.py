@@ -14,6 +14,7 @@ urlpatterns = [
     path("cusView/<str:account_address>/<int:product_id>/", views.cusView, name="cusView"),
     path("retailerPOS/", views.retailerPOS, name="retailerPOS"),
     path("retailerView/", views.retailerView, name="retailerView"),
+    path("retailerViewComment", views.retailerViewComment, name="retailerView"),
 
     path("cusDashboard/<str:account_address>/",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/<str:account_address>/",views.retailerDashboard,name="retailerDashboard"),

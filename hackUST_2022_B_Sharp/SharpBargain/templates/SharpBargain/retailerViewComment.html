@@ -6,9 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetView</title>
+    <title>RetViewCM</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css'%}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/rate_view.css'%}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/comment_holder.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -20,22 +21,23 @@
     <li><a href="{% url 'retailerPOS' %}"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
     <li><a href="{% url 'retailerView' %}" class="selected"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
     <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
-</ul>
+    </ul>
+
     <div class="main_content">
-        <div class="view_container">
+        <div class="view_comment_container">
             <div class="title_container">
-                <p class="title">View Data</p>
+                <p class="title">Comment from {prod_type}</p>
             </div>
-            {% include 'SharpBargain/includes/retailerView_table.html' %}
+            {% include 'SharpBargain/includes/comment_table.html' with date=data.date cusComment=data.comment s1=data.s1 s2=data.s2 s3=data.s3 s4=data.s4 s5=data.s5 name=data.pk%}
         </div>
     </div>
-
+</body>
 <style>
-.view_container {
+.view_comment_container {
     margin-left:10%;
     padding:10px 20px 0px 0px;
     height:100%;
     margin-bottom: 0;
 }
 </style>
-</body>
+</html>

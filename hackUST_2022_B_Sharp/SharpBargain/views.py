@@ -770,6 +770,9 @@ def retailerPOS(request):
 def retailerView(request):
     return render(request, 'SharpBargain/retailerView.html')
 
+def retailerViewComment(request):
+    return render(request, 'SharpBargain/retailerViewComment.html')
+
 def manuDashboard(request,account_address):
     return render(request, 'SharpBargain/manuDashboard.html')
 
