@@ -13,23 +13,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
 </head>
 
 
 <body>
     <ul>
-    <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-    <li><a href="#home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-    <li><a href="{% url 'retailerPOS' %}"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
-    <li><a href="{% url 'retailerView' %}" class="selected"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
-    <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
-</ul>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href=""  id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="" id="pos"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
+        <li><a href="" class="selected" id="view"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+    </ul>
     <div class="main_content">
         <div class="view_container">
             <div class="title_container">
                 <p class="title">View Data</p>
             </div>
-            {% include 'SharpBargain/includes/retailerView_table.html' %}
+            {% for data in prod_type_data %}
+                {% include 'SharpBargain/includes/retailerView_table.html' with prod_type=data.prod_type address=data.address img_url=data.img_url %}
+            {% endfor %}
+
         </div>
     </div>
 
@@ -41,4 +46,42 @@
     margin-bottom: 0;
 }
 </style>
+
+<script>
+    $('.btn_view_comment').click(async function() {
+        var prod_type = $(this).parent().children(".prod_type").html() + "_" +$(this).parent().children(".address").html();
+
+              get_accounts().then
+              (
+                    function (value)
+                    {
+
+                        console.log(prod_type);
+                        var new_herf =  "{% url 'retailerViewComment' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,value[0].toString()).replace(/999999999999999999999999999999999999999999999/,prod_type.toString());
+                        console.log(new_herf);
+                        window.location.href = new_herf;
+                    }
+                );
+
+    });
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "retailerDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "retailerPOS" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("pos").href=new_href;
+                new_href = "{% url "retailerView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
+</script>
 </body>

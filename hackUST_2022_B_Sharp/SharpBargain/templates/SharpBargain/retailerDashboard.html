@@ -10,18 +10,19 @@
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/critical_data.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
 </head>
 
 
 <body>
 
     <ul>
-    <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-    <li><a href="#home" class="selected"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-    <li><a href="{% url 'retailerPOS' %}"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
-    <li><a href="{% url 'retailerView' %}"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
-    <li><a href="#logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
-</ul>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href="" class="selected" id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="" id="pos"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
+        <li><a href="" id="view"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+    </ul>
 
 <div class="main_content">
         <div class="container">
@@ -30,28 +31,49 @@
         </div>
             <div class="column">
                 <div class="section">
-                    <p class="line1">You have sold...</p>
-                    <p class="numbering">6</p>
-                    <p class="line3">last week.</p>
+                    <p class="line1">You have got...</p>
+                    <p class="numbering">{{total_comment_count_last_30_days}}</p>
+                    <p class="line3">comments in last 30 days.</p>
                 </div>
             </div>
 
             <div class="column">
                 <div class="section">
-                    <p class="line1">You have earned...</p>
-                    <p class="numbering">$999</p>
-                    <p class="line3">last week.</p>
+                    <p class="line1">Your products have average...</p>
+                    <p class="numbering">{{total_average_rate}}</p>
+                    <p class="line3">stars.</p>
                 </div>
             </div>
 
             <div class="column">
                 <div class="section">
-                    <p class="line1">You have ...</p>
-                    <p class="numbering">6</p>
-                    <p class="line3">last week.</p>
+                    <p class="line1">Product...</p>
+                    <p class="numbering">{{highest_rate_prod}}</p>
+                    <p class="line3">have highest rate in last 30 days.</p>
                 </div>
             </div>
     </div>
 </div>
 </body>
+<script>
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "retailerDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "retailerPOS" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("pos").href=new_href;
+                new_href = "{% url "retailerView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
+</script>
 </html>

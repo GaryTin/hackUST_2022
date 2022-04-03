@@ -19,19 +19,22 @@
 
 <body>
     <ul>
-    <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-    <li><a href="#home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-    <li><a href="{% url 'retailerPOS' %}"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
-    <li><a href="{% url 'retailerView' %}" class="selected"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
-    <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href=""  id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="" id="pos"><i class="fa fa-calculator" aria-hidden="true"></i> POS System</a></li>
+        <li><a href="" class="selected" id="view"><i class="fa fa-bar-chart" aria-hidden="true"></i> View Data</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
     </ul>
 
     <div class="main_content">
         <div class="view_comment_container">
             <div class="title_container">
-                <p class="title">Comment from {prod_type}</p>
+                <p class="title">Comment for {{prod_type}}</p>
             </div>
-            {% include 'SharpBargain/includes/comment_table.html' with date=data.date cusComment=data.comment s1=data.s1 s2=data.s2 s3=data.s3 s4=data.s4 s5=data.s5 name=data.pk%}
+            {% for data in comment_data %}
+                {% include 'SharpBargain/includes/comment_table.html' with date=data.date cusComment=data.comment s1=data.s1 s2=data.s2 s3=data.s3 s4=data.s4 s5=data.s5 name=data.pk%}
+            {% endfor %}
+
         </div>
     </div>
 </body>
@@ -43,4 +46,25 @@
     margin-bottom: 0;
 }
 </style>
+<script>
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "retailerDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "retailerPOS" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("pos").href=new_href;
+                new_href = "{% url "retailerView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
+</script>
 </html>

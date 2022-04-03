@@ -472,8 +472,13 @@ def main():
     #print(nonce)
     #print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
     #print(web3.eth.gasPrice)
-    address = web3.toChecksumAddress('0xF5EB01007e46c3296087063a155b5F68d9D72157')
-    print(contract.functions.get_user_history(address).call({'from': address}))
+    address = web3.toChecksumAddress('0xB18Ad402c99221FdDa1E732A7719b4D744c86D16')
+    data = contract.functions.retailer_get_all_prod_type(address).call({'from': address}).split(",")[:-1]
+    print(data)
+    comment_data = contract.functions.retailer_view_comment(address,data[0]).call({'from': address})
+    print(comment_data)
+    pos_data = contract.functions.retailer_get_prod_info_by_pid(10).call({'from': address})
+    print(pos_data)
 
 if __name__ == "__main__":
     main()

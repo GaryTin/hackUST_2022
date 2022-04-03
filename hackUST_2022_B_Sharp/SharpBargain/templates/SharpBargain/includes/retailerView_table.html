@@ -3,20 +3,17 @@
 <table id="info_table">
     <tr class="record">
         <td class="img_holder">
-            <img src="{% static 'SharpBargain/media/shirt.jpg' %}" class="table_img">
+            <img src="{{ img_url }}" class="table_img">
         </td>
         <td class="data_holder">
                         <span class="data_title">
                             Product Type:
-                        </span><span id="prod_type" class="prod_type"> Green T-shirt</span>
+                        </span><span id="prod_type" class="prod_type">{{prod_type}}</span>
             <br>
-            <span class="data_title">
-                            Wholesale Price:
-                        </span>$123 <span id="price" class="price"></span>
-            <br>
+
             <span class="data_title">
                             Manufacturer Address:
-                        </span>0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7 <span id="manu_address" class="manu_address"></span>
+                        </span >0x<span class="address">{{address}}</span> <span id="manu_address" class="manu_address"></span>
             <br>
             <button id="btn_view_comment" class="btn_view_comment">
                 View Comments

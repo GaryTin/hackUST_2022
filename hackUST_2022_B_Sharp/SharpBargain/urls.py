@@ -12,9 +12,9 @@ urlpatterns = [
     path("cusHistory/<str:account_address>/",views.cusHistory,name="cusHistory"),
     path("cusComment/<str:account_address>/<int:product_id>/", views.cusComment, name="cusComment"),
     path("cusView/<str:account_address>/<int:product_id>/", views.cusView, name="cusView"),
-    path("retailerPOS/", views.retailerPOS, name="retailerPOS"),
-    path("retailerView/", views.retailerView, name="retailerView"),
-    path("retailerViewComment", views.retailerViewComment, name="retailerView"),
+    path("retailerPOS/<str:account_address>/", views.retailerPOS, name="retailerPOS"),
+    path("retailerView/<str:account_address>/", views.retailerView, name="retailerView"),
+    path("retailerViewComment/<str:account_address>/<str:prod_type>/", views.retailerViewComment, name="retailerViewComment"),
 
     path("cusDashboard/<str:account_address>/",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/<str:account_address>/",views.retailerDashboard,name="retailerDashboard"),

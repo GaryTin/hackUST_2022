@@ -732,7 +732,7 @@ def cusDashboard(request,account_address):
         one_history = user_history_raw[1:close_bracket_index] #prod_type/prod_id/purchase_date/price/comment/rate
         history_array = one_history.split('/')
         py_date = int(history_array[2])/1000
-        one_week_before = py_date-(3600*24*7)
+        one_week_before = time.time()-(3600*24*7)
 
         if(py_date>= one_week_before):
             buy_count = buy_count+1
@@ -762,16 +762,105 @@ def cusDashboard(request,account_address):
     })
 
 def retailerDashboard(request,account_address):
-    return render(request, 'SharpBargain/retailerDashboard.html')
+    user_ac = web3.toChecksumAddress(account_address)
+    retailer_prod_type_array = list(
+        set(contract.functions.retailer_get_all_prod_type(user_ac).call({'from': user_ac}).split(",")[:-1]))
+    total_comment_count_last_30_days = 0
+    total_rate_sum = 0
+    total_count = 0
+    comment_count_all = 0
+    highest_rate_prod = "--"
+    max = -1
+    for retailer_prod_type_raw in retailer_prod_type_array:
+        rate_sum =  0
+        comment_data_array = contract.functions.retailer_view_comment(user_ac, retailer_prod_type_raw).call({'from': user_ac}).split(
+            ",")[:-1]
+        comment_count_all = len(comment_data_array)
 
-def retailerPOS(request):
+        for full_comment_data in comment_data_array:
+            full_comment_data = full_comment_data[1:-1].split("/")
+            rate_sum = rate_sum + int(full_comment_data[2])
+
+            py_date = int(full_comment_data[0]) / 1000
+            one_week_before = time.time() - (3600 * 24 * 30)
+
+            if (py_date >= one_week_before):
+                total_comment_count_last_30_days = total_comment_count_last_30_days +1
+        if comment_count_all == 0:
+            average_rate = 0
+        else:
+            average_rate = rate_sum/comment_count_all
+        #print(average_rate)
+
+        if (average_rate>max):
+            highest_rate_prod = retailer_prod_type_raw[:retailer_prod_type_raw.rfind("_")]
+        #print(total_comment_count_last_30_days)
+        total_rate_sum = total_rate_sum + rate_sum
+        total_count = total_count + comment_count_all
+
+    if comment_count_all == 0:
+        total_average_rate = 0
+    else:
+        total_average_rate = total_rate_sum / total_count
+
+
+    return render(request, 'SharpBargain/retailerDashboard.html',
+                  {
+                      "total_comment_count_last_30_days":total_comment_count_last_30_days,
+                      "total_average_rate":total_average_rate,
+                      "highest_rate_prod":highest_rate_prod,
+                  })
+
+def retailerPOS(request,account_address):
     return render(request, 'SharpBargain/retailerPOS.html')
 
-def retailerView(request):
-    return render(request, 'SharpBargain/retailerView.html')
+def retailerView(request,account_address):
+    user_ac = web3.toChecksumAddress(account_address)
+    retailer_prod_type_array = list(set(contract.functions.retailer_get_all_prod_type(user_ac).call({'from': user_ac}).split(",")[:-1]))
+    print(retailer_prod_type_array)
+    prod_type_data = []
+    for full_prod_type in retailer_prod_type_array :
+        product = DB_Product.objects.get(prod_type=full_prod_type)
+        img_url = product.prod_img.url
+        temp = {"prod_type":full_prod_type[:full_prod_type.rfind("_")],"address":full_prod_type[full_prod_type.rfind("_")+1:],"img_url":img_url}
+        prod_type_data.append(temp)
 
-def retailerViewComment(request):
-    return render(request, 'SharpBargain/retailerViewComment.html')
+
+
+    return render(request, 'SharpBargain/retailerView.html',
+                  {
+                      "prod_type_data":prod_type_data,
+
+                  })
+
+def retailerViewComment(request,account_address,prod_type):
+    user_ac = web3.toChecksumAddress(account_address)
+    comment_data_array = contract.functions.retailer_view_comment(user_ac,prod_type).call({'from': user_ac}).split(",")[:-1]
+    #print(comment_data_array)
+    comment_data = []
+    for full_comment_data in comment_data_array:
+        full_comment_data = full_comment_data[1:-1].split("/")
+        py_date = int(full_comment_data[0]) / 1000
+        time_temp = str(time.ctime(py_date)).split(" ")
+        time_temp[:] = [x for x in time_temp if x != '']
+        format_time = time_temp[2] + "/" + str(data_dic[time_temp[1]]) + "/" + time_temp[4]
+        comment = full_comment_data[1]
+        rate = int(full_comment_data[2])
+        star = []
+        for i in range(1, 6):
+            if i == rate:
+                star.append("checked")
+            else:
+                star.append("")
+        temp = {"date":format_time,"comment":comment,"s1":star[0],"s2":star[1],"s3":star[2],"s4":star[3],"s5":star[4]}
+        comment_data.append(temp)
+
+    return render(request, 'SharpBargain/retailerViewComment.html',
+                  {
+                      "prod_type":prod_type[:prod_type.rfind("_")],
+                      "comment_data":comment_data,
+
+                  })
 
 def manuDashboard(request,account_address):
     return render(request, 'SharpBargain/manuDashboard.html')

@@ -12,13 +12,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
 </head>
 
 <body onload="date_time()">
     <div class="header_container">
         <img src="{% static 'SharpBargain/media/logo.png' %}" class="logo">
         <div class="back">
-            <a href="#home" class="back_icon">
+            <a href="" id="home" class="back_icon">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
         </div>
@@ -30,36 +32,699 @@
 
     <div class="total_container">
         <p class="total_title">Total</p>
-        <p class="total_amount" id="total">$200</p>
+        <p class="total_amount" >$<span id="total">0</span></p>
         <div class="payment_container">
             <div class="pay_change_title">Payment</div>
-            <button type="button" class="btn_pay"><i class="fa fa-money" aria-hidden="true" onclick="enable()"></i></button>
-            <button type="button"  class="btn_pay"><img src="{% static 'SharpBargain/media/octopus_icon.png' %}" class="oct_pay" onmouseover="hover(this);" onmouseout="unhover(this);" ></button>
-            <button type="button" class="btn_pay"><i class="fa fa-cc-visa" aria-hidden="true"></i></button>
+            <button type="button" class="btn_pay" id="btn_cash" onclick="cash()"><i class="fa fa-money" aria-hidden="true" ></i></button>
+            <button type="button"  class="btn_pay" id="btn_oct" onclick="oct()" onmouseover="hover();" onmouseout="unhover();"><img id="oct_icon" src="{% static 'SharpBargain/media/octopus_icon.png' %}" class="oct_pay"  ></button>
+            <button type="button" class="btn_pay" id="btn_credit" onclick="credit()"><i class="fa fa-cc-visa" aria-hidden="true"></i></button>
+            <br>
+            <div id="cash_block">
+                <input type="text" class="cash_input" id="cash_input">
+                <br>
+                <div class="pay_change_title" id="change_cash">Change</div>
+                <p class="change" id="change">$<span id="change_amount">0</span></p> <br>
 
-            <br>
-            <input type="text" class="cash_input" id="cash_input" disabled>
-            <br>
-            <div class="pay_change_title" id="change_cash">Change</div>
-            <p class="change" id="change">$0</p> <br>
+
+            </div>
+            <button type="button" class="btn_confirm" id="btn_confirm" onclick="buy()"> Confirm</button>
+
         </div>
 
     </div>
 
     <div class="main">
         <div class="input_section">
-            <span class="input_des">Customer Address</span>
-            <input type="text" id="cus_address" class="data_input"><input type="submit" value="Input" class="btn_input">
+            <table id="input_table">
+                <tr>
+                    <td id="table_title">
+                        <span class="input_des">Customer Address</span>
+                    </td>
+                    <td colspan="2">
+                        <input type="text" id="cus_address"  class="data_input">
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <span class="input_des">Product ID</span>
+                    </td>
+                    <td>
+                        <input type="number" id="pid" class="data_input" min=1 >
+                    </td>
+                    <td>
+                        <input type="submit" value="Add" class="btn_input" onclick="add_product();">
+                    </td>
+
+                </tr>
+
+            </table>
+
+
             <br>
-            <span class="input_des">Product ID</span>
-            <input type="text" id="pid" class="data_input"><input type="submit" value="Input" class="btn_input">
+
+
         </div>
         <p class="title">Carts</p>
         <div class="cart_item">
-            {% include 'SharpBargain/includes/cart_table.html' %}
+            <table id="cart_table">
+                <tr>
+                    <td class="cart_top">#</td>
+                    <td class="cart_top">Product ID</td>
+                    <td class="cart_top">Product Type</td>
+                    <td class="cart_top">Price</td>
+                    <td class="cart_top">Remove</td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    var count = 0;
+    var id_list = [];
+    async function buy()
+    {
+        console.log(id_list);
+        var b_address = document.getElementById('cus_address').value;
+        var pay_method = get_select_method();
+        if(b_address =="")
+        {
+            alert("Please input user address");
+        }
+        else if (id_list.length == 0)
+        {
+            alert("Please input at least one products");
+        }
+        else if (pay_method=="")
+        {
+            alert("Please select the payment method");
+        }
+        else
+        {
+            document.getElementById('btn_confirm').disabled = true;
+            document.getElementById('btn_confirm').textContent  = "Processing";
+            console.log("start");
+            const account = await getCurrentAccount();
+            //const tx = await window.contract.methods.buyer_purchase_from_retailer(id_list,b_address,Date.now()).send({ from: account });
+            location.reload(true);
+            return false;
+
+        }
+    }
+
+    function get_select_method()
+    {
+        if (document.getElementById('btn_cash').matches(".selected"))
+        {
+            return "Cash";
+        }
+        else if (document.getElementById('btn_oct').matches(".selected"))
+        {
+            return "Oct";
+        }
+        else if (document.getElementById('btn_credit').matches(".selected"))
+        {
+            return "Credit";
+        }
+        return "";
+    }
+
+    async function add_product()
+    {
+        var pid = document.getElementById('pid').value;
+        document.getElementById('pid').value = "";
+        console.log(pid);
+        const account = await getCurrentAccount();
+        const data = await window.contract.methods.retailer_get_prod_info_by_pid(pid).call({ from: account })
+        if(data != "")
+        {
+            id_list.push(parseInt(pid));
+            var data_array = data.toString().substring(data.indexOf("/")+1,data.length -2).split("/");
+            var prod_type = data_array[0].substring(0,data_array[0].lastIndexOf("_"));
+            var price = data_array[1];
+            console.log(prod_type);
+            console.log(price);
+            var table = document.getElementById("cart_table");
+            var row = table.insertRow(1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            cell1.innerHTML = count.toString();
+            count = count +1;
+            cell2.innerHTML = pid;
+            cell2.classList.add("pid");
+            cell3.innerHTML = prod_type;
+            cell4.classList.add("price");
+            cell4.innerHTML = "$"+'<span class="price">'+price+'</span>';
+            cell5.innerHTML = '<div class="remove" onclick="del_row(this)" ><i class="fa fa-times" aria-hidden="true" ></div>';
+            var total =  parseFloat(document.getElementById("total").textContent)+parseFloat(price);
+            document.getElementById("total").textContent = total;
+            var cus_pay = document.getElementById("cash_input").value;
+            if (cus_pay=="")
+            {
+                cus_pay =0;
+            }
+            document.getElementById("change_amount").textContent = parseInt(cus_pay) - total;
+        }
+    }
+
+    document.getElementById("cash_input").addEventListener("input", function (e) {
+        var cus_pay = document.getElementById("cash_input").value;
+        if (cus_pay=="")
+        {
+            cus_pay =0;
+        }
+        document.getElementById("change_amount").textContent = parseInt(cus_pay) - parseFloat(document.getElementById("total").textContent);
+    });
+
+    function del_row(btndel)
+    {
+        var price =  $(btndel).parent().parent().children(".price").children(".price").html();
+        var pid =  $(btndel).parent().parent().children(".pid").html();
+        console.log(pid);
+        if (typeof(btndel) == "object") {
+            $(btndel).closest("tr").remove();
+        } else {
+            return false;
+        }
+        var total = parseFloat(document.getElementById("total").textContent)-parseFloat(price);
+        document.getElementById("total").textContent = total;
+        var cus_pay = document.getElementById("cash_input").value;
+        if (cus_pay=="")
+        {
+            cus_pay =0;
+        }
+        document.getElementById("change_amount").textContent = parseInt(cus_pay) - total;
+        const index = id_list.indexOf(parseInt(pid));
+        if (index > -1) {
+
+          id_list.splice(index, 1);
+        }
+
+    }
+
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }
+    async function load() {
+        await loadWeb3();
+        window.contract = await loadContract();
+        const account = await getCurrentAccount();
+
+    }
+
+    function updateStatus(status) {
+
+        console.log(status);
+    }
+    async function loadContract()
+    {
+        return await new window.web3.eth.Contract([
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "prod_index",
+				"type": "string"
+			}
+		],
+		"name": "retailer_receipt",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_manufacturer",
+				"type": "address"
+			}
+		],
+		"name": "add_manufacturer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_production_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_wholesale_price",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_retail_price",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "add_product",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_retailers",
+				"type": "address"
+			}
+		],
+		"name": "add_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "prod_id_list",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_purchase_from_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_all_uncomment_prod",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "get_lastest_retailer_record",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
+			}
+		],
+		"name": "get_uncomment_prod_by_id",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_user_history",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "manu_get_all_data",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_manufacturer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_retailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "retailer_get_all_prod_type",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_get_prod_info_by_pid",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_purchase_from_manu",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_prod_type",
+				"type": "string"
+			}
+		],
+		"name": "retailer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rate",
+				"type": "uint8"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+], '0x1f8269977E52c009D41B51d282fD15984B7c450f');
+    }
+
+
+
+    async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+    }
+
+
+
+    load();
+ </script>
+
+<script>
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "retailerDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+            }
+    );
+
+</script>
 
 <script>
 function date_time(){
@@ -86,17 +751,37 @@ function check(n){
     return n
 }
 
-function hover(element) {
-    element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon_white.png' %}");
+function hover() {
+    document.getElementById("oct_icon").setAttribute('src', "{% static 'SharpBargain/media/octopus_icon_white.png' %}");
 }
 
-function unhover(element) {
-    element.setAttribute('src', "{% static 'SharpBargain/media/octopus_icon.png' %}");
+function unhover() {
+    document.getElementById("oct_icon").setAttribute('src', "{% static 'SharpBargain/media/octopus_icon.png' %}");
 }
 
-function enable(){
-    document.getElementById("cash_input").disabled = "";
+function cash(){
+    document.getElementById("cash_block").style.display = "block";
+    document.getElementById("btn_credit").classList.remove('selected');
+    document.getElementById("btn_oct").classList.remove('selected');
+    document.getElementById("btn_cash").classList.add('selected');
 }
+
+function oct()
+{
+    document.getElementById("cash_block").style.display = "none";
+    document.getElementById("btn_credit").classList.remove('selected');
+    document.getElementById("btn_oct").classList.add('selected');
+    document.getElementById("btn_cash").classList.remove('selected');
+}
+
+function credit()
+{
+    document.getElementById("cash_block").style.display = "none";
+    document.getElementById("btn_credit").classList.add('selected');
+    document.getElementById("btn_oct").classList.remove('selected');
+    document.getElementById("btn_cash").classList.remove('selected');
+}
+
 </script>
 
 </html>
