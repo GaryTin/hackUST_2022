@@ -865,6 +865,9 @@ def retailerViewComment(request,account_address,prod_type):
 def manuDashboard(request,account_address):
     return render(request, 'SharpBargain/manuDashboard.html')
 
+def manuProdInput(request):
+    return render(request, 'SharpBargain/manuProdInput.html')
+
 def login_test(request):
     if request.method == 'GET':
 

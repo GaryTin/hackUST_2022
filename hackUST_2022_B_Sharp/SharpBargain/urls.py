@@ -15,6 +15,7 @@ urlpatterns = [
     path("retailerPOS/<str:account_address>/", views.retailerPOS, name="retailerPOS"),
     path("retailerView/<str:account_address>/", views.retailerView, name="retailerView"),
     path("retailerViewComment/<str:account_address>/<str:prod_type>/", views.retailerViewComment, name="retailerViewComment"),
+    path("manuProdInput/", views.manuProdInput, name="manuProdInput"),
 
     path("cusDashboard/<str:account_address>/",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/<str:account_address>/",views.retailerDashboard,name="retailerDashboard"),
