@@ -12,8 +12,8 @@ from .models import *
 infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
 web3 = Web3(Web3.HTTPProvider(infura_url))
 abi = json.loads(
-     """
-     [
+    """
+    [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -462,9 +462,9 @@ abi = json.loads(
 		"type": "function"
 	}
 ]
-     """)
+    """)
 # smart contract address
-address = web3.toChecksumAddress('0x1f8269977E52c009D41B51d282fD15984B7c450f')
+address = web3.toChecksumAddress('0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a')
 contract = web3.eth.contract(address=address, abi=abi)
 data_dic = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 
@@ -801,7 +801,8 @@ def retailerDashboard(request,account_address):
     if comment_count_all == 0:
         total_average_rate = 0
     else:
-        total_average_rate = total_rate_sum / total_count
+        total_average_rate = str(total_rate_sum / total_count)
+        total_average_rate = total_average_rate[0:total_average_rate.find(".")+2]
 
 
     return render(request, 'SharpBargain/retailerDashboard.html',

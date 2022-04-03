@@ -9,8 +9,8 @@ def main():
     web3 = Web3(Web3.HTTPProvider(infura_url))
 
     abi = json.loads(
-   """
-   [
+    """
+    [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -459,10 +459,10 @@ def main():
 		"type": "function"
 	}
 ]
-   """)
+    """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0x1f8269977E52c009D41B51d282fD15984B7c450f')
+    address = web3.toChecksumAddress('0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
@@ -472,13 +472,9 @@ def main():
     #print(nonce)
     #print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
     #print(web3.eth.gasPrice)
-    address = web3.toChecksumAddress('0xB18Ad402c99221FdDa1E732A7719b4D744c86D16')
-    data = contract.functions.retailer_get_all_prod_type(address).call({'from': address}).split(",")[:-1]
-    print(data)
-    comment_data = contract.functions.retailer_view_comment(address,data[0]).call({'from': address})
-    print(comment_data)
-    pos_data = contract.functions.retailer_get_prod_info_by_pid(10).call({'from': address})
-    print(pos_data)
+    address = web3.toChecksumAddress('0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7')
+    print(contract.functions.get_role(address).call({'from': SC_OWNER_ADDR}))
+
 
 if __name__ == "__main__":
     main()

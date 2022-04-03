@@ -309,20 +309,37 @@ contract SharpBargain
         }
         return 0;
     }
+    function toAsciiString(address x) internal pure returns (string memory) {
+        bytes memory s = new bytes(40);
+        for (uint i = 0; i < 20; i++) {
+            bytes1 b = bytes1(uint8(uint(uint160(x)) / (2**(8*(19 - i)))));
+            bytes1 hi = bytes1(uint8(b) / 16);
+            bytes1 lo = bytes1(uint8(b) - 16 * uint8(hi));
+            s[2*i] = char(hi);
+            s[2*i+1] = char(lo);
+        }
+        return string(s);
+    }
+
+    function char(bytes1 b) internal pure returns (bytes1 c) {
+        if (uint8(b) < 10) return bytes1(uint8(b) + 0x30);
+        else return bytes1(uint8(b) + 0x57);
+    }
+
     function get_user_history(address b_address) public addressMatch(b_address) view returns (string memory)
     {
        uint[] memory pid_list = get_all_pid(b_address);
        string memory result;
        for(uint i=0; i<pid_list.length;i++)
        {
-           string memory prod_type;
-           string memory prod_retail_price;
-           (prod_type,prod_retail_price) = get_prod_type_price(pid_list[i]);
-           uint256 purchase_date = get_buyer_purchase_date(b_address,pid_list[i]);
-           string memory comment;
-           uint8 rate;
-           (comment,rate) = get_comment_and_rate(pid_list[i]);
-           result = (string)(abi.encodePacked(result,"[",prod_type,"/",uint2string(pid_list[i]),"/",uint2string(purchase_date),"/",prod_retail_price,"/",comment,"/",uint2string(rate),"],"));
+            string memory prod_type;
+            string memory prod_retail_price;
+            (prod_type,prod_retail_price) = get_prod_type_price(pid_list[i]);
+            uint256 purchase_date = get_buyer_purchase_date(b_address,pid_list[i]);
+            string memory comment;
+            uint8 rate;
+            (comment,rate) = get_comment_and_rate(pid_list[i]);
+            result = (string)(abi.encodePacked(result,"[",prod_type,"/",uint2string(pid_list[i]),"/",uint2string(purchase_date),"/",prod_retail_price,"/",comment,"/",uint2string(rate),"],"));
        }
        return result;
     }
@@ -366,8 +383,7 @@ contract SharpBargain
                     string memory prod_retail_price;
                     (prod_type,prod_retail_price) = get_prod_type_price(pid_list[i]);
                     uint256 purchase_date = get_buyer_purchase_date(b_address,pid_list[i]);
-
-                    result = (string)(abi.encodePacked(result,"[",prod_type,"/",uint2string(pid_list[i]),"/",uint2string(purchase_date),"/",prod_retail_price,"/",comment,"/",uint2string(rate),"]"));
+                    result = (string)(abi.encodePacked(result,"[",prod_type,"/",uint2string(pid_list[i]),"/",uint2string(purchase_date),"/",prod_retail_price,"/",comment,"/",uint2string(rate),"],"));
                     return result;
                 }
                 else
@@ -396,7 +412,6 @@ contract SharpBargain
                 string memory prod_retail_price;
                 (prod_type,prod_retail_price) = get_prod_type_price(pid_list[i]);
                 uint256 purchase_date = get_buyer_purchase_date(b_address,pid_list[i]);
-
                 result = (string)(abi.encodePacked(result,"[",prod_type,"/",uint2string(pid_list[i]),"/",uint2string(purchase_date),"/",prod_retail_price,"/",comment,"/",uint2string(rate),"],"));
             }
         }
@@ -453,7 +468,7 @@ contract SharpBargain
                     if(!compareStrings(comment,""))
                     {
                         uint256 purchase_data = get_purchase_date(j);
-                        result = (string)(abi.encodePacked(result,"[",uint2string(purchase_data),"/",comment,"/", uint2string(rate) ,"],"));
+                        result = (string)(abi.encodePacked(result,"[",uint2string(purchase_data),"/",prod_type,"/",comment,"/", uint2string(rate) ,"],"));
                     }
 
                 }
@@ -498,6 +513,8 @@ contract SharpBargain
         }
     }
 
+
+
     function get_position(string memory str,string memory target ) internal pure returns(uint256)
     {
         uint length = utfStringLength(str);
@@ -541,7 +558,7 @@ contract SharpBargain
 
     }
 
-    function retailer_view_comment(address r_address) public addressMatch(r_address) view returns (string memory)
+    function retailer_view_comment(address r_address,string memory _prod_type) public addressMatch(r_address) view returns (string memory)
     {
         string memory result;
         uint256 start_index;
@@ -558,14 +575,21 @@ contract SharpBargain
                     (start_index,end_index,next) = get_index_pair(retailer_purchase_records[i].prod_indexs);
                     for(uint j = start_index;j<end_index;j++)
                     {
-                        string memory comment;
-                        uint8 rate;
-                        (comment,rate) = get_comment_and_rate(j);
-                        if (!compareStrings(comment,""))
+                        string memory prod_type;
+                        string memory prod_retail_price;
+                        (prod_type,prod_retail_price) = get_prod_type_price(j);
+                        if(compareStrings(prod_type,_prod_type))
                         {
-                            uint256 purchase_data = get_purchase_date(j);
-                            result = (string)(abi.encodePacked(result,"[",uint2string(purchase_data) ,"/",comment,"/",uint2string(rate),"],"));
+                            string memory comment;
+                            uint8 rate;
+                            (comment,rate) = get_comment_and_rate(j);
+                            if (!compareStrings(comment,""))
+                            {
+                                uint256 purchase_data = get_purchase_date(j);
+                                result = (string)(abi.encodePacked(result,"[",uint2string(purchase_data) ,"/",comment,"/",uint2string(rate),"],"));
+                            }
                         }
+
                     }
                 }while (str_length>=next);
 
@@ -613,6 +637,29 @@ contract SharpBargain
         return false;
     }
 
+    function get_retailer_data(uint pid) internal view returns (string memory,string memory)
+    {
+        uint256 start_index;
+        uint256 end_index;
+        uint256 next=0;
+        uint256 str_length =1;
+
+        for(uint i = 0;i< retailer_purchase_records.length;i++)
+        {
+            do{
+                str_length = utfStringLength(retailer_purchase_records[i].prod_indexs);
+                (start_index,end_index,next) = get_index_pair(retailer_purchase_records[i].prod_indexs);
+                if(pid>=start_index && pid<end_index)
+                {
+                    return (toAsciiString(retailer_purchase_records[i].retailer_address),uint2string(retailer_purchase_records[i].retailer_purchase_date));
+                }
+            }while (str_length>=next);
+
+        }
+        return ("","");
+
+    }
+
     function manu_get_all_data(address m_address) public addressMatch(m_address) view returns (string memory)
     {
         string memory result;
@@ -641,7 +688,10 @@ contract SharpBargain
                         r_status = "In manufacturer stock";
                     }
 
-                    result = (string)(abi.encodePacked(result,"[",products[i].prod_type,"/",uint2string(products[i].prod_production_date),"/",r_status,"],"));
+                    string memory r_address;
+                    string memory retailer_purchase_date;
+                    (r_address,retailer_purchase_date) = get_retailer_data(j);
+                    result = (string)(abi.encodePacked(result,"[",products[i].prod_type,"/",r_address,"/",retailer_purchase_date,"/",uint2string(products[i].prod_production_date),"/",r_status,"],"));
 
                 }
             }
@@ -656,7 +706,7 @@ contract SharpBargain
         {
             if(pid>=products[i].start_index && pid<products[i].end_index)
             {
-                result = (string)(abi.encodePacked(result,"[",pid,"/",products[i].prod_type,"/",products[i].prod_retail_price,"],"));
+                result = (string)(abi.encodePacked(result,"[",uint2string(pid) ,"/",products[i].prod_type,"/",products[i].prod_retail_price,"],"));
             }
         }
 
