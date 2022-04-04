@@ -883,7 +883,43 @@ def retailerViewComment(request, account_address, prod_type):
 
 
 def manuDashboard(request, account_address):
-    return render(request, 'SharpBargain/manuDashboard.html')
+    user_ac = web3.toChecksumAddress(account_address)
+    manu_data_raw = contract.functions.manu_get_all_data(user_ac).call({'from': user_ac}).split(",")[:-1]
+    manu_data_raw[:] = [x[1:-1].split("/") for x in manu_data_raw]
+    prod_type_in_stock_dict = {}
+    total = len(manu_data_raw)
+    r_count = 0
+    for data in manu_data_raw:
+        prod_type = data[0][:data[0].rfind("_")]
+        product = DB_Product.objects.get(prod_type=data[0])
+        img_url = product.prod_img.url
+        if prod_type in prod_type_in_stock_dict:
+            if (data[4] == "In manufacturer stock"):
+                prod_type_in_stock_dict[prod_type]["Stock"] = prod_type_in_stock_dict[prod_type]["Stock"] + 1
+
+            prod_type_in_stock_dict[prod_type]["Total"] = prod_type_in_stock_dict[prod_type]["Total"] + 1
+
+        else:
+            prod_type_in_stock_dict[prod_type] = {"prod_type": prod_type, "Total": 1,
+                                                  "Stock": (1 if data[4] == "In manufacturer stock" else 0),
+                                                  "sell_rate": 0, "img_url": img_url}
+            r_count = r_count +1
+        prod_type_in_stock_dict[prod_type]["sell_rate"] = str(
+            (prod_type_in_stock_dict[prod_type]["Total"] - prod_type_in_stock_dict[prod_type]["Stock"]) / \
+            prod_type_in_stock_dict[prod_type]["Total"] * 100)
+        prod_type_in_stock_dict[prod_type]["sell_rate"] = prod_type_in_stock_dict[prod_type]["sell_rate"][
+                                                          :prod_type_in_stock_dict[prod_type]["sell_rate"].find(
+                                                              ".") + 3]
+    prod_type_in_stock_list = list(prod_type_in_stock_dict.values())
+    best_sell_item = max(prod_type_in_stock_list, key=lambda x: float(x['sell_rate']))["prod_type"]
+    print(best_sell_item)
+
+    return render(request, 'SharpBargain/manuDashboard.html',
+                  {
+                      "best_sell_item":best_sell_item,
+                      "total":total,
+                      "r_count":r_count,
+                  })
 
 
 def manuProdInput(request):
@@ -969,7 +1005,7 @@ def manuViewData(request, account_address, prod_type):
 
         retailer_address = data[1]
         if (retailer_address not in data_dict and retailer_address!=""):
-            data_dict[retailer_address] = {"address":"0x"+retailer_address,"count":count,"in_stock":0,"sold":0}
+            data_dict[retailer_address] = {"address":"0x"+retailer_address,"count":count,"in_stock":0,"sold":0,"total":0}
 
         if (retailer_address!=""):
             py_date = float(data[2])/1000
@@ -985,10 +1021,11 @@ def manuViewData(request, account_address, prod_type):
         elif status == "In retailer stock":
             in_r_stock = in_r_stock + 1
             data_dict[retailer_address]["in_stock"] = data_dict[retailer_address]["in_stock"] + 1
+            data_dict[retailer_address]["total"] = data_dict[retailer_address]["total"] + 1
         elif status == "Sold to Buyer":
             sold = sold + 1
             data_dict[retailer_address]["sold"] = data_dict[retailer_address]["sold"] + 1
-
+            data_dict[retailer_address]["total"] = data_dict[retailer_address]["total"] + 1
 
     data_list = list(data_dict.values())
     print(data_list)
@@ -999,9 +1036,6 @@ def manuViewData(request, account_address, prod_type):
     in_r_stock_ratio = in_r_stock_ratio[:in_r_stock_ratio.find(".") + 3]
     sold_ratio = str(sold / total *100)
     sold_ratio = sold_ratio[:sold_ratio.find(".") + 3]
-
-
-
 
     return render(request, 'SharpBargain/manuViewData.html',
                   {

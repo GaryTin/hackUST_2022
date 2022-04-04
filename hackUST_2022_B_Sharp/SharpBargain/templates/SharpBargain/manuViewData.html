@@ -74,7 +74,7 @@
 
         <p class="headings">Condition of Stock</p>
         {% for data in data_list %}
-            {% include 'SharpBargain/includes/chart_table.html' with address=data.address %}
+            {% include 'SharpBargain/includes/chart_table.html' with address=data.address total=data.total %}
         {% endfor %}
     </div>
 </div>
@@ -222,7 +222,7 @@ var situation = ["Stock", "Sold"];
             }
             },
             legend: {
-                display: false
+                display: true
             }
         }
       }
