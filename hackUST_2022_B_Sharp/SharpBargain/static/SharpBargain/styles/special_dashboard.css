@@ -1,0 +1,81 @@
+html{
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Montserrat';
+    max-width: 100%;
+    overflow-x: hidden;
+    background-image: linear-gradient(to right, #BFF8ED,#F0F9FF);
+
+
+}
+
+.main_content{
+    margin-left: 13vw;
+}
+body{
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.logo{
+    height: auto;
+    width: 100%;
+}
+
+.selected{
+    color: white;
+    background-color: #5AA2AE;
+}
+
+.navi {
+    margin: 0;
+    padding: 0;
+    padding-top: 0%;
+    position: fixed;
+    padding-left: -5%;
+
+    width: 20vw;
+    height: 100%;
+    background-color: whitesmoke;
+    list-style-type: none;
+    overflow: auto;
+    border-right: solid #5AA2AE 6px;
+    box-sizing: border-box;
+
+}
+
+li a {
+    display: block;
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-family: 'Montserrat';
+    font-size: 1.4rem;
+}
+
+a:hover{
+    color: white;
+    background-color: #5AA2AE;
+}
+.title{
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #5AA2AE;
+    margin-bottom: 20px;
+}
+
+.title_container{
+    border-bottom: grey 3px solid;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.subtitle{
+    font-size: 0.6em;
+    font-weight: bold;
+    color: #5AA2AE;
+    margin-bottom: 20px;
+}
+
+

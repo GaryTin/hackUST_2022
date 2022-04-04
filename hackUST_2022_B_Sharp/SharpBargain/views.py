@@ -868,15 +868,65 @@ def manuDashboard(request,account_address):
     return render(request, 'SharpBargain/manuDashboard.html')
 
 def manuProdInput(request):
-    return render(request, 'SharpBargain/manuProdInput.html')
+    if request.method =="GET":
+        ai_form=add_img_form()
+
+        return render(request, 'SharpBargain/manuProdInput.html',
+                          {
+                              "add_img_form":ai_form,
+                          })
+    elif request.method == "POST":
+        ai_form = add_img_form(request.POST, request.FILES)
+        if ai_form.is_valid():  # check valid
+            ai_form.save()  # save to DB
+        ai_form = add_img_form()
+        return render(request, "SharpBargain/manuProdInput.html",
+                      {
+                          "add_img_form": ai_form,
+                      })
 
 def manuWS(request):
     return render(request, 'SharpBargain/manuWS.html')
 
-def manuView(request):
-    return render(request, 'SharpBargain/manuView.html')
+def manuView(request,account_address):
+    user_ac = web3.toChecksumAddress(account_address)
+    manu_data_raw = contract.functions.manu_get_all_data(user_ac).call({'from': user_ac}).split(",")[:-1]
+    manu_data_raw[:] = [x[1:-1].split("/") for x in manu_data_raw]
+    prod_type_in_stock_dict = {}
+    for data in manu_data_raw:
+        prod_type = data[0][:data[0].rfind("_")]
+        product = DB_Product.objects.get(prod_type=data[0])
+        img_url = product.prod_img.url
+        if prod_type in prod_type_in_stock_dict:
+            if(data[4] == "In manufacturer stock"):
+                prod_type_in_stock_dict[prod_type]["Stock"] = prod_type_in_stock_dict[prod_type]["Stock"] + 1
 
-def manuViewData(request):
+            prod_type_in_stock_dict[prod_type]["Total"] = prod_type_in_stock_dict[prod_type]["Total"] + 1
+
+        else:
+            prod_type_in_stock_dict[prod_type] = {"prod_type":prod_type,"Total":1,"Stock":(1 if data[4] == "In manufacturer stock" else 0),"sell_rate":0,"img_url":img_url}
+        prod_type_in_stock_dict[prod_type]["sell_rate"] = str((prod_type_in_stock_dict[prod_type]["Total"] - prod_type_in_stock_dict[prod_type]["Stock"]) / \
+                                                              prod_type_in_stock_dict[prod_type]["Total"] * 100)
+        prod_type_in_stock_dict[prod_type]["sell_rate"] = prod_type_in_stock_dict[prod_type]["sell_rate"][
+                                                          :prod_type_in_stock_dict[prod_type]["sell_rate"].find(
+                                                              ".")+3]
+    prod_type_in_stock_list = list(prod_type_in_stock_dict.values())
+    return render(request, 'SharpBargain/manuView.html',
+                  {
+                      "prod_type_in_stock_list":prod_type_in_stock_list,
+
+                  })
+
+def manuViewData(request,account_address,prod_type):
+    print(prod_type)
+    user_ac = web3.toChecksumAddress(account_address)
+    manu_data_raw = contract.functions.manu_get_all_data(user_ac).call({'from': user_ac}).split(",")[:-1]
+    #manu_data_raw[:] = [x[1:-1].split("/") for x in manu_data_raw] #if x[1:-1].split("/")[0]==prod_type
+
+    #manu_data_raw[:] = [x[0] for x in manu_data_raw if x[0]==prod_type]
+    print(manu_data_raw)
+
+
     return render(request, 'SharpBargain/manuViewData.html')
 
 def login_test(request):

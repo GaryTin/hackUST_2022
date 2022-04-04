@@ -3,60 +3,82 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ManuDash</title>
-    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'SharpBargain/styles/critical_data.css' %}">
-    <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ManuDash</title>
+        <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+        <link rel="stylesheet" href="{% static 'SharpBargain/styles/critical_data.css' %}">
+        <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
+        <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+    </head>
 
 
-<body>
-<ul>
-    <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-    <li><a href="#home" class="selected"><i class="fa-solid fa-house"></i> Home</a></li>
-    <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
-    <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
-    <li><a href="{% url 'manuView' %}"><i class="fa-solid fa-eye"></i> View Data</a></li>
-    <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-</ul>
+    <body>
+        <ul>
+            <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+            <li><a href="" class="selected" id="home"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+            <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+            <li><a href="" id="view"><i class="fa-solid fa-eye"></i> View Data</a></li>
+            <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
 
-<div class="main_content">
-        <div class="container">
-        <div class="title_container">
-            <p class="title">Critical Data</p>
+        <div class="main_content">
+                <div class="container">
+                    <div class="title_container">
+                        <p class="title">Critical Data</p>
+                    </div>
+
+                        <div class="column">
+                            <div class="section">
+                                <p class="line1">You have sold...</p>
+                                <p class="numbering">6</p>
+                                <p class="line3">last week.</p>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="section">
+                                <p class="line1">You have earned...</p>
+                                <p class="numbering">$999</p>
+                                <p class="line3">last week.</p>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <div class="section">
+                                <p class="line1">You have ...</p>
+                                <p class="numbering">6</p>
+                                <p class="line3">last week.</p>
+                            </div>
+                        </div>
+                </div>
         </div>
-            <div class="column">
-                <div class="section">
-                    <p class="line1">You have sold...</p>
-                    <p class="numbering">6</p>
-                    <p class="line3">last week.</p>
-                </div>
-            </div>
+    </body>
+<script>
 
-            <div class="column">
-                <div class="section">
-                    <p class="line1">You have earned...</p>
-                    <p class="numbering">$999</p>
-                    <p class="line3">last week.</p>
-                </div>
-            </div>
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "manuDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
 
-            <div class="column">
-                <div class="section">
-                    <p class="line1">You have ...</p>
-                    <p class="numbering">6</p>
-                    <p class="line3">last week.</p>
-                </div>
-            </div>
+                new_href = "{% url "manuView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
 
+</script>
 
-    </div>
 </html>
 

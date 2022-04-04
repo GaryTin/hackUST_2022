@@ -6,14 +6,37 @@
 }
 
 #input_form{
+    padding: 50px;
+    padding-bottom: 0px;
     border-collapse: separate;
     border-spacing: 0;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10vh;
     background-color: #5aa2ae;
+
+    border-radius: 20px 20px 0px 0px;
+}
+.input_block
+{
+    max-width:50%;
+    position: absolute;
+    top: 50%;
+    left: 58%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    overflow:hidden;
+
+
+}
+#add_image_form
+{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #5aa2ae;
+    border-radius: 0px 0px 20px 20px;
     padding: 50px;
-    border-radius: 20px;
+    padding-top: 0px;
 }
 
 .right{
@@ -22,7 +45,7 @@
 .center{
     text-align: center;
 }
-.input_label{
+.input_label,label{
     font-size: 1.5em;
     color: whitesmoke;
     font-weight: 600;
@@ -40,7 +63,7 @@
     font-family: 'Montserrat';
 }
 
-.submit_btn{
+.submit_btn,#submit_img{
     padding: 8px 20px;
     font-family: 'Montserrat';
     border: none;
@@ -49,6 +72,18 @@
     font-size: 1.2em;
     background-color: #82C5C4;
     color: white;
+    margin-bottom: 1rem;
+}
+
+#submit_img{
+    position:relative;
+    left:80%;
+
+}
+
+#id_prod_img
+{
+    margin-left: 20%;
 }
 
 .submit_btn:hover{

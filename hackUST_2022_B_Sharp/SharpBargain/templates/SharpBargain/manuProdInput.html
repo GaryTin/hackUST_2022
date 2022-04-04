@@ -14,54 +14,612 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
 </head>
 
 
 <body>
 
     <ul>
-        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="{% url 'manuProdInput' %}" class="selected"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
-        <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
-        <li><a href="{% url 'manuView' %}"><i class="fa-solid fa-eye"></i> View Data</a></li>
-        <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
+            <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+            <li><a href=""  id="home"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{% url 'manuProdInput' %}" class='selected' ><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+            <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+            <li><a href="" id="view"><i class="fa-solid fa-eye"></i> View Data</a></li>
+            <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
 
     <div class="main_content">
             <div class="container">
-            <div class="title_container">
-                <p class="title">Product Entry System</p>
-            </div>
-                <form onsubmit="retailer_purchase_from_manu();return false" action="#" >
-                    <table id="input_form">
-                        <tr>
-                            <td><label for="prod_type" class="input_label">Product Type</label></td>
-                            <td><input type="text" name="prod_type" id="prod_type" class="input_field" required></td>
-                        </tr>
-                        <tr>
-                            <td><label for="prod_wholesale_price" class="input_label">Wholesale Price</label></td>
-                            <td><input type="text" name="prod_wholesale_price" id="prod_wholesale_price" class="input_field" required></td>
-                        </tr>
-                        <tr>
-                            <td><label for="quantity" class="input_label">Quantity</label></td>
-                            <td><input type="number" name="quantity"  id="quantity" min="1" class="input_field" required></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="right"><input type="submit" value="Submit" class="submit_btn"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="prod_img" class="input_label">Product Image</label></td>
-                            <td><input type="file" id="prod_img" accept="image/*"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="right"><input type="submit" value="Submit" class="submit_btn"></td>
-                        </tr>
-                    </table>
-                </form>
+                <div class="title_container">
+                    <p class="title">Product Entry System</p>
+                </div>
+                    <div class="input_block">
+                        <form onsubmit="add_product();return false" action="#" >
+                            <table id="input_form">
+                                <tr>
+                                    <td><label for="prod_type" class="input_label">Product Type</label></td>
+                                    <td><input type="text" name="prod_type" id="prod_type" class="input_field" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="prod_wholesale_price" class="input_label">Wholesale Price</label></td>
+                                    <td><input type="text" name="prod_wholesale_price" id="prod_wholesale_price" class="input_field" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="quantity" class="input_label">Quantity</label></td>
+                                    <td><input type="number" name="quantity"  id="quantity" min="1" class="input_field" required></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="right"><input type="submit" value="Submit" class="submit_btn" id="submit_add_product"></td>
+                                </tr>
+
+                            </table>
+                        </form>
+
+                        <form action="{% url 'manuProdInput' %}" method="POST" enctype='multipart/form-data' id="add_image_form">
+                                    {% csrf_token %}
+
+                                       {{ add_img_form.as_table }}
+
+                                    <div id="submit_img_div">
+                                        <button id="submit_img">Submit</button>
+                                    </div>
+                        </form>
+
+
+
+                    </div>
+
+
             </div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        var index_list=[];
+        async function add_product() {
+
+        updateStatus(`Try to add product`);
+        const account = await getCurrentAccount();
+        var ac = account.substring(2,account.length);
+        var prod_type = document.getElementById("prod_type").value + "_"+ ac;
+        var prod_wholesale_price = document.getElementById("prod_wholesale_price").value.toString();
+        var prod_retail_price = (parseFloat(prod_wholesale_price) *1.4).toString();
+        var quantity = document.getElementById("quantity").value;
+        document.getElementById("prod_type").disabled = "true";
+        document.getElementById("prod_wholesale_price").disabled = "true";
+        document.getElementById("quantity").disabled = "true";
+        document.getElementById("submit_add_product").disabled = "true";
+        document.getElementById("submit_add_product").value = "Processing";
+        console.log("Form data: ");
+        console.log(account);
+        console.log(prod_type);
+        console.log(prod_wholesale_price);
+        console.log(prod_retail_price);
+        console.log(quantity);
+        window.onbeforeunload = function() {
+          return "Data will be lost if you leave the page, are you sure????";
+        };
+
+
+
+
+        //console.log("Start!");
+        //const tx = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
+        //updateStatus('Updated.');
+        //document.getElementById("submit_add_product").value = "Success!";
+
+
+        document.getElementById("input_form").style.borderRadius="20px 20px 0px 0px";
+        document.getElementById("add_image_form").style.display="block";
+        document.getElementById("id_prod_type").value=prod_type;
+    }
+
+
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+        }
+    }
+
+    async function load() {
+        await loadWeb3();
+        window.contract = await loadContract();
+        const account = await getCurrentAccount();
+        document.getElementById("add_image_form").style.display="none";
+        document.getElementById("input_form").style.borderRadius="20px";
+        updateStatus('Ready!');
+    }
+
+    function updateStatus(status) {
+        console.log(status);
+    }
+    async function loadContract()
+    {
+        return await new window.web3.eth.Contract([
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "prod_index",
+				"type": "string"
+			}
+		],
+		"name": "retailer_receipt",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_manufacturer",
+				"type": "address"
+			}
+		],
+		"name": "add_manufacturer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_production_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_wholesale_price",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_retail_price",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "add_product",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "new_retailers",
+				"type": "address"
+			}
+		],
+		"name": "add_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "prod_id_list",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_purchase_from_retailer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "buyer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "compareStrings",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_all_uncomment_prod",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "get_lastest_retailer_record",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			}
+		],
+		"name": "get_remaining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "input_address",
+				"type": "address"
+			}
+		],
+		"name": "get_role",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "prod_id",
+				"type": "uint256"
+			}
+		],
+		"name": "get_uncomment_prod_by_id",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "b_address",
+				"type": "address"
+			}
+		],
+		"name": "get_user_history",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "manu_get_all_data",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_manufacturer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "remove_retailer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			}
+		],
+		"name": "retailer_get_all_prod_type",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_get_prod_info_by_pid",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "m_address",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "purchase_date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "retailer_purchase_from_manu",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "r_address",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_prod_type",
+				"type": "string"
+			}
+		],
+		"name": "retailer_view_comment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "pid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "comment",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "rate",
+				"type": "uint8"
+			}
+		],
+		"name": "set_comment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+], '0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a');
+    }
+
+
+
+
+
+    async function getCurrentAccount() {
+        const accounts = await window.web3.eth.getAccounts();
+        return accounts[0];
+    }
+
+
+
+    load();
+    </script>
+<script>
+
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "manuDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "manuView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
+</script>
 
 </body>
