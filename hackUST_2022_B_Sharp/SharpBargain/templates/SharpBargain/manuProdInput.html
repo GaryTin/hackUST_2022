@@ -91,13 +91,7 @@
         document.getElementById("quantity").disabled = "true";
         document.getElementById("submit_add_product").disabled = "true";
         document.getElementById("submit_add_product").value = "Processing";
-        console.log("Form data: ");
-        console.log(account);
-        console.log(prod_type);
-        console.log(prod_wholesale_price);
-        console.log(prod_retail_price);
-        console.log(quantity);
-        console.log("Start!");
+
         const tx = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
         updateStatus('Updated.');
         document.getElementById("submit_add_product").value = "Success!";
@@ -126,7 +120,7 @@
     }
 
     function updateStatus(status) {
-        console.log(status);
+
     }
     async function loadContract()
     {

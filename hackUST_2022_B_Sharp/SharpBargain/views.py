@@ -471,93 +471,6 @@ data_dic = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6, "Jul": 7
             "Nov": 11, "Dec": 12}
 
 
-def home(request):
-    return render(request, 'SharpBargain/home.html')
-
-
-def Test(request):
-    if request.method == "POST" and 'run' in request.POST:
-        print("start")
-        print(request.POST["v1"])
-        print(request.POST["v2"])
-        print(request.POST["userAddress"])
-        return render(request, 'SharpBargain/test.html')
-    else:
-        return render(request, 'SharpBargain/test.html')
-
-
-def MetaMaskTestPage(request):
-    return render(request, 'SharpBargain/MetaMaskTestPage.html', )
-
-
-def some_func(request):
-    if request.method == 'POST':
-        param1 = request.POST.get('v1')
-        param2 = request.POST.get('v2')
-        print(param1, param2)
-
-        response_data = 'successful!'
-
-    return render(request, 'SharpBargain/test.html')
-
-
-def read_name(request):
-    if request.method == 'GET':
-        abi = json.loads(
-            """[
-           {
-               "inputs": [
-                   {
-                       "internalType": "string",
-                       "name": "_name",
-                       "type": "string"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "constructor"
-           },
-           {
-               "inputs": [],
-               "name": "say_hi",
-               "outputs": [
-                   {
-                       "internalType": "string",
-                       "name": "",
-                       "type": "string"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "string",
-                       "name": "_name",
-                       "type": "string"
-                   }
-               ],
-               "name": "set_name",
-               "outputs": [],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           }
-       ]""")
-
-        # smart contract address
-        address = web3.toChecksumAddress('0x676a9e2BB951D0DD7bc5B4cFAF733d2c04aD907e')
-        User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
-        contract = web3.eth.contract(address=address, abi=abi)
-        name = contract.functions.say_hi().call()
-
-        response_data = name
-
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-
-
 def index(request):
     return render(request, 'SharpBargain/index.html')
 
@@ -565,7 +478,6 @@ def index(request):
 def cusHistory(request, account_address):
     user_ac = web3.toChecksumAddress(account_address)
     user_history_raw = contract.functions.get_user_history(user_ac).call({'from': user_ac})
-    # print(user_history_raw) #[prod_type/prod_id/purchase_date/price/comment/rate],[.....
     img_urls = None
     user_history = {}
     user_historys = []
@@ -628,7 +540,6 @@ def cusComment(request, account_address, product_id):
         user_ac = web3.toChecksumAddress(account_address)
         product_data = contract.functions.get_uncomment_prod_by_id(user_ac, product_id).call({'from': user_ac})[
                        1:-2].split('/')
-        print(product_data)
         if (len(product_data) == 1):
             is_show = False
             prod_type = ""
@@ -646,7 +557,6 @@ def cusComment(request, account_address, product_id):
             time_temp = str(time.ctime(py_date)).split(" ")
             time_temp[:] = [x for x in time_temp if x != '']
             format_time = time_temp[2] + "/" + str(data_dic[time_temp[1]]) + "/" + time_temp[4]
-            # print(product_data)
             product = DB_Product.objects.get(prod_type=product_data[0])
             img_url = product.prod_img.url
     return render(request, 'SharpBargain/cusComment.html',
@@ -705,7 +615,6 @@ def cusView(request, account_address, product_id):
                 count = count + 1
                 comment_data.append(temp_d)
 
-            print(comment_data)
     if (len(comment_data) == 1):
         f_comment_data = comment_data[0]
     elif (len(comment_data) > 1):
@@ -726,11 +635,7 @@ def cusView(request, account_address, product_id):
 def cusDashboard(request, account_address):
     user_ac = web3.toChecksumAddress(account_address)
     user_history_raw = contract.functions.get_user_history(user_ac).call({'from': user_ac})
-    # print(user_history_raw) #[prod_type/prod_id/purchase_date/price/comment/rate],[.....
-    img_urls = None
-    user_history = {}
     user_historys = []
-    next_open_bracket_index = 0
     count = 0
     buy_count = 0
     total_payment = 0
@@ -804,11 +709,11 @@ def retailerDashboard(request, account_address):
             average_rate = 0
         else:
             average_rate = rate_sum / comment_count_all
-        # print(average_rate)
+
 
         if (average_rate > max):
             highest_rate_prod = retailer_prod_type_raw[:retailer_prod_type_raw.rfind("_")]
-        # print(total_comment_count_last_30_days)
+
         total_rate_sum = total_rate_sum + rate_sum
         total_count = total_count + comment_count_all
 
@@ -834,7 +739,6 @@ def retailerView(request, account_address):
     user_ac = web3.toChecksumAddress(account_address)
     retailer_prod_type_array = list(
         set(contract.functions.retailer_get_all_prod_type(user_ac).call({'from': user_ac}).split(",")[:-1]))
-    print(retailer_prod_type_array)
     prod_type_data = []
     for full_prod_type in retailer_prod_type_array:
         product = DB_Product.objects.get(prod_type=full_prod_type)
@@ -854,7 +758,6 @@ def retailerViewComment(request, account_address, prod_type):
     user_ac = web3.toChecksumAddress(account_address)
     comment_data_array = contract.functions.retailer_view_comment(user_ac, prod_type).call({'from': user_ac}).split(
         ",")[:-1]
-    # print(comment_data_array)
     comment_data = []
     for full_comment_data in comment_data_array:
         full_comment_data = full_comment_data[1:-1].split("/")
@@ -912,7 +815,7 @@ def manuDashboard(request, account_address):
                                                               ".") + 3]
     prod_type_in_stock_list = list(prod_type_in_stock_dict.values())
     best_sell_item = max(prod_type_in_stock_list, key=lambda x: float(x['sell_rate']))["prod_type"]
-    print(best_sell_item)
+
 
     return render(request, 'SharpBargain/manuDashboard.html',
                   {
@@ -998,7 +901,6 @@ def manuViewData(request, account_address, prod_type):
 
         month = (datetime.datetime.today().replace(day=1) + relativedelta(months=-(i))).strftime('%B')[:3]
         time_array.append(month)
-    #print(time_array, py_time_array)
     retailer_list =[]
     for data in manu_data_raw:
         status = data[4]
@@ -1028,7 +930,6 @@ def manuViewData(request, account_address, prod_type):
             data_dict[retailer_address]["total"] = data_dict[retailer_address]["total"] + 1
 
     data_list = list(data_dict.values())
-    print(data_list)
     total = in_m_stock + in_r_stock + sold
     in_m_stock_ratio = str(in_m_stock/total *100)
     in_m_stock_ratio = in_m_stock_ratio[:in_m_stock_ratio.find(".")+3]
@@ -1054,7 +955,6 @@ def manuViewData(request, account_address, prod_type):
 def login_test(request):
     if request.method == 'GET':
         ac = web3.toChecksumAddress(request.GET.get('ac'))
-        print(ac)
         role = contract.functions.get_role(ac).call()
         role = role + "/" + ac
 
@@ -1064,19 +964,3 @@ def login_test(request):
         )
 
 
-def testm(request):
-    if request.method == "GET":
-        ai_form = add_img_form()
-        return render(request, "SharpBargain/testm.html",
-                      {
-                          "add_img_form": ai_form,
-                      })
-    elif request.method == "POST":
-        ai_form = add_img_form(request.POST, request.FILES)
-        if ai_form.is_valid():  # check valid
-            ai_form.save()  # save to DB
-        ai_form = add_img_form()
-        return render(request, "SharpBargain/testm.html",
-                      {
-                          "add_img_form": ai_form,
-                      })

@@ -65,8 +65,6 @@
             //getAccount();
             window.userWalletAddress = accounts[0];
             const account = accounts[0];
-            console.log(account);
-            console.log("running");
             return_data ="";
             return new Promise(function(resolve, reject) {
             $.ajax({
@@ -99,8 +97,7 @@
         {
 
             login_check().then(function(data) {
-              // Run this when your request was successful
-              console.log(data);
+
               const strArray = data.split("/");
               let role = strArray[0];
               let account = strArray[1];
@@ -117,7 +114,6 @@
               }
 
             }).catch(function(err) {
-              // Run this when promise was rejected via reject()
               console.log(err)
             })
 

@@ -56,9 +56,9 @@
                     function (value)
                     {
 
-                        console.log(prod_type);
+
                         var new_herf =  "{% url 'retailerViewComment' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,value[0].toString()).replace(/999999999999999999999999999999999999999999999/,prod_type.toString());
-                        console.log(new_herf);
+
                         window.location.href = new_herf;
                     }
                 );

@@ -105,7 +105,6 @@
     var id_list = [];
     async function buy()
     {
-        console.log(id_list);
         var b_address = document.getElementById('cus_address').value;
         var pay_method = get_select_method();
         if(b_address =="")
@@ -124,7 +123,6 @@
         {
             document.getElementById('btn_confirm').disabled = true;
             document.getElementById('btn_confirm').textContent  = "Processing";
-            console.log("start");
             const account = await getCurrentAccount();
             const tx = await window.contract.methods.buyer_purchase_from_retailer(id_list,b_address,Date.now()).send({ from: account });
             location.reload(true);
@@ -154,7 +152,6 @@
     {
         var pid = document.getElementById('pid').value;
         document.getElementById('pid').value = "";
-        console.log(pid);
         const account = await getCurrentAccount();
         const data = await window.contract.methods.retailer_get_prod_info_by_pid(pid).call({ from: account })
         if(data != "")
@@ -163,8 +160,7 @@
             var data_array = data.toString().substring(data.indexOf("/")+1,data.length -2).split("/");
             var prod_type = data_array[0].substring(0,data_array[0].lastIndexOf("_"));
             var price = data_array[1];
-            console.log(prod_type);
-            console.log(price);
+
             var table = document.getElementById("cart_table");
             var row = table.insertRow(1);
             var cell1 = row.insertCell(0);
@@ -204,7 +200,6 @@
     {
         var price =  $(btndel).parent().parent().children(".price").children(".price").html();
         var pid =  $(btndel).parent().parent().children(".pid").html();
-        console.log(pid);
         if (typeof(btndel) == "object") {
             $(btndel).closest("tr").remove();
         } else {
@@ -241,7 +236,7 @@
 
     function updateStatus(status) {
 
-        console.log(status);
+
     }
     async function loadContract()
     {

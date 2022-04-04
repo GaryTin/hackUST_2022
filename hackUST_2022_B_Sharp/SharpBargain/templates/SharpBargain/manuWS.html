@@ -69,15 +69,10 @@
         var ac = account.substring(2,account.length);
         var prod_type = document.getElementById("prod_type_r").value + "_"+ ac;
         var quantity = document.getElementById("quantity_r").value;
-        console.log("Form data: ");
-        console.log(account);
-        console.log(retailer_address);
-        console.log(prod_type);
-        console.log(quantity);
         document.getElementById("submit_btn").disabled = "true";
         document.getElementById("submit_btn").value = "Processing";
 
-        console.log("Start!");
+
         const tx = await window.contract.methods.retailer_purchase_from_manu(account,retailer_address,prod_type,Date.now(),quantity).send({ from: account });
 
         const data = await window.contract.methods.get_lastest_retailer_record(web3.utils.toChecksumAddress(retailer_address)).call();
@@ -122,7 +117,7 @@
     }
 
     function updateStatus(status) {
-        console.log(status);
+
     }
     async function loadContract()
     {
