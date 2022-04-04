@@ -78,3 +78,55 @@ label.star:before {
         <script src="{% static 'SharpBargain/scripts/test.js' %}"></script>
 
 {% endblock %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+
+	toolTip:{
+		shared: true
+	},
+	data:[{
+		type: "stackedBar100",
+		toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+		showInLegend: true,
+		name: "April",
+		dataPoints: [
+			{ y: 600, label: "Water Filter" },
+		]
+		},
+		{
+			type: "stackedBar100",
+			toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+			showInLegend: true,
+			name: "May",
+			dataPoints: [
+				{ y: 400, label: "Water Filter" },
+
+			]
+		},
+		{
+			type: "stackedBar100",
+			toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+			showInLegend: true,
+			name: "June",
+			dataPoints: [
+				{ y: 300, label: "Water Filter" },
+
+			]
+	}]
+});
+chart.render();
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

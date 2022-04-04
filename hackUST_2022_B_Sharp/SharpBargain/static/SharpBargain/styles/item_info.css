@@ -84,4 +84,20 @@
     color: white;
 }
 
+#btn_view_data{
+    padding: 12px;
+    bottom: 7%;
+    right: 3%;
+    position: absolute;
+    font-family: 'Montserrat';
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#btn_view_data:hover{
+    background-color: GREY;
+    color: white;
+}
+
 

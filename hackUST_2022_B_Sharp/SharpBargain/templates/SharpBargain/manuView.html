@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManuView</title>
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css'%}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/view.css'%}">
+    <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <ul>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+        <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+        <li><a href="{% url 'manuView' %}" class="selected"><i class="fa-solid fa-eye"></i> View Data</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+
+    <div class="main_content">
+            <div class="view_container">
+            <div class="title_container">
+                <p class="title">View Data</p>
+            </div>
+                {% include 'SharpBargain/includes/manuView_table.html' %}
+            </div>
+    </div>
+</body>
+

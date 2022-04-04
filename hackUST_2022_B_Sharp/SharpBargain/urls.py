@@ -16,6 +16,9 @@ urlpatterns = [
     path("retailerView/<str:account_address>/", views.retailerView, name="retailerView"),
     path("retailerViewComment/<str:account_address>/<str:prod_type>/", views.retailerViewComment, name="retailerViewComment"),
     path("manuProdInput/", views.manuProdInput, name="manuProdInput"),
+    path("manuWS/", views.manuWS, name="manuWS"),
+    path("manuView/", views.manuView, name="manuView"),
+    path("manuViewData/", views.manuViewData, name="manuViewData"),
 
     path("cusDashboard/<str:account_address>/",views.cusDashboard,name="cusDashboard"),
     path("retailerDashboard/<str:account_address>/",views.retailerDashboard,name="retailerDashboard"),

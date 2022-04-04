@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManuViewData</title>
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/chart_table.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+    <ul>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+        <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+        <li><a href="{% url 'manuView' %}" class="selected"><i class="fa-solid fa-eye"></i> View Data</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+
+    <div class="main_content">
+            <div class="view_data_container">
+            <div class="title_container">
+                <p class="title">Black T-shirt</p>
+            </div>
+                <p class="headings">Overview</p>
+                <div class="char_container"><canvas id="overview"></canvas></div>
+
+                <p class="headings">Condition of Stock</p>
+                    {% include 'SharpBargain/includes/chart_table.html' %}
+            </div>
+    </div>
+</body>
+
+<style>
+.view_data_container {
+    margin-left:10%;
+    padding:10px 20px 0px 0px;
+    height:100%;
+    margin-bottom: 0;
+}
+</style>
+
+
+
+<script>
+var time = ["Jan","Feb","Mar","April","May","June"];
+var sale = [800,121,44,555,675,123];
+
+new Chart("sale", {
+  type: "line",
+  data: {
+    labels: time,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "#00aba9",
+      borderColor: "#f5f5f5",
+      radius: 5,
+      hoverRadius: 6,
+      data: sale
+    }]
+  },
+  options: {
+    plugins:{
+        tooltip: {
+            titleFont: {
+              size: 20
+            },
+            bodyFont: {
+              size: 20
+            }
+        },
+        legend: {
+            display: false
+        }
+    },
+    scales:{
+        y:{
+            ticks:{
+                color: 'black',
+                font:{
+                    size: 15,
+                    family: "Montserrat"
+                }
+            },
+            grid:{
+                display: false
+            }
+        },
+        x:{
+            ticks:{
+                color: 'black',
+                font:{
+                    size: 17,
+                    family: "Montserrat"
+                }
+            },
+            grid:{
+                display: false
+            }
+        }
+    },
+  }
+});
+</script>
+
+<script>
+var situation = ["Stock", "Sold"];
+var num = [250, 40];
+var barColors = [
+  "#2b5797",
+  "#00aba9",
+];
+
+new Chart("stock", {
+  type: "pie",
+  data: {
+    labels: situation,
+    datasets: [{
+      backgroundColor: barColors,
+      data: num
+    }]
+  },
+  options: {
+    plugins:{
+        tooltip: {
+        bodyFont: {
+          size: 20
+        }
+        },
+        legend: {
+            display: false
+        }
+    }
+  }
+});
+</script>

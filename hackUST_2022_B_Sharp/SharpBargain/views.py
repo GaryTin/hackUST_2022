@@ -554,6 +554,7 @@ def read_name(request):
 def index(request):
     return render(request,'SharpBargain/index.html')
 
+
 def cusHistory(request,account_address):
     user_ac = web3.toChecksumAddress(account_address)
     user_history_raw = contract.functions.get_user_history(user_ac).call({'from': user_ac})
@@ -867,6 +868,15 @@ def manuDashboard(request,account_address):
 
 def manuProdInput(request):
     return render(request, 'SharpBargain/manuProdInput.html')
+
+def manuWS(request):
+    return render(request, 'SharpBargain/manuWS.html')
+
+def manuView(request):
+    return render(request, 'SharpBargain/manuView.html')
+
+def manuViewData(request):
+    return render(request, 'SharpBargain/manuViewData.html')
 
 def login_test(request):
     if request.method == 'GET':

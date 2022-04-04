@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManuWS</title>
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/data_entry.css' %}">
+    <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="{% static 'SharpBargain/media/favicon.ico' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <ul>
+        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+        <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+        <li><a href="{% url 'manuWS' %}" class="selected"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+        <li><a href="{% url 'manuView' %}"><i class="fa-solid fa-eye"></i> View Data</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+
+    <div class="main_content">
+            <div class="container">
+            <div class="title_container">
+                <p class="title">Wholesale Sale Entry System</p>
+            </div>
+            <form onsubmit="retailer_purchase_from_manu();return false" action="#">
+                <table id="input_form">
+                    <tr>
+                        <td><label for="retailer_address" class="input_label">Retailer Address</label></td>
+                        <td><input type="text" name="retailer_address" id="retailer_address" class="input_field" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="prod_type_r" class="input_label">Product Type</label></td>
+                        <td><input type="text" name="prod_type_r" id="prod_type_r" class="input_field" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="quantity_r" class="input_label">Quantity</label></td>
+                        <td><input type="number" name="quantity_r"  id="quantity_r" min="1" class="input_field" required></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="right"><input type="submit" value="Submit" class="submit_btn"></td>
+                    </tr>
+                </table>
+            </form>
+            </div>
+    </div>
+
+</body>
