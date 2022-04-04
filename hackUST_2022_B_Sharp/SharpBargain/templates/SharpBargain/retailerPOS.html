@@ -45,7 +45,6 @@
                 <div class="pay_change_title" id="change_cash">Change</div>
                 <p class="change" id="change">$<span id="change_amount">0</span></p> <br>
 
-
             </div>
             <button type="button" class="btn_confirm" id="btn_confirm" onclick="buy()"> Confirm</button>
 
@@ -127,7 +126,7 @@
             document.getElementById('btn_confirm').textContent  = "Processing";
             console.log("start");
             const account = await getCurrentAccount();
-            //const tx = await window.contract.methods.buyer_purchase_from_retailer(id_list,b_address,Date.now()).send({ from: account });
+            const tx = await window.contract.methods.buyer_purchase_from_retailer(id_list,b_address,Date.now()).send({ from: account });
             location.reload(true);
             return false;
 
@@ -694,7 +693,7 @@
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-], '0x1f8269977E52c009D41B51d282fD15984B7c450f');
+], '0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a');
     }
 
 

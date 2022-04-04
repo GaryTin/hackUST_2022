@@ -463,7 +463,7 @@ def main():
     """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0x1f8269977E52c009D41B51d282fD15984B7c450f')
+    address = web3.toChecksumAddress('0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
@@ -474,7 +474,7 @@ def main():
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
 
-    transaction = contract.functions.buyer_purchase_from_retailer([12,13,26,30],'0x9FBaFA447AbB4DbB2D40219d41009d3DbEEf158f',int(time.time()*1000)).buildTransaction(
+    transaction = contract.functions.add_retailer("0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7").buildTransaction(
         {
             'gasPrice': web3.eth.gasPrice,
             'from': SC_OWNER_ADDR,
