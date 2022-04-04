@@ -35,7 +35,7 @@
 <div class="main_content">
     <div class="view_data_container">
         <div class="title_container">
-            <p class="title">Black T-shirt</p>
+            <p class="title">{{prod_type}}</p>
         </div>
         <p class="headings">Overview</p>
         <div class="char_container">
@@ -43,16 +43,16 @@
                 <div class="graphic">
 
                     <div class="row">
-                        <h6>Bar One</h6>
+
                         <div class="chart">
-                            <span class="block" title="Category A">
-                               <span class="value">57%</span>
+                            <span class="block" title="Sold to customer({{sold}} pieces)">
+                               <span class="value">{{sold_ratio}}%</span>
                             </span>
-                            <span class="block" title="Category B">
-                               <span class="value">13%</span>
+                            <span class="block" title="In retailer stock({{in_r_stock}} pieces)">
+                               <span class="value">{{in_r_stock_ratio}}%</span>
                             </span>
-                            <span class="block" title="Category C">
-                               <span class="value">8%</span>
+                            <span class="block" title="In manufacturer stock({{in_m_stock}} pieces)">
+                               <span class="value">{{in_m_stock_ratio}}%</span>
                             </span>
                         </div>
                     </div>
@@ -60,11 +60,11 @@
                 </div>
 
                 <div class="x-axis">
-                    <h3>X-Axis Title</h3>
+
                     <ul class="legend">
-                        <li>Category A</li>
-                        <li>Category B</li>
-                        <li>Category C</li>
+                        <li>Sold to customer</li>
+                        <li>In retailer stock</li>
+                        <li>In manufacturer stock</li>
                     </ul>
                 </div>
 
@@ -73,7 +73,15 @@
         </div>
 
         <p class="headings">Condition of Stock</p>
-        {% include 'SharpBargain/includes/chart_table.html' %}
+        <table id="chart_container">
+            <tr>
+                <td class="shop">Shop A</td>
+            </tr>
+            <tr>
+                <td id="line"><canvas id="sale"></canvas></td>
+                <td id="pie"><canvas id="stock"></canvas></td>
+            </tr>
+        </table>
     </div>
 </div>
 </body>
@@ -89,32 +97,7 @@
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script>
-    $('.value').each(function() {
-	var text = $(this).text();
-	$(this).parent().css('width', text);
-    });
 
-    $('.block').tooltip();
-    var ac;
-    async function get_accounts()
-    {
-        const accounts = await ethereum.request({ method: 'eth_accounts' });
-        return accounts;
-    }
-    get_accounts().then(
-        function (value)
-            {
-                var new_href = "{% url "manuDashboard" 1234 %}".replace(/1234/,value[0].toString());
-                document.getElementById("home").href=new_href;
-
-                new_href = "{% url "manuView" 1234 %}".replace(/1234/,value[0].toString());
-                document.getElementById("view").href=new_href;
-            }
-    );
-
-
-</script>
 
 
 <script>
@@ -179,7 +162,6 @@ new Chart("sale", {
 });
 
 </script>
-
 <script>
 var situation = ["Stock", "Sold"];
 var num = [250, 40];
@@ -210,6 +192,32 @@ new Chart("stock", {
     }
   }
 });
+
+</script>
+<script>
+    $('.value').each(function() {
+	var text = $(this).text();
+	$(this).parent().css('width', text);
+    });
+
+    $('.block').tooltip();
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "manuDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "manuView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
 
 </script>
 

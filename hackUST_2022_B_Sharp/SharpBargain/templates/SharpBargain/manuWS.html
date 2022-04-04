@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td class="right"><input type="submit" value="Submit" class="submit_btn"></td>
+                        <td class="right"><input type="submit" value="Submit" class="submit_btn" id="submit_btn"></td>
                     </tr>
                 </table>
             </form>
@@ -74,16 +74,35 @@
         console.log(retailer_address);
         console.log(prod_type);
         console.log(quantity);
+        document.getElementById("submit_btn").disabled = "true";
+        document.getElementById("submit_btn").value = "Processing";
 
-        //console.log("Start!");
-        //const tx = await window.contract.methods.retailer_purchase_from_manu(account,retailer_address,prod_type,Date.now(),quantity).send({ from: account });
+        console.log("Start!");
+        const tx = await window.contract.methods.retailer_purchase_from_manu(account,retailer_address,prod_type,Date.now(),quantity).send({ from: account });
 
-        //const data = await window.contract.methods.get_lastest_retailer_record(web3.utils.toChecksumAddress(retailer_address)).call();
-        //var filename = "retailer_"+retailer_address.toString()+"_receipt.txt";
-        //download(filename,data);
+        const data = await window.contract.methods.get_lastest_retailer_record(web3.utils.toChecksumAddress(retailer_address)).call();
+        var filename = "retailer_"+retailer_address.toString()+"_receipt.txt";
+        var file_data = parse_data(data);
+        download(filename,file_data);
 
-        //updateStatus('Updated.');
+        updateStatus('Updated.');
+        location.reload(true);
+        return false;
 
+    }
+
+    function parse_data(data)
+    {
+        var data_array = data.split(",");
+        var return_data = "Product ID for this entry: ";
+        for (var i = 0; i<data_array.length; i++)
+        {
+
+            var data_item = data_array[i].substring(1,data_array[i].length -1).split("/");
+            return_data = return_data + "From " + data_item[0].toString() +" to "+ (data_item[1]-1).toString()+". ";
+
+        };
+        return return_data;
     }
 
 
@@ -555,7 +574,7 @@
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-], '0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a');
+], '0x8dCEDE30c2a8bD175654b67e010F898061fF0072');
     }
 
 

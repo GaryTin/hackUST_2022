@@ -63,7 +63,7 @@
                                        {{ add_img_form.as_table }}
 
                                     <div id="submit_img_div">
-                                        <button id="submit_img">Submit</button>
+                                        <button id="submit_img" onclick="">Submit</button>
                                     </div>
                         </form>
 
@@ -97,17 +97,10 @@
         console.log(prod_wholesale_price);
         console.log(prod_retail_price);
         console.log(quantity);
-        window.onbeforeunload = function() {
-          return "Data will be lost if you leave the page, are you sure????";
-        };
-
-
-
-
-        //console.log("Start!");
-        //const tx = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
-        //updateStatus('Updated.');
-        //document.getElementById("submit_add_product").value = "Success!";
+        console.log("Start!");
+        const tx = await window.contract.methods.add_product(prod_type,account,Date.now(),prod_wholesale_price,prod_retail_price,quantity).send({ from: account });
+        updateStatus('Updated.');
+        document.getElementById("submit_add_product").value = "Success!";
 
 
         document.getElementById("input_form").style.borderRadius="20px 20px 0px 0px";
@@ -585,7 +578,7 @@
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-], '0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a');
+], '0x8dCEDE30c2a8bD175654b67e010F898061fF0072');
     }
 
 
