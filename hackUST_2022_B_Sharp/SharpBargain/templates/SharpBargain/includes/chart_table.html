@@ -2,10 +2,10 @@
 
 <table id="chart_container">
     <tr>
-        <td class="shop">Shop A</td>
+        <td class="shop">{{address}}</td>
     </tr>
     <tr>
-        <td id="line"><canvas id="sale"></canvas></td>
-        <td id="pie"><canvas id="stock"></canvas></td>
+        <td id="line"><canvas id="sale{{address}}"></canvas></td>
+        <td id="pie"><canvas id="stock{{data.address}}"></canvas></td>
     </tr>
 </table>

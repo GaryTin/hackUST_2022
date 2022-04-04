@@ -6,6 +6,8 @@ from django.template import RequestContext, Template
 import time
 from .forms import *
 from .models import *
+import datetime
+from dateutil.relativedelta import relativedelta
 
 # Create your views here.
 infura_url = "https://ropsten.infura.io/v3/f28a0b5ddee744859bda3e9f79b01b8c"
@@ -949,14 +951,47 @@ def manuViewData(request, account_address, prod_type):
     in_m_stock = 0
     in_r_stock = 0
     sold = 0
+    time_array = []
+    py_time_array = []
+    show_month = 6
+    count = [0] * show_month
+    data_dict = {}
+    for i in range(show_month):
+        date = (datetime.datetime.today().replace(day=1) + relativedelta(months=-(i))).timestamp()
+        py_time_array.append(date)
+
+        month = (datetime.datetime.today().replace(day=1) + relativedelta(months=-(i))).strftime('%B')[:3]
+        time_array.append(month)
+    #print(time_array, py_time_array)
+    retailer_list =[]
     for data in manu_data_raw:
         status = data[4]
+
+        retailer_address = data[1]
+        if (retailer_address not in data_dict and retailer_address!=""):
+            data_dict[retailer_address] = {"address":"0x"+retailer_address,"count":count,"in_stock":0,"sold":0}
+
+        if (retailer_address!=""):
+            py_date = float(data[2])/1000
+            loop_count = 0
+            for py_date_ref in py_time_array:
+                if (py_date>=py_date_ref):
+                    data_dict[retailer_address]["count"][loop_count] = data_dict[retailer_address]["count"][loop_count] + 1
+                    break
+                loop_count = loop_count +1
+
         if status == "In manufacturer stock":
             in_m_stock = in_m_stock + 1
         elif status == "In retailer stock":
             in_r_stock = in_r_stock + 1
+            data_dict[retailer_address]["in_stock"] = data_dict[retailer_address]["in_stock"] + 1
         elif status == "Sold to Buyer":
             sold = sold + 1
+            data_dict[retailer_address]["sold"] = data_dict[retailer_address]["sold"] + 1
+
+
+    data_list = list(data_dict.values())
+    print(data_list)
     total = in_m_stock + in_r_stock + sold
     in_m_stock_ratio = str(in_m_stock/total *100)
     in_m_stock_ratio = in_m_stock_ratio[:in_m_stock_ratio.find(".")+3]
@@ -964,6 +999,9 @@ def manuViewData(request, account_address, prod_type):
     in_r_stock_ratio = in_r_stock_ratio[:in_r_stock_ratio.find(".") + 3]
     sold_ratio = str(sold / total *100)
     sold_ratio = sold_ratio[:sold_ratio.find(".") + 3]
+
+
+
 
     return render(request, 'SharpBargain/manuViewData.html',
                   {
@@ -974,7 +1012,8 @@ def manuViewData(request, account_address, prod_type):
                       "in_m_stock": in_m_stock,
                       "in_r_stock": in_r_stock,
                       "sold": sold,
-
+                      "time_array": time_array,
+                      "data_list":data_list,
                   })
 
 
