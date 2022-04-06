@@ -6,14 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CusView</title>
+    <title>View</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/search.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/view.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/item_info.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/comment_holder.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/rate_view.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.7.1/dist/web3.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,11 +24,11 @@
 <body>
     <ul>
         <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href="" id="home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-        <li><a href="" id="History"><i class="fa fa-history" aria-hidden="true"></i> History</a></li>
-        <li><a href="" class="selected" id="View"><i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-        <li><a href="" id="Comment"><i class="fa fa-comment" aria-hidden="true"></i> Comment</a></li>
-        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+        <li><a href="" id="home"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="" id="History" ><i class="fa fa-history"></i> History</a></li>
+        <li><a href="" id="View" class="selected"><i class="fa-solid fa-eye"></i> View</a></li>
+        <li><a href="" id="Comment"><i class="fa fa-comment"></i> Comment</a></li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
     </ul>
 
 <div class="main_content">

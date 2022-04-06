@@ -814,8 +814,10 @@ def manuDashboard(request, account_address):
                                                           :prod_type_in_stock_dict[prod_type]["sell_rate"].find(
                                                               ".") + 3]
     prod_type_in_stock_list = list(prod_type_in_stock_dict.values())
-    best_sell_item = max(prod_type_in_stock_list, key=lambda x: float(x['sell_rate']))["prod_type"]
-
+    try:
+        best_sell_item = max(prod_type_in_stock_list, key=lambda x: float(x['sell_rate']))["prod_type"]
+    except:
+        best_sell_item = "--"
 
     return render(request, 'SharpBargain/manuDashboard.html',
                   {

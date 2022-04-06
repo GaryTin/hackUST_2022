@@ -6,9 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RetDash</title>
+    <title>POS</title>
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/pos.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
         <img src="{% static 'SharpBargain/media/logo.png' %}" class="logo">
         <div class="back">
             <a href="" id="home" class="back_icon">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                <i class="fa fa-arrow-left"></i>
             </a>
         </div>
         <div class="date_time_container">
@@ -35,9 +35,9 @@
         <p class="total_amount" >$<span id="total">0</span></p>
         <div class="payment_container">
             <div class="pay_change_title">Payment</div>
-            <button type="button" class="btn_pay" id="btn_cash" onclick="cash()"><i class="fa fa-money" aria-hidden="true" ></i></button>
+            <button type="button" class="btn_pay" id="btn_cash" onclick="cash()"><i class="fa fa-money"></i></button>
             <button type="button"  class="btn_pay" id="btn_oct" onclick="oct()" onmouseover="hover();" onmouseout="unhover();"><img id="oct_icon" src="{% static 'SharpBargain/media/octopus_icon.png' %}" class="oct_pay"  ></button>
-            <button type="button" class="btn_pay" id="btn_credit" onclick="credit()"><i class="fa fa-cc-visa" aria-hidden="true"></i></button>
+            <button type="button" class="btn_pay" id="btn_credit" onclick="credit()"><i class="fa fa-cc-visa"></i></button>
             <br>
             <div id="cash_block">
                 <input type="text" class="cash_input" id="cash_input">
@@ -70,7 +70,7 @@
                         <span class="input_des">Product ID</span>
                     </td>
                     <td>
-                        <input type="number" id="pid" class="data_input" min=1 >
+                        <input type="number" id="pid" class="data_input" min=1>
                     </td>
                     <td>
                         <input type="submit" value="Add" class="btn_input" onclick="add_product();">
@@ -175,7 +175,7 @@
             cell3.innerHTML = prod_type;
             cell4.classList.add("price");
             cell4.innerHTML = "$"+'<span class="price">'+price+'</span>';
-            cell5.innerHTML = '<div class="remove" onclick="del_row(this)" ><i class="fa fa-times" aria-hidden="true" ></div>';
+            cell5.innerHTML = '<div class="remove" onclick="del_row(this)" ><i class="fa fa-times"></div>';
             var total =  parseFloat(document.getElementById("total").textContent)+parseFloat(price);
             document.getElementById("total").textContent = total;
             var cus_pay = document.getElementById("cash_input").value;
@@ -218,7 +218,7 @@
 
           id_list.splice(index, 1);
         }
-
+        count = count-1;
     }
 
     async function loadWeb3() {

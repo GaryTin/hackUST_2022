@@ -165,7 +165,7 @@ body{
 .back{
     position: absolute;
     right:1%;
-    top: 17%;
+    top: 20%;
     font-size: 3em;
     border-radius: 5px;
     padding: 0 5px;
@@ -204,7 +204,8 @@ body{
     text-align: center;
     outline: none;
     font-family: 'Montserrat';
-    margin: 0px 20px 20px 0px;
+    margin
+
 }
 
 .btn_input{
@@ -306,6 +307,7 @@ body{
 {
     width:100%;
 }
+
 #table_title
 {
     width 50%;
@@ -315,3 +317,4 @@ body{
 {
     display:none;
 }
+
