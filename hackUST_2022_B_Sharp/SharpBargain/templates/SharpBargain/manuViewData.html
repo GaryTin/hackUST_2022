@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ManuViewData</title>
-    <link rel="stylesheet" href="{% static 'SharpBargain/styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SharpBargain/styles/special_dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'SharpBargain/styles/chart_table.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://kit.fontawesome.com/598dc5fe5f.js" crossorigin="anonymous"></script>
@@ -15,33 +15,69 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@402;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Khula:300,600" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 </head>
 
 
 <body>
 
-    <ul>
-        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
-        <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
-        <li><a href="{% url 'manuView' %}" class="selected"><i class="fa-solid fa-eye"></i> View Data</a></li>
-        <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
+<ul class="navi">
+    <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+    <li><a href="" id="home"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+    <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+    <li><a href="" id="view" class="selected"><i class="fa-solid fa-eye"></i> View Data</a></li>
+    <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+</ul>
 
-    <div class="main_content">
-            <div class="view_data_container">
-            <div class="title_container">
-                <p class="title">Black T-shirt</p>
-            </div>
-                <p class="headings">Overview</p>
-                <div class="char_container"><canvas id="overview"></canvas></div>
+<div class="main_content">
+    <div class="view_data_container">
+        <div class="title_container">
+            <p class="title">{{prod_type}}</p>
+        </div>
+        <p class="headings">Overview</p>
+        <div class="char_container">
+            <figure>
+                <div class="graphic">
 
-                <p class="headings">Condition of Stock</p>
-                    {% include 'SharpBargain/includes/chart_table.html' %}
-            </div>
+                    <div class="row">
+
+                        <div class="chart">
+                            <span class="block" title="Sold to customer({{sold}} pieces)">
+                               <span class="value">{{sold_ratio}}%</span>
+                            </span>
+                            <span class="block" title="In retailer stock({{in_r_stock}} pieces)">
+                               <span class="value">{{in_r_stock_ratio}}%</span>
+                            </span>
+                            <span class="block" title="In manufacturer stock({{in_m_stock}} pieces)">
+                               <span class="value">{{in_m_stock_ratio}}%</span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="x-axis">
+
+                    <ul class="legend">
+                        <li>Sold to customer</li>
+                        <li>In retailer stock</li>
+                        <li>In manufacturer stock</li>
+                    </ul>
+                </div>
+
+            </figure>
+
+        </div>
+
+        <p class="headings">Condition of Stock</p>
+        {% for data in data_list %}
+            {% include 'SharpBargain/includes/chart_table.html' with address=data.address total=data.total %}
+        {% endfor %}
     </div>
+</div>
 </body>
 
 <style>
@@ -51,100 +87,149 @@
     height:100%;
     margin-bottom: 0;
 }
-</style>
 
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+
+    $('.value').each(function() {
+	var text = $(this).text();
+	$(this).parent().css('width', text);
+    });
+
+    $('.block').tooltip();
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "manuDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "manuView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
+
+</script>
 
 
 <script>
-var time = ["Jan","Feb","Mar","April","May","June"];
-var sale = [800,121,44,555,675,123];
+var time = [];
+{% for t in time_array %}
+    time.push('{{t}}');
+{% endfor %}
+time = time.reverse()
 
-new Chart("sale", {
-  type: "line",
-  data: {
-    labels: time,
-    datasets: [{
-      fill: false,
-      lineTension: 0,
-      backgroundColor: "#00aba9",
-      borderColor: "#f5f5f5",
-      radius: 5,
-      hoverRadius: 6,
-      data: sale
-    }]
-  },
-  options: {
-    plugins:{
-        tooltip: {
-            titleFont: {
-              size: 20
-            },
-            bodyFont: {
-              size: 20
-            }
-        },
-        legend: {
-            display: false
-        }
-    },
-    scales:{
-        y:{
-            ticks:{
-                color: 'black',
-                font:{
-                    size: 15,
-                    family: "Montserrat"
+{% for data in data_list %}
+    var sale = [];
+    {% for s in data.count %}
+        sale.push({{s}});
+    {% endfor %}
+    sale = sale.reverse()
+
+    new Chart("sale{{data.address}}", {
+      type: "line",
+      data: {
+        labels: time,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "#00aba9",
+          borderColor: "#9c9c9c",
+          radius: 5,
+          hoverRadius: 6,
+          data: sale,
+          borderWidth:5,
+        }]
+      },
+      options: {
+        plugins:{
+            tooltip: {
+                titleFont: {
+                  size: 20
+                },
+                bodyFont: {
+                  size: 20
                 }
             },
-            grid:{
+            legend: {
                 display: false
             }
         },
-        x:{
-            ticks:{
-                color: 'black',
-                font:{
-                    size: 17,
-                    family: "Montserrat"
+        scales:{
+            y:{
+                ticks:{
+                    color: 'black',
+                    font:{
+                        size: 15,
+                        family: "Montserrat"
+                    }
+                },
+                grid:{
+                    display: false
                 }
             },
-            grid:{
-                display: false
+            x:{
+                ticks:{
+                    color: 'black',
+                    font:{
+                        size: 17,
+                        family: "Montserrat"
+                    }
+                },
+                grid:{
+                    display: false
+                }
             }
-        }
-    },
-  }
-});
+        },
+      }
+    });
+{% endfor %}
+
+
+
 </script>
 
 <script>
 var situation = ["Stock", "Sold"];
-var num = [250, 40];
-var barColors = [
-  "#2b5797",
-  "#00aba9",
-];
+{% for data in data_list %}
+    var num = [{{data.in_stock}}, {{data.sold}}];
+    var barColors = [
+      "#2b5797",
+      "#00aba9",
+    ];
 
-new Chart("stock", {
-  type: "pie",
-  data: {
-    labels: situation,
-    datasets: [{
-      backgroundColor: barColors,
-      data: num
-    }]
-  },
-  options: {
-    plugins:{
-        tooltip: {
-        bodyFont: {
-          size: 20
+    new Chart("stock{{data.address}}", {
+      type: "pie",
+      data: {
+        labels: situation,
+        datasets: [{
+          backgroundColor: barColors,
+          data: num
+        }]
+      },
+      options: {
+        plugins:{
+            tooltip: {
+            bodyFont: {
+              size: 20
+            }
+            },
+            legend: {
+                display: true
+            }
         }
-        },
-        legend: {
-            display: false
-        }
-    }
-  }
-});
+      }
+    });
+{% endfor %}
+
 </script>
+
+</html>

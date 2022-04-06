@@ -21,21 +21,59 @@
 <body>
 
     <ul>
-        <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
-        <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
-        <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
-        <li><a href="{% url 'manuView' %}" class="selected"><i class="fa-solid fa-eye"></i> View Data</a></li>
-        <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
+            <li><img src="{% static 'SharpBargain/media/logo.png' %}" class="logo"></li>
+            <li><a href=""  id="home"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{% url 'manuProdInput' %}"><i class="fa-solid fa-file-pen"></i> Product Data Input</a></li>
+            <li><a href="{% url 'manuWS' %}"><i class="fa-solid fa-boxes-stacked"></i> Wholesale Sale Input</a></li>
+            <li><a href="" id="view" class="selected" ><i class="fa-solid fa-eye"></i> View Data</a></li>
+            <li><a href="{% url 'index' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
 
     <div class="main_content">
             <div class="view_container">
-            <div class="title_container">
-                <p class="title">View Data</p>
-            </div>
-                {% include 'SharpBargain/includes/manuView_table.html' %}
+                <div class="title_container">
+                    <p class="title">View Data</p>
+                </div>
+                {% for data in prod_type_in_stock_list %}
+                    {% include 'SharpBargain/includes/manuView_table.html' with prod_type=data.prod_type Stock=data.Stock Total=data.Total sell_rate=data.sell_rate img_url=data.img_url %}
+                {% endfor %}
             </div>
     </div>
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('.btn_view_data').click(async function() {
+        var prod_type = $(this).parent().children(".prod_type").html();
+        get_accounts().then(
+        function (value)
+            {
+                var address = value[0].substring(value[0].indexOf("x")+1,value[0].length);
+                prod_type = prod_type + "_" + address;
+
+                var new_herf =  "{% url 'manuViewData' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,value[0].toString()).replace(/999999999999999999999999999999999999999999999/,prod_type.toString());
+                window.location.href = new_herf;
+            }
+    );
+
+
+    });
+    var ac;
+    async function get_accounts()
+    {
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+        return accounts;
+    }
+    get_accounts().then(
+        function (value)
+            {
+                var new_href = "{% url "manuDashboard" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("home").href=new_href;
+
+                new_href = "{% url "manuView" 1234 %}".replace(/1234/,value[0].toString());
+                document.getElementById("view").href=new_href;
+            }
+    );
+
+</script>
+</html>
 

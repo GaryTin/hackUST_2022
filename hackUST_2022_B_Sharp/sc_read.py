@@ -462,7 +462,7 @@ def main():
     """)
 
     # smart contract address
-    address = web3.toChecksumAddress('0x9Ed57D0A8684cef19ae6F369BB6E36dDbe77510a')
+    address = web3.toChecksumAddress('0x8dCEDE30c2a8bD175654b67e010F898061fF0072')
     User_address = web3.toChecksumAddress("0xceb45891f0b9761d9d7d950710aa5f9d785f87d6")
     contract = web3.eth.contract(address=address, abi=abi)
     SC_OWNER_ADDR = '0xF5EB01007e46c3296087063a155b5F68d9D72157'
