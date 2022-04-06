@@ -474,7 +474,7 @@ def main():
     nonce = web3.eth.getTransactionCount(SC_OWNER_ADDR)
     print(nonce)
 
-    transaction = contract.functions.add_retailer("0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7").buildTransaction(
+    transaction = contract.functions.add_manufacturer("0xDE37A3dce5249C31b12e45F46988fc30b50e19FD").buildTransaction(
         {
             'gasPrice': web3.eth.gasPrice,
             'from': SC_OWNER_ADDR,

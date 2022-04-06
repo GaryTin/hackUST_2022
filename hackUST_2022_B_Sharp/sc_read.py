@@ -472,7 +472,7 @@ def main():
     #print(nonce)
     #print(contract.functions.get_role('0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6').call({'from': SC_OWNER_ADDR}))
     #print(web3.eth.gasPrice)
-    address = web3.toChecksumAddress('0xC64367bA7165d318EC82A53b72D9806dFbF8fdE7')
+    address = web3.toChecksumAddress('0xDE37A3dce5249C31b12e45F46988fc30b50e19FD')
     print(contract.functions.get_role(address).call({'from': SC_OWNER_ADDR}))
 
 
