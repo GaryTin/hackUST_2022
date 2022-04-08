@@ -121,10 +121,9 @@ Three test accounts has been set up. You can now use these accounts to log in to
 ⚠️ For security reasons, MetaMask does not allow disconnecting by the website. Please  disconnect your account after logging out and log in with a different role.
 
 
-1. Click the MetaMask Web Extension (Fox Icon: 🦊) 
-2. Click on the button `🟢 Connected`  at the top left hand corner below the Fox (🦊).
-3. Click the button with 3 dots placed vertically, and click `Disconnect this account` .
-4. Now you disconnected the account, and can log in with a different role.
+1. Click the MetaMask Web Extension (Fox Icon: 🦊) and click on the button `🟢 Connected`  at the top left hand corner.
+2. Click the button with 3 dots placed vertically, and click `Disconnect this account` .
+3. Now you disconnected the account, and can log in with a different role.
 
 ## 📄Smart Contract Deployed
 [View Smart Contract Source Code](https://github.com/GaryTin/hackUST_2022/blob/main/hackUST_2022_B_Sharp/sc.sol) <br>
