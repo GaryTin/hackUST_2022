@@ -137,7 +137,6 @@ Please refer to the PDF file.
 No, you cannot. For security reason, only the smart contract owner can modify the list of manufacturers and retailers. We are sorry that it is impossible for any other users to register their own addresses as a manufacturer or a retailer.
 
 # 🔮Future Development
-
-- [] 🎫Token Generation
-- [] 🛍Online Shop Integration
-- [] 📱 Mobile App and Mobile Friendly Website
+- [ ] 🎫Token Generation
+- [ ] 🛍Online Shop Integration
+- [ ] 📱 Mobile App and Mobile Friendly Website
