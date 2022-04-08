@@ -42,16 +42,11 @@ This website can only login in with a **MetaMask** account. Please install MetaM
 2. Press the buttons `Get Started` > `Import Wallet` > `I Agree`. <br>
     
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step2.1.png?raw=true" alt="MetaMask Setup Step2.1 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step2.1.png?raw=true" alt="MetaMask Setup Step2.1 Instruction" width="200"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step2.2.png?raw=true" alt="MetaMask Setup Step2.2 Instruction" width="300"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step2.3.png?raw=true" alt="MetaMask Setup Step2.3 Instruction" width="300"/>
     </p>
-    
-    <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step2.2.png?raw=true" alt="MetaMask Setup Step2.2 Instruction"/>
-    </p>
-    
-    <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step2.3.png?raw=true" alt="MetaMask Setup Step2.3 Instruction"/>
-    </p>
+
     
 3. Enter the following 12-word Seed Phrase:
     
@@ -60,46 +55,39 @@ This website can only login in with a **MetaMask** account. Please install MetaM
     
     ⚠️ This account is created for demonstration purposes only, for your own safety, please **DO NOT** use it for other purposes.
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step3.png?raw=true" alt="MetaMask Setup Step3 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step3.png?raw=true" alt="MetaMask Setup Step3 Instruction" width="600"/>
     </p>
     
 4. Create your own password.
 5. Click on the circle located at the top right hand corner, then choose `⚙Settings` > `Advanced`.
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step5.1.png?raw=true" alt="MetaMask Setup Step5.1 Instruction"/>
-    </p>
-    
-    <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step5.2.png?raw=true" alt="MetaMask Setup Step5.2 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step5.1.png?raw=true" alt="MetaMask Setup Step5.1 Instruction" width="400"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step5.2.png?raw=true" alt="MetaMask Setup Step5.2 Instruction" width="400"/>
     </p>
 6. Turn ON `Show Test Networks`.
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step6.png?raw=true" alt="MetaMask Setup Step6 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step6.png?raw=true" alt="MetaMask Setup Step6 Instruction" width="600"/>
     </p>
 7. Click on the dropdown list named `🟢Ethereum Mainnet` next to the circle you have just clicked, and switch to `🔴Ropsten Test Network`.
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step7.1.png?raw=true" alt="MetaMask Setup Step7.1 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step7.1.png?raw=true" alt="MetaMask Setup Step7.1 Instruction" width="600"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step7.2.png?raw=true" alt="MetaMask Setup Step7.2 Instruction" width="200"/>
     </p>
     
-    <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step7.2.png?raw=true" alt="MetaMask Setup Step7.2 Instruction"/>
-    </p>
 8. Click on the Circle again and choose `➕Create Account`, name it as “Retailer”, then click `Create`.
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step8.1.png?raw=true" alt="MetaMask Setup Step8.1 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step8.1.png?raw=true" alt="MetaMask Setup Step8.1 Instruction" width="200"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step8.2.png?raw=true" alt="MetaMask Setup Step8.2 Instruction" width="400"/>
     </p>
     
-    <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step8.2.png?raw=true" alt="MetaMask Setup Step8.2 Instruction"/>
-    </p>
 9. Repeat Step 8 and name it as “Manufacturer”.
     <p align="center">
-    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step9.png?raw=true" alt="MetaMask Setup Step9 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_step9.png?raw=true" alt="MetaMask Setup Step9 Instruction" width="400"/>
     </p>
 
 Three test accounts has been set up. You can now use these accounts to log in to the web. (**Account 1** is the Consumer account, **Retailer** is the retailer account and **Manufacturer** is the manufacturer account.)
 <p align="center">
-<img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_finish.png?raw=true" alt="MetaMask Setup Finished"/>
+<img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_finish.png?raw=true" alt="MetaMask Setup Finished" width="400"/>
 </p>
 
 # 🕸Try Our Web!
