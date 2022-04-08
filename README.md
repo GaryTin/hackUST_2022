@@ -139,6 +139,9 @@ Three test accounts has been set up. You can now use these accounts to log in to
 [View Smart Contract Source Code](https://github.com/GaryTin/hackUST_2022/blob/main/hackUST_2022_B_Sharp/sc.sol) <br>
 [View Smart Contract on Etherscan](https://ropsten.etherscan.io/address/0x8dCEDE30c2a8bD175654b67e010F898061fF0072)
 
+## 🎨 UI Design
+Please refer to the PDF file.
+
 # ❓FAQ
 
 ## Can I register as Manufacturer or Retailer myself?
