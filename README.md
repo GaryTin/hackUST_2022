@@ -138,11 +138,6 @@ No, you cannot. For security reason, only the smart contract owner can modify th
 
 # 🔮Future Development
 
-- 🎫Token Generation
-- 🛍Online Shop Integration
-- 📱 Mobile App
-- Mobile Friendly Website
-
-# 🙌🏻Credentials
-
-abcdefg
+- [] 🎫Token Generation
+- [] 🛍Online Shop Integration
+- [] 📱 Mobile App and Mobile Friendly Website
