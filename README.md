@@ -62,19 +62,12 @@ Three test accounts has been set up. You can now use these accounts to log in to
 🔗Link to our Website:  [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/)
 
 
-❄️ This website is currently designed for `🖥 Desktop View` only. The mobile version will be developed in Phase two.
-
-
-### 💲Point-of-Sales (POS) System
-
-
-❄️ List of product IDs that can be inputted into the POS system for the demonstration account:
-[65,67,68,69,85,86,89]
-
+❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
 
 ## 💭Assumptions
 
 - We assume that Retailer’s POS system will only scan(input) their own procured products (which are bought from the Manufacturer). Random data input may lead to undefined behaviors as scanning products that do not exist in the store will not happen in real-life operations.
+    - List of product IDs that can be inputted into the POS system for the demonstration account: [65,67,68,69,85,86,89].
 
 ## 🔌Disconnecting MetaMask Account
 
