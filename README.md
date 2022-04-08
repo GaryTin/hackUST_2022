@@ -79,6 +79,10 @@ Three test accounts has been set up. You can now use these accounts to log in to
 3. Click the button with 3 dots placed vertically, and click `Disconnect this account` .
 4. Now you disconnected the account, and can log in with a different role.
 
+## Smart Contract Deployed
+[View Smart Contract](https://github.com/GaryTin/hackUST_2022/blob/main/hackUST_2022_B_Sharp/sc.sol)
+
+
 # ❓FAQ
 
 ## Can I register as Manufacturer or Retailer myself?
