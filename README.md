@@ -22,7 +22,7 @@ In a real implementation, the smart contract will deploy on a self-developed blo
 - 🏬Retailer
 - 🧑🏻Consumer
 
-🐻‍❄️ All addresses are defaulted as Consumer accounts. If you would like to test functions on the Manufacturer or Retailer pages, please feel free to use our designated Test Accounts. (See below: [MetaMask Test Accounts Set Up](https://github.com/GaryTin/hackUST_2022#metamask-test-accounts-set-up))
+❄️ All addresses are defaulted as Consumer accounts. If you would like to test functions on the Manufacturer or Retailer pages, please feel free to use our designated Test Accounts. (See below: [MetaMask Test Accounts Set Up](https://github.com/GaryTin/hackUST_2022#metamask-test-accounts-set-up))
 
 
 # 🔰Prerequisites
@@ -68,6 +68,8 @@ Three test accounts has been set up. You can now use these accounts to log in to
 
 - We assume that Retailer’s POS system will only scan(input) their own procured products (which are bought from the Manufacturer). Random data input may lead to undefined behaviors as scanning products that do not exist in the store will not happen in real-life operations.
     - List of product IDs that can be inputted into the POS system for the demonstration account: [65,67,68,69,85,86,89].
+    - If more products are supplied by manufacturers. Please refer to the .txt file for those product IDs. This file is auto-generated after the manufacturer's wholesale sale process.
+
 
 ## 🔌Disconnecting MetaMask Account
 
@@ -79,9 +81,9 @@ Three test accounts has been set up. You can now use these accounts to log in to
 3. Click the button with 3 dots placed vertically, and click `Disconnect this account` .
 4. Now you disconnected the account, and can log in with a different role.
 
-## Smart Contract Deployed
-[View Smart Contract](https://github.com/GaryTin/hackUST_2022/blob/main/hackUST_2022_B_Sharp/sc.sol)
-
+## 📄Smart Contract Deployed
+[View Smart Contract Source Code](https://github.com/GaryTin/hackUST_2022/blob/main/hackUST_2022_B_Sharp/sc.sol) <br>
+[View Smart Contract on Etherscan](https://ropsten.etherscan.io/address/0x8dCEDE30c2a8bD175654b67e010F898061fF0072)
 
 # ❓FAQ
 
@@ -89,7 +91,7 @@ Three test accounts has been set up. You can now use these accounts to log in to
 
 No, you cannot. For security reason, only the smart contract owner can modify the list of manufacturers and retailers. We are sorry that it is impossible for any other users to register their own addresses as a manufacturer or a retailer.
 
-# Future Development
+# 🔮Future Development
 
 - 🎫Token Generation
 - 🛍Online Shop Integration
