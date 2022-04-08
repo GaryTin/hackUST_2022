@@ -122,7 +122,17 @@ Three test accounts has been set up. You can now use these accounts to log in to
 
 
 1. Click the MetaMask Web Extension (Fox Icon: 🦊) and click on the button `🟢 Connected`  at the top left hand corner.
+    - If you cannot see the MetaMask Web Extension button, please pin it via Extension Tool Dropdown list. (See image)
+    <p align="center">
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_disconnect_step1.png?raw=true" alt="MetaMask Disconnect Account Step1 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_extension.png?raw=true" alt="MetaMask Extension Instruction"/>
+    </p>
+    
 2. Click the button with 3 dots placed vertically, and click `Disconnect this account` .
+    <p align="center">
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_disconnect_step2.1.png?raw=true" alt="MetaMask Disconnect Account Step2.1 Instruction"/>
+    <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_disconnect_step2.2.png?raw=true" alt="MetaMask Disconnect Account Step2.2 Instruction"/>
+    </p>
 3. Now you disconnected the account, and can log in with a different role.
 
 ## 📄Smart Contract Deployed
