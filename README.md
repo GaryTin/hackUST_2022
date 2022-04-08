@@ -18,14 +18,12 @@ In a real implementation, the smart contract will deploy on a self-developed blo
 
 # 🎭Roles
 
-- [🏭Manufacturer](https://www.notion.so/README-4cae943daac8401694f438deb2badb58)
-- [🏬Retailer](https://www.notion.so/README-4cae943daac8401694f438deb2badb58)
-- [🧑🏻Consumer](https://www.notion.so/README-4cae943daac8401694f438deb2badb58)
+- [🏭Manufacturer]()
+- [🏬Retailer]()
+- [🧑🏻Consumer]()
 
-<aside>
 🐻‍❄️ All addresses are defaulted as Consumer accounts. If you would like to test functions on the Manufacturer or Retailer pages, please feel free to use our designated Test Accounts. (See below: [MetaMask Test Accounts Set Up](https://www.notion.so/README-4cae943daac8401694f438deb2badb58))
 
-</aside>
 
 # 🔰Prerequisites
 
