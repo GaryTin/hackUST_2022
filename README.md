@@ -18,9 +18,9 @@ In a real implementation, the smart contract will deploy on a self-developed blo
 
 # 🎭Roles
 
-- 🏭Manufacturer
-- 🏬Retailer
-- 🧑🏻Consumer
+- 🏭Manufacturer (0xcEB45891F0b9761D9d7D950710aA5f9d785F87d6)
+- 🏬Retailer (0xB18Ad402c99221FdDa1E732A7719b4D744c86D16)
+- 🧑🏻Consumer (0xF5EB01007e46c3296087063a155b5F68d9D72157)
 
 ❄️ All addresses are defaulted as Consumer accounts. If you would like to test functions on the Manufacturer or Retailer pages, please feel free to use our designated Test Accounts. (See below: [MetaMask Test Accounts Set Up](https://github.com/GaryTin/hackUST_2022#metamask-test-accounts-set-up))
 
