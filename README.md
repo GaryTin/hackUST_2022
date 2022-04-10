@@ -3,7 +3,7 @@
 # 🛒#Bargain
 
 > #Bargain is a Decentralized Supply Chain Management Web Application, aiming to promote a Smart Shopping Experience by minimizing overspending and overproduction in the consumption cycle. It also features many of the Web3.0 users engagement by the introduction of reliable review system. 
-[📽Watch our Presentation Video]()
+[📽Watch our Presentation Video](https://youtu.be/8J40ZZSaQvs)
 > 
 
 # 🔨Built With
@@ -128,7 +128,7 @@ Three test accounts has been set up. You can now use these accounts to log in to
 [View Smart Contract on Etherscan](https://ropsten.etherscan.io/address/0x8dCEDE30c2a8bD175654b67e010F898061fF0072)
 
 ## 🎨 UI Design
-Please refer to the PDF file.
+Please refer to the [PDF file]().
 
 # ❓FAQ
 
