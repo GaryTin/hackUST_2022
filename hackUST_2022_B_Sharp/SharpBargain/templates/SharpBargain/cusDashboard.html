@@ -80,9 +80,7 @@
                     function (value)
                     {
 
-                        console.log(prod_id);
                         var new_herf =  "{% url 'cusComment' 12345 999999999999999999999999999999999999999999999 %}".replace(/12345/,value[0].toString()).replace(/999999999999999999999999999999999999999999999/,prod_id.toString());
-                        console.log(new_herf);
                         window.location.href = new_herf;
                     }
                 );
