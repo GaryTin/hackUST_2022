@@ -16,7 +16,10 @@ For development purpose, the smart contact used in this project is now deployed 
 
 In a real implementation, the smart contract will deploy on a self-developed blockchain instead of a public blockchain, which can greatly improve the read-write speed.
 
-📽 Demonstration Video:
+🔗Link to our Prototype: [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
+❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
+
+[📽 Watch our Demonstration Video]()
 
 # 🎭Roles (Test account addresses)
 
@@ -92,19 +95,12 @@ Three test accounts has been set up. You can now use these accounts to log in to
 <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_finish.png?raw=true" alt="MetaMask Setup Finished" width="400"/>
 </p>
 
-# 🕸Try Our Web!
-
-🔗Link to our Website:  [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/)
-
-
-❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
-
+# 🕸About Our Prototype
 ## 💭Assumptions
 
 - We assume that Retailer’s POS system will only scan(input) their own procured products (which are bought from the Manufacturer). Random data input may lead to undefined behaviors as scanning products that do not exist in the store will not happen in real-life operations.
     - List of product IDs that can be inputted into the POS system for the demonstration account: [65,67,68,69,85,86,89].
     - If more products are supplied by manufacturers. Please refer to the .txt file for those product IDs. This file is auto-generated after the manufacturer's wholesale sale process.
-
 
 ## 🔌Disconnecting MetaMask Account
 
