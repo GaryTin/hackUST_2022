@@ -91,10 +91,8 @@
 
     async function set_comment()
     {
-        console.log("Check Start");
         if(valid())
         {
-            console.log("ok");
             var prod_type = document.getElementById('prod_type_raw').textContent;
             var rate = get_rate();
             var comment = document.forms["form"]["comment_content"].value;
@@ -102,10 +100,6 @@
             document.getElementById('comment_submit').disabled = true;
             document.getElementById('comment_submit').value  = "Processing";
             var id = {{prod_id}};
-            console.log("Start");
-            console.log(id);
-            console.log(comment);
-            console.log(rate);
             const tx = await window.contract.methods.set_comment(id,comment,rate).send({ from: account });
 
             location.reload(true);
@@ -181,7 +175,6 @@
     function updateStatus(status) {
         const statusEl = document.getElementById('status');
         statusEl.innerHTML = status;
-        console.log(status);
     }
     async function loadContract()
     {
@@ -705,7 +698,6 @@
 
     if("{{is_show}}"=="False")
     {
-        console.log("F");
         document.getElementById("whole_comment_part").style.display="none";
     }
     else

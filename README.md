@@ -3,18 +3,23 @@
 # 🛒#Bargain
 
 > #Bargain is a Decentralized Supply Chain Management Web Application, aiming to promote a Smart Shopping Experience by minimizing overspending and overproduction in the consumption cycle. It also features many of the Web3.0 users engagement by the introduction of reliable review system. 
-[📽Watch our Presentation Video]()
+[📽Watch our Presentation Video](https://youtu.be/8J40ZZSaQvs)
 > 
 
 # 🔨Built With
 
-This website is developed with **Python Django Framework**, **Web3.py**, **Web3.js**, j**Query** and **Chart.js**. It does not contain any web templates online.
+This website is developed with [**Python Django Framework**](https://www.djangoproject.com/), [**Web3.py**](https://web3py.readthedocs.io/en/stable/), [**Web3.js**](https://web3js.readthedocs.io/en/v1.7.1/), [**jQuery**](https://jquery.com/) and [**Chart.js**](https://www.chartjs.org/), intergared with [**MetaMask**](https://metamask.io/) and [**Infura**](https://infura.io/), hosted on [**PythonAnywhere**](https://www.pythonanywhere.com/). It does not contain any web templates online. 
+
+The smart contract is developed with [**Solidity**](https://docs.soliditylang.org/en/v0.8.13/). 
 
 For development purpose, the smart contact used in this project is now deployed on the public blockchain, **Ropsten Ethereum Test Network**. The speed of reading and writing data may be slow, while writing data may even take longer time. The speed is solely depending on the blockchain traffic. We apologize for any inconvenience caused. 
 
 In a real implementation, the smart contract will deploy on a self-developed blockchain instead of a public blockchain, which can greatly improve the read-write speed.
 
-📽 Demonstration Video:
+🔗Link to our Prototype: [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
+❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
+
+[📽 Watch our Demonstration Video]()
 
 # 🎭Roles (Test account addresses)
 
@@ -90,19 +95,12 @@ Three test accounts has been set up. You can now use these accounts to log in to
 <img src="https://github.com/GaryTin/hackUST_2022/blob/main/screenshots/metamask_finish.png?raw=true" alt="MetaMask Setup Finished" width="400"/>
 </p>
 
-# 🕸Try Our Web!
-
-🔗Link to our Website:  [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/)
-
-
-❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
-
+# 🕸About Our Prototype
 ## 💭Assumptions
 
 - We assume that Retailer’s POS system will only scan(input) their own procured products (which are bought from the Manufacturer). Random data input may lead to undefined behaviors as scanning products that do not exist in the store will not happen in real-life operations.
     - List of product IDs that can be inputted into the POS system for the demonstration account: [65,67,68,69,85,86,89].
     - If more products are supplied by manufacturers. Please refer to the .txt file for those product IDs. This file is auto-generated after the manufacturer's wholesale sale process.
-
 
 ## 🔌Disconnecting MetaMask Account
 
@@ -128,7 +126,7 @@ Three test accounts has been set up. You can now use these accounts to log in to
 [View Smart Contract on Etherscan](https://ropsten.etherscan.io/address/0x8dCEDE30c2a8bD175654b67e010F898061fF0072)
 
 ## 🎨 UI Design
-Please refer to the PDF file.
+Please refer to the [PDF file]().
 
 # ❓FAQ
 
