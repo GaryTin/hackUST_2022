@@ -1,5 +1,6 @@
 # README
 
+[![Presentation Video](https://github.com/GaryTin/hackUST_2022/blob/main/presentation_video_thumbnail.jpeg)](https://youtu.be/8J40ZZSaQvs)
 # 🛒#Bargain
 
 > #Bargain is a Decentralized Supply Chain Management Web Application, aiming to promote a Smart Shopping Experience by minimizing overspending and overproduction in the consumption cycle. It also features many of the Web3.0 users engagement by the introduction of reliable review system. 
@@ -19,7 +20,7 @@ In a real implementation, the smart contract will deploy on a self-developed blo
 🔗Link to our Prototype: [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
 ❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
 
-[📽 Watch our Demonstration Video]()
+[📽 Watch our Demonstration Video](https://youtu.be/edV039efXAk)
 
 # 🎭Roles (Test account addresses)
 
@@ -135,6 +136,10 @@ Please refer to the [PDF file](https://github.com/GaryTin/hackUST_2022/blob/b881
 No, you cannot. For security reason, only the smart contract owner can modify the list of manufacturers and retailers. We are sorry that it is impossible for any other users to register their own addresses as a manufacturer or a retailer.
 
 # 🔮Future Development
-- [ ] 🎫Token Generation
-- [ ] 🛍Online Shop Integration
+- [ ] 🎆 Extra Features:
+    - [ ]  Inventory Loss Record (Normal Loss/Abnormal Loss)
+    - [ ]  Inventory Recall of Defective Products from Retailer
+    - [ ]  Goods Return from Consumer
+- [ ] 🎫 Token Generation
+- [ ] 🛍 Online Shop Integration
 - [ ] 📱 Mobile App and Mobile Friendly Website
