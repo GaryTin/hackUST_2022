@@ -126,7 +126,7 @@ Three test accounts has been set up. You can now use these accounts to log in to
 [View Smart Contract on Etherscan](https://ropsten.etherscan.io/address/0x8dCEDE30c2a8bD175654b67e010F898061fF0072)
 
 ## 🎨 UI Design
-Please refer to the [PDF file](hackust2022_b#.pdf).
+Please refer to the [PDF file](https://github.com/GaryTin/hackUST_2022/blob/b88136ff4be4d74232ce27931b3f6a95b180b8ee/hackust2022_b%23.pdf).
 
 # ❓FAQ
 
