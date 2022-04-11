@@ -1,6 +1,6 @@
 # README
 
-[![Presentation Video](https://github.com/GaryTin/hackUST_2022/blob/main/presentation_video_thumbnail.jpeg)](https://youtu.be/8J40ZZSaQvs)
+![Banner](https://github.com/GaryTin/hackUST_2022/blob/main/title_banner.png)
 # 🛒#Bargain
 
 > #Bargain is a Decentralized Supply Chain Management Web Application, aiming to promote a Smart Shopping Experience by minimizing overspending and overproduction in the consumption cycle. It also features many of the Web3.0 users engagement by the introduction of reliable review system. 
