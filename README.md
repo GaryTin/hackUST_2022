@@ -20,7 +20,7 @@ In a real implementation, the smart contract will deploy on a self-developed blo
 🔗Link to our Prototype: [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
 ❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
 
-[📽 Watch our Demonstration Video](https://youtu.be/edV039efXAk)
+[📽 Watch our Demonstration Video](https://youtu.be/Ayr0fSBbhik)
 
 # 🎭Roles (Test account addresses)
 
