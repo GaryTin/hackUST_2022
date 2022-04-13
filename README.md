@@ -1,5 +1,3 @@
-# README
-
 ![Banner](https://github.com/GaryTin/hackUST_2022/blob/main/title_banner.png)
 # 🛒#Bargain
 
