@@ -22,6 +22,9 @@ Click here: [**Sharp Bargain**](http://tinkwaiki.pythonanywhere.com/SharpBargain
 
 [📽 Watch our Demonstration Video](https://youtu.be/Ayr0fSBbhik)
 
+# 🎨 UI/UX Design and Appendix
+Please refer to the [PDF file](Appendix_UIUX.pdf).
+
 # 🎭Roles (Test account addresses)
 
 - 🏭Manufacturer (0xDE37A3dce5249C31b12e45F46988fc30b50e19FD)
@@ -128,9 +131,6 @@ Three test accounts has been set up. You can now use these accounts to log in to
 ## 📄Smart Contract Deployed
 [View Smart Contract Source Code](https://github.com/GaryTin/hackUST_2022/blob/main/hackUST_2022_B_Sharp/sc.sol) <br>
 [View Smart Contract on Etherscan](https://ropsten.etherscan.io/address/0x8dCEDE30c2a8bD175654b67e010F898061fF0072)
-
-## 🎨 UI Design
-Please refer to the [PDF file](Appendix_UIUX.pdf).
 
 # ❓FAQ
 
