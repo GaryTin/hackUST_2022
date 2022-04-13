@@ -4,16 +4,16 @@
 # 🛒#Bargain
 
 > #Bargain is a Decentralized Supply Chain Management Web Application, aiming to promote a Smart Shopping Experience by minimizing overspending and overproduction in the consumption cycle. It also features many of the Web3.0 users engagement by the introduction of reliable review system. 
-[📽Watch our Presentation Video](https://youtu.be/8J40ZZSaQvs)
+[📽Watch our Presentation Video](https://youtu.be/LchjBTJiw-w)
 > 
 
 # 🔨Built With
 
-This website is developed with [**Python Django Framework**](https://www.djangoproject.com/), [**Web3.py**](https://web3py.readthedocs.io/en/stable/), [**Web3.js**](https://web3js.readthedocs.io/en/v1.7.1/), [**jQuery**](https://jquery.com/) and [**Chart.js**](https://www.chartjs.org/), intergared with [**MetaMask**](https://metamask.io/) and [**Infura**](https://infura.io/), hosted on [**PythonAnywhere**](https://www.pythonanywhere.com/). It does not contain any web templates online. 
+🕸️ This website is developed with [**Python Django Framework**](https://www.djangoproject.com/), [**Web3.py**](https://web3py.readthedocs.io/en/stable/), [**Web3.js**](https://web3js.readthedocs.io/en/v1.7.1/), [**jQuery**](https://jquery.com/) and [**Chart.js**](https://www.chartjs.org/), intergared with [**MetaMask**](https://metamask.io/) and [**Infura**](https://infura.io/), hosted on [**PythonAnywhere**](https://www.pythonanywhere.com/). It does not contain any web templates online. 
 
-The smart contract is developed with [**Solidity**](https://docs.soliditylang.org/en/v0.8.13/). 
+📜 The smart contract is developed with [**Solidity**](https://docs.soliditylang.org/en/v0.8.13/). (Details: [Smart Contract Deployed](https://github.com/GaryTin/hackUST_2022#smart-contract-deployed))
 
-For development purpose, the smart contact used in this project is now deployed on the public blockchain, **Ropsten Ethereum Test Network**. The speed of reading and writing data may be slow, while writing data may even take longer time. The speed is solely depending on the blockchain traffic. We apologize for any inconvenience caused. 
+🌟 For development purpose, the smart contact used in this project is now deployed on the public blockchain, **Ropsten Ethereum Test Network**. The speed of reading and writing data may be slow, while writing data may even take longer time. The speed is solely depending on the blockchain traffic. We apologize for any inconvenience caused. 
 
 In a real implementation, the smart contract will deploy on a self-developed blockchain instead of a public blockchain, which can greatly improve the read-write speed.
 
@@ -31,6 +31,9 @@ Click here: [**Sharp Bargain**](http://tinkwaiki.pythonanywhere.com/SharpBargain
 - 🧑🏻Consumer (0x6c4d9360e36B1a59daCF7FB9d71AaFB68b9657b8)
 
 ❄️ All addresses are defaulted as Consumer accounts. If you would like to test functions on the Manufacturer or Retailer pages, please feel free to use our designated Test Accounts. (See below: [MetaMask Test Accounts Set Up](https://github.com/GaryTin/hackUST_2022#metamask-test-accounts-set-up))
+<br>
+<br>
+❄️ If you would like to try our website with your own public addresses, please feel free to contact us. We are more than happy to help you signing up as `Manufacturer` or `Retailer` accounts. (See more: [Why can't I register as Manufacturer or Retailer by myself?](https://github.com/GaryTin/hackUST_2022#can-i-register-as-manufacturer-or-retailer-myself) ) 
 
 
 # 🔰Prerequisites
