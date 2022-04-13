@@ -9,7 +9,7 @@
 
 # 🔨Built With
 
-🕸️ This website is developed with [**Python Django Framework**](https://www.djangoproject.com/), [**Web3.py**](https://web3py.readthedocs.io/en/stable/), [**Web3.js**](https://web3js.readthedocs.io/en/v1.7.1/), [**jQuery**](https://jquery.com/) and [**Chart.js**](https://www.chartjs.org/), intergared with [**MetaMask**](https://metamask.io/) and [**Infura**](https://infura.io/), hosted on [**PythonAnywhere**](https://www.pythonanywhere.com/). It does not contain any web templates online. 
+🕸️ This website is developed with [**Python Django Framework**](https://www.djangoproject.com/), [**Web3.py**](https://web3py.readthedocs.io/en/stable/), [**Web3.js**](https://web3js.readthedocs.io/en/v1.7.1/), [**jQuery**](https://jquery.com/) and [**Chart.js**](https://www.chartjs.org/), integrated with [**MetaMask**](https://metamask.io/) and [**Infura**](https://infura.io/), hosted on [**PythonAnywhere**](https://www.pythonanywhere.com/). It does not contain any web templates online. 
 
 📜 The smart contract is developed with [**Solidity**](https://docs.soliditylang.org/en/v0.8.13/). (Details: [Smart Contract Deployed](https://github.com/GaryTin/hackUST_2022#smart-contract-deployed))
 
