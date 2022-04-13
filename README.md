@@ -17,8 +17,10 @@ For development purpose, the smart contact used in this project is now deployed 
 
 In a real implementation, the smart contract will deploy on a self-developed blockchain instead of a public blockchain, which can greatly improve the read-write speed.
 
-🔗Link to our Prototype: [Sharp Bargain](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
-❄️ This website is currently designed for `💻 Desktop View` only. The mobile version will be developed in Phase two.
+# 🔗Link to Our Web Prototype - You Can Try!
+Click here: [**Sharp Bargain**](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
+❄️ This website is currently designed for `💻 Desktop View` only. <br>
+❄️ The mobile version will be developed in Phase two (See below: [Future Development](https://github.com/GaryTin/hackUST_2022/edit/main/README.md#future-development)).
 
 [📽 Watch our Demonstration Video](https://youtu.be/Ayr0fSBbhik)
 
