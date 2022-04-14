@@ -2,7 +2,7 @@
 # 🛒#Bargain
 
 > #Bargain is a Decentralized Supply Chain Management Web Application, aiming to promote a Smart Shopping Experience by minimizing overspending and overproduction in the consumption cycle. It also features many of the Web3.0 users engagement by the introduction of reliable review system. 
-[📽Watch our Presentation Video](https://youtu.be/LchjBTJiw-w)
+[📽Watch our Presentation Video](https://youtu.be/iCX0bOnjBM0)
 > 
 
 # 🔨Built With
