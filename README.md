@@ -15,7 +15,7 @@
 
 In a real implementation, the smart contract will deploy on a self-developed blockchain instead of a public blockchain, which can greatly improve the read-write speed.
 
-# 🔗Link to Our Web Prototype - You Can Try!
+# 🔗Link to Our Web Prototype - You Can Try! (Currently not in service)
 Click here: [**Sharp Bargain**](http://tinkwaiki.pythonanywhere.com/SharpBargain/index/) <br>
 ❄️ This website is currently designed for `💻 Desktop View` only. <br>
 ❄️ The mobile version will be developed in Phase two (See below: [Future Development](https://github.com/GaryTin/hackUST_2022/edit/main/README.md#future-development)).
